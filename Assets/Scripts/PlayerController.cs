@@ -5,14 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+    [Header("Input axis names")]
     [SerializeField]
     private string straightMovementAxis;
     [SerializeField]
     private string orientationAxis;
     [SerializeField]
     private string shootAxis;
-    private bool isAccelerating = true;
 
+    [Header("Movement parameters")]
     [SerializeField]
     private float maxVelocity;
     [SerializeField]
@@ -23,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private float torqueIntensity = 5f;
     [SerializeField]
     private float maxAngularVelocity;
+    private bool isAccelerating = true;
+
 
     void Start()
     {
@@ -38,6 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         float straightMovInput = Input.GetAxis(straightMovementAxis);
         float orientInput = Input.GetAxis(orientationAxis);
+
         //We use max function because it is used to limit the player speed.
         float currentVelocity = Mathf.Max(
             Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y),
@@ -67,6 +71,12 @@ public class PlayerController : MonoBehaviour
                 orientInput * torqueIntensity);
         }
 
-        //TODO: Shoot input
+        if(Input.GetButton(shootAxis))
+        {
+            GetComponentInChildren<BulletSpawnerComponent>().Spawn();
+        }
+
+        
+
     }
 }
