@@ -22,7 +22,7 @@ public class BulletBehaviorComponent : MonoBehaviour
     {
         //TODO Handle damage 
         //TODO Add particle systems
-        if (!collision.gameObject.CompareTag("Bullet"))
+        if (!collision.gameObject.CompareTag(transform.tag))
             GameObject.Destroy(gameObject);
     }
 

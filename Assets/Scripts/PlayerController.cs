@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     private string orientationAxis;
     [SerializeField]
     private string shootAxis;
+    [SerializeField]
+    private string boostAxis;
 
     [Header("Movement parameters")]
     [SerializeField]
@@ -26,11 +28,6 @@ public class PlayerController : MonoBehaviour
     private float maxAngularVelocity;
     private bool isAccelerating = true;
 
-
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
@@ -61,8 +58,11 @@ public class PlayerController : MonoBehaviour
         }
         else if (straightMovInput != 0 && 
             currentVelocity <= maxVelocity)
+        {
             GetComponent<Rigidbody2D>().AddForce(
                 straightMovInput * enginePower * transform.up);
+        }
+            
 
         if (orientInput != 0 &&
             Mathf.Abs(GetComponent<Rigidbody2D>().angularVelocity) <= maxAngularVelocity)
@@ -75,8 +75,6 @@ public class PlayerController : MonoBehaviour
         {
             GetComponentInChildren<BulletSpawnerComponent>().Spawn();
         }
-
-        
 
     }
 }

@@ -31,6 +31,7 @@ public class BulletSpawnerComponent : MonoBehaviour
         if (!canSpawn)
             return;
         GameObject bullet = GameObject.Instantiate(BulletPrefab, transform.position, transform.rotation);
+        bullet.tag = transform.tag;
         bullet.GetComponent<Rigidbody2D>().AddForce(
             shootIntensity * transform.up, ForceMode2D.Impulse);
         timeFromLastSpawn = 0f;

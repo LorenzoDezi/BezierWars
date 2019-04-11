@@ -4,17 +4,17 @@ using UnityEngine;
 using Pathfinding;
 
 [RequireComponent(typeof(Seeker))]
-[RequireComponent(typeof(EnemyController))]
+[RequireComponent(typeof(FlankShipController))]
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField]
     private Transform target;
     [SerializeField]
-    private Vector3 offset;
+    private float offsetFromTarget = 5f;
 
 
     private Seeker seeker;
-    private EnemyController controller;
+    private IEnemyController controller;
 
     private Path path;
     private int currentWaypoint = 0;
@@ -28,7 +28,8 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         seeker = GetComponent<Seeker>();
-        controller = GetComponent<EnemyController>();
+        controller = GetComponent<FlankShipController>();
+        controller.SetTarget(target);
     }
 
     private float GetWaypointDistance()
@@ -61,13 +62,21 @@ public class EnemyAI : MonoBehaviour
         return distanceToWaypoint;
     }
 
-    private void Update()
+    private void CalculatePath()
     {
-        if(Time.time > lastRepath + rePathRate && seeker.IsDone())
+        if (Time.time > lastRepath + rePathRate && seeker.IsDone())
         {
             lastRepath = Time.time;
-            seeker.StartPath(transform.position, target.position + offset, OnPathComplete);
+            var offset = Random.insideUnitCircle * offsetFromTarget;
+            seeker.StartPath(transform.position, new Vector3(
+                target.position.x + offset.x, target.position.y + offset.y, 0),
+                OnPathComplete);
         }
+    }
+
+    private void Update()
+    {
+        CalculatePath();
         if (path == null)
             return;
         float waypointDistance = GetWaypointDistance();
