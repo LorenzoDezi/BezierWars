@@ -12,7 +12,6 @@ public class EnemyAI : MonoBehaviour
     [SerializeField]
     private float offsetFromTarget = 5f;
 
-
     private Seeker seeker;
     private IEnemyController controller;
 

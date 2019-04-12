@@ -10,8 +10,6 @@ public class CameraController : MonoBehaviour
     private float smoothSpeed = 0.0125f;
     [SerializeField]
     private Vector3 offset;
-    [SerializeField]
-    private bool isKinematic = false;
 
     private void FixedUpdate()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Renderer))]
-public class FlankShipController : MonoBehaviour, IEnemyController
+public class FlankShipController : MonoBehaviour, IEnemyController, Damageable
 {
     [Header("Movement parameters")]
     [SerializeField]
@@ -62,5 +62,16 @@ public class FlankShipController : MonoBehaviour, IEnemyController
         }
     }
 
-    
+    public void Damaged()
+    {
+        Debug.Log("Damaged!");
+        //TODO: Particle system and shit
+    }
+
+    public void Die()
+    {
+        Debug.Log(string.Format("{0} eliminated!", gameObject.name));
+        Destroy(gameObject, 1f);
+        //TODO: Particle system and shit
+    }
 }

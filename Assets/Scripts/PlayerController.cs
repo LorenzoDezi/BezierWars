@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, Damageable
 {
     [Header("Input axis names")]
     [SerializeField]
@@ -76,5 +76,18 @@ public class PlayerController : MonoBehaviour
             GetComponentInChildren<BulletSpawnerComponent>().Spawn();
         }
 
+    }
+
+    public void Damaged()
+    {
+        Debug.Log("Player damaged!");
+        //TODO: Do particle system and shit
+    }
+
+    public void Die()
+    {
+        Debug.Log("Player dead! GAME OVER");
+        //TODO: Do particle system and shit
+        //TODO: call interface to show game over and restart
     }
 }
