@@ -18,6 +18,8 @@ public class HealthComponent : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag(transform.tag))
+            return;
         Damager damager = collision.GetComponent<Damager>();
         HandleCollision(damager);
     }
