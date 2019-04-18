@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3307057942837325274}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.78, z: 0}
+  m_LocalPosition: {x: 0, y: 27.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3649880253033409869}
@@ -79,7 +79,7 @@ Transform:
   m_GameObject: {fileID: 3649880253033409865}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 8.05, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.03647208, y: 0.043072958, z: 1}
   m_Children:
   - {fileID: 8095211675564552341}
   m_Father: {fileID: 0}
@@ -122,8 +122,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: f8db88c3534362d43958aadf699f8eb4, type: 3}
-  m_Color: {r: 0.12639761, g: 1, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: a8b37d67cacc5834fbffd0ee4b95f849, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -174,18 +174,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.20007324, y: -0.808342}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 80, y: 45}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 51.06495, y: 44.337128}
   m_EdgeRadius: 0
 --- !u!50 &3649880253033409868
 Rigidbody2D:
@@ -221,9 +221,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   engineIntensity: 2
-  flankIntensity: 2
+  flankIntensity: 3
   flankAwareness: 5
-  flankRate: 3
+  flankRate: 2
 --- !u!114 &3649880253033409870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,7 +239,7 @@ MonoBehaviour:
   target: {fileID: 0}
   offsetFromTarget: 8
   nextWaypointDistance: 2
-  rePathRate: 3
+  rePathRate: 2.5
 --- !u!114 &474000330524324786
 MonoBehaviour:
   m_ObjectHideFlags: 0

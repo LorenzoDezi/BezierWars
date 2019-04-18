@@ -32,10 +32,12 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager
 
     void FixedUpdate()
     {
+        float velocity = Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 
-            GetComponent<Rigidbody2D>().velocity.y * Time.fixedDeltaTime);
+            velocity * Time.fixedDeltaTime);
         if(hit.collider != null)
         {
+            Debug.Log(hit.collider.name);
             GameObject.Destroy(gameObject);
             //TODO: All cases
             var healthComp = hit.collider.GetComponent<HealthComponent>();
