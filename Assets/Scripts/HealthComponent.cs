@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-[RequireComponent(typeof(Damageable))]
+[RequireComponent(typeof(IDamageable))]
 public class HealthComponent : MonoBehaviour
 {
     [SerializeField]
@@ -11,7 +11,7 @@ public class HealthComponent : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Damager damager = collision.collider.GetComponent<Damager>();
+        IDamager damager = collision.collider.GetComponent<IDamager>();
         HandleCollision(damager);
     }
 
@@ -20,20 +20,20 @@ public class HealthComponent : MonoBehaviour
     {
         if (collision.CompareTag(transform.tag))
             return;
-        Damager damager = collision.GetComponent<Damager>();
+        IDamager damager = collision.GetComponent<IDamager>();
         HandleCollision(damager);
     }
 
-    private void HandleCollision(Damager damager)
+    private void HandleCollision(IDamager damager)
     {
         if (damager == null)
             return;
         maxValue -= damager.Damage;
         if (maxValue > 0)
-            GetComponent<Damageable>().Damaged();
+            GetComponent<IDamageable>().Damaged();
         else
         {
-            GetComponent<Damageable>().Die();
+            GetComponent<IDamageable>().Die();
             Destroy(this);
         }
     }

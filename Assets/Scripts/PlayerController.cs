@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour, Damageable
+[RequireComponent(typeof(BulletSpawnerComponent))]
+public class PlayerController : MonoBehaviour, IDamageable
 {
     [Header("Input axis names")]
     [SerializeField]
@@ -26,8 +28,16 @@ public class PlayerController : MonoBehaviour, Damageable
     private float torqueIntensity = 5f;
     [SerializeField]
     private float maxAngularVelocity;
-    private bool isAccelerating = true;
 
+    private bool isAccelerating = true;
+    private UnityEvent died;
+
+    public UnityEvent Died => died;
+
+    private void Awake()
+    {
+        died = new UnityEvent();
+    }
 
     void Update()
     {
@@ -87,6 +97,7 @@ public class PlayerController : MonoBehaviour, Damageable
     public void Die()
     {
         Debug.Log("Player dead! GAME OVER");
+        Died.Invoke();
         //TODO: Do particle system and shit
         //TODO: call interface to show game over and restart
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Renderer))]
-public class FlankShipController : MonoBehaviour, IEnemyController, Damageable
+public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
 {
     [Header("Movement parameters")]
     [SerializeField]

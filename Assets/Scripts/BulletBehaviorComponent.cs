@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletBehaviorComponent : MonoBehaviour, Damager
+public class BulletBehaviorComponent : MonoBehaviour, IDamager
 {
     [SerializeField]
     private float health = 5f;
     [SerializeField]
     private float damage = 10f;
 
-    public float Damage => damage;
+    public float Damage {
+        get => damage;
+        set => damage = value;
+    }
 
     // Update is called once per frame
     void Update()

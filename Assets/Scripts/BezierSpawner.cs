@@ -1,15 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
-[RequireComponent(typeof(LineRenderer))]
 public class BezierSpawner : MonoBehaviour
 {
-    private enum BezierType
-    {
-        Attack, Defense
-    }
 
     [Header("Input axis")]
     [SerializeField]
@@ -21,20 +18,25 @@ public class BezierSpawner : MonoBehaviour
     [SerializeField]
     private string attackBezierAxisName = "AttackBezierSpawn";
 
-    [Header("Parameters")]
+    [Header("Prefabs")]
     [SerializeField]
     private GameObject defenseBezNodePrefab;
     [SerializeField]
     private GameObject attackBezNodePrefab;
     [SerializeField]
+    private GameObject attackBezBuilderPrefab;
+    [SerializeField]
+    private GameObject defenseBezBuilderPrefab;
+
+    [Header("Parameters")]
+    [SerializeField]
     private float defenseBezierMaxDistance;
     [SerializeField]
     private float removalNodeSenseDistance = 1f;
-    [SerializeField]
-    private int bezierLength = 25;
 
-    private List<GameObject> defActiveNodes = new List<GameObject>();
-    private List<GameObject> atkActiveNodes = new List<GameObject>();
+    private List<GameObject> defenseActiveNodes = new List<GameObject>();
+    private List<GameObject> attackActiveNodes = new List<GameObject>();
+
 
     private void Update()
     {
@@ -44,15 +46,26 @@ public class BezierSpawner : MonoBehaviour
             nodePosition.z = 0;
             if (Vector3.Distance(transform.position, nodePosition) > defenseBezierMaxDistance)
                 return;
-            HandleClick(defenseBezNodePrefab, BezierType.Defense, nodePosition, defActiveNodes, transform);
+            HandleClick(defenseBezNodePrefab, BezierType.Defense, nodePosition, defenseActiveNodes, transform);
 
         } else if (Input.GetButtonDown(attackBezierAxisName))
         {
             var nodePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             nodePosition.z = 0;
-            HandleClick(attackBezNodePrefab, BezierType.Attack, nodePosition, atkActiveNodes);
+            HandleClick(attackBezNodePrefab, BezierType.Attack, nodePosition, attackActiveNodes);
         }
     }
+
+    private UnityAction GenerateOnBezierDisableCallback(BezierType type)
+    {
+        if (type == BezierType.Attack)
+            return () => { this.attackActiveNodes.Clear(); };
+        else
+            return () => { this.defenseActiveNodes.Clear(); };
+    }
+
+
+
 
     private void HandleClick(
         GameObject node,
@@ -66,45 +79,33 @@ public class BezierSpawner : MonoBehaviour
         if (list.Count >= 3)
             return;
         //Remove check: if the node is near another already placed, the player intent is to delete it
-        int activeNodeAtPosIndex = list.FindIndex(
-            (obj) => Vector3.Distance(obj.transform.position, nodePosition) <= removalNodeSenseDistance);
-        if (activeNodeAtPosIndex != -1)
-        {
-            var activeNode = list[activeNodeAtPosIndex];
-            list.RemoveAt(activeNodeAtPosIndex);
-            activeNode.GetComponent<Damageable>().Die();
-            return;
-        }
+        CheckForNodeRemoval(nodePosition, list);
         //Proceed to instantiate the node
         var instance = GameObject.Instantiate(node);
         instance.transform.parent = parent;
         instance.transform.position = nodePosition;
         list.Add(instance);
         if (list.Count == 3)
-            BuildCurve(type, list);
-        //TODO Handle blocked controls if one curve built
-    }
-
-    private void BuildCurve(BezierType type, List<GameObject> list)
-    {
-
-        //Build the curve using lineRenderer
-        LineRenderer lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.positionCount = bezierLength+1;
-        for(int currIndex = 0; currIndex <= bezierLength; currIndex++)
         {
-            Vector3 currentCurvePoint = BezierMath.Bernstein(
-                currIndex / (float) bezierLength, 2, list.ConvertAll((obj) => obj.transform.position)
-            );
-            lineRenderer.SetPosition(currIndex, currentCurvePoint);
+            GameObject bezBuilder = BezierType.Attack == type ? attackBezBuilderPrefab : defenseBezBuilderPrefab;
+            bezBuilder = GameObject.Instantiate(bezBuilder);
+            var builderComp = bezBuilder.GetComponent<BezierBuilderComponent>();
+            builderComp.Init(list);
+            builderComp.Disabled.AddListener(GenerateOnBezierDisableCallback(type));
+            if(BezierType.Defense == type)
+                bezBuilder.GetComponent<DefenseBezierComponent>().SetTargetToFollow(transform);
         }
-        //Build the collider around the curve
-        //1 way:
-        //Add all the components needed
-        //2 way I THINK THIS IS THE BEST
-        //Add a curve gameObject prefab
-        //make nodes son of this prefab
-        
     }
 
+    private void CheckForNodeRemoval(Vector3 nodePosition, List<GameObject> list)
+    {
+        int activeNodeAtPosIndex = list.FindIndex(
+                    (obj) => Vector3.Distance(obj.transform.position, nodePosition) <= removalNodeSenseDistance);
+        if (activeNodeAtPosIndex != -1)
+        {
+            var activeNode = list[activeNodeAtPosIndex];
+            list.RemoveAt(activeNodeAtPosIndex);
+            activeNode.GetComponent<IDamageable>().Die();
+        }
+    }
 }

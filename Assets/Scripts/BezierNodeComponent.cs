@@ -1,16 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class BezierNodeComponent : MonoBehaviour, Damageable
+public class BezierNodeComponent : MonoBehaviour, IDamageable
 {
-    void Damageable.Damaged()
+    private UnityEvent died;
+
+    public UnityEvent Died => died;
+
+    private void Awake()
     {
-        ;
+        died = new UnityEvent();
     }
 
-    void Damageable.Die()
+    void IDamageable.Damaged()
     {
+        //TODO: Particle System
+    }
+
+    void IDamageable.Die()
+    {
+        //TODO: Particle System
         Debug.Log("Node removed!");
         Destroy(gameObject);
     }

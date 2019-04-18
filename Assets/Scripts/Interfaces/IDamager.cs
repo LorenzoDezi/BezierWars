@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-interface Damageable
+interface IDamager
 {
-    void Damaged();
-    void Die();
+    float Damage { get; set; }
 }
 
