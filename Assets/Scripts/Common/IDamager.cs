@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-interface IDamager
+public interface IDamager
 {
     float Damage { get; set; }
 }

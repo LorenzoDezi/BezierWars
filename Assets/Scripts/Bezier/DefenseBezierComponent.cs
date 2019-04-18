@@ -5,11 +5,15 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
-public class DefenseBezierComponent : MonoBehaviour, IDamageable
+public class DefenseBezierComponent : MonoBehaviour, IDamageable, IDamager
 {
 
     private Transform transformToFollow;
     private Vector3 offset;
+    [SerializeField]
+    private float damage;
+
+    public float Damage { get => damage; set => damage = value; }
 
     private void Start()
     {
@@ -21,7 +25,6 @@ public class DefenseBezierComponent : MonoBehaviour, IDamageable
         if (transformToFollow == null)
             return;
         transform.position = transformToFollow.position + offset;
-        Debug.Log(offset);
     }
 
     public void Damaged()

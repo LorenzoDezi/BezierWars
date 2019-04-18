@@ -64,13 +64,11 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
 
     public void Damaged()
     {
-        Debug.Log("Damaged!");
         //TODO: Particle system and shit
     }
 
     public void Die()
     {
-        Debug.Log(string.Format("{0} eliminated!", gameObject.name));
         Destroy(gameObject, 1f);
         //TODO: Particle system and shit
     }

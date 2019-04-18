@@ -22,7 +22,6 @@ public class BezierNodeComponent : MonoBehaviour, IDamageable
     void IDamageable.Die()
     {
         //TODO: Particle System
-        Debug.Log("Node removed!");
         Destroy(gameObject);
     }
 

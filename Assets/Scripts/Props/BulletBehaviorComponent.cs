@@ -25,9 +25,23 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //TODO Add particle systems
-        if (!collision.gameObject.CompareTag(transform.tag))
+        ////TODO Add particle systems
+        //if (!collision.gameObject.CompareTag(transform.tag))
+        //    GameObject.Destroy(gameObject);
+    }
+
+    void FixedUpdate()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 
+            GetComponent<Rigidbody2D>().velocity.y * Time.fixedDeltaTime);
+        if(hit.collider != null)
+        {
             GameObject.Destroy(gameObject);
+            //TODO: All cases
+            var healthComp = hit.collider.GetComponent<HealthComponent>();
+            if (healthComp != null)
+                healthComp.HandleCollision(this);
+        }
     }
 
 

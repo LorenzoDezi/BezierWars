@@ -90,7 +90,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Damaged()
     {
-        Debug.Log("Player damaged!");
         //TODO: Do particle system and shit
     }
 

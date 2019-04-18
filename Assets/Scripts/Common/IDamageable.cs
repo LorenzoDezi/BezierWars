@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.Events;
 
-interface IDamageable
+public interface IDamageable
 {
     void Damaged();
     void Die();

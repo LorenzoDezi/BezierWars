@@ -24,7 +24,7 @@ public class HealthComponent : MonoBehaviour
         HandleCollision(damager);
     }
 
-    private void HandleCollision(IDamager damager)
+    public void HandleCollision(IDamager damager)
     {
         if (damager == null)
             return;
