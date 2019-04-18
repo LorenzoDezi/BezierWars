@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-public static class MyUnityExtensions
+namespace BezierWars.Extensions
 {
-    public static bool IsObjectVisible(this UnityEngine.Camera @this, Renderer renderer)
+    public static class MyUnityExtensions
     {
-        return GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(@this), renderer.bounds);
+        public static bool IsObjectVisible(this UnityEngine.Camera @this, Renderer renderer)
+        {
+            return GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(@this), renderer.bounds);
+        }
     }
-}
 
+}
