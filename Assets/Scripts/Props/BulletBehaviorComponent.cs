@@ -41,7 +41,7 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager
             GameObject.Destroy(gameObject);
             //TODO: All cases
             var healthComp = hit.collider.GetComponent<HealthComponent>();
-            if (healthComp != null)
+            if (healthComp != null && !hit.collider.CompareTag(transform.tag))
                 healthComp.HandleCollision(this);
         }
     }

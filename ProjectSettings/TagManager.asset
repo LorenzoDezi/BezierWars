@@ -7,6 +7,7 @@ TagManager:
   - Bullet
   - Enemy
   - Bezier
+  - Spawn
   layers:
   - Default
   - TransparentFX

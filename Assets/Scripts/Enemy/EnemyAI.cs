@@ -28,6 +28,7 @@ public class EnemyAI : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         controller = GetComponent<FlankShipController>();
+        if (target == null) target = GameObject.Find("Player").transform;
         controller.SetTarget(target);
     }
 

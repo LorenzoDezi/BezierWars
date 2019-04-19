@@ -1,6 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+
+public class HealthChangeEvent : UnityEvent<float>
+{
+
+}
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(IDamageable))]
@@ -8,6 +15,19 @@ public class HealthComponent : MonoBehaviour
 {
     [SerializeField]
     private float maxValue = 100f;
+    private float currentValue;
+    public UnityEvent<float> HealthChange;
+    public float MaxHealth { get => maxValue; }
+
+    private void Awake()
+    {
+        HealthChange = new HealthChangeEvent();
+    }
+
+    private void Start()
+    {
+        this.currentValue = maxValue;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -28,8 +48,9 @@ public class HealthComponent : MonoBehaviour
     {
         if (damager == null)
             return;
-        maxValue -= damager.Damage;
-        if (maxValue > 0)
+        currentValue -= damager.Damage;
+        HealthChange.Invoke(currentValue);
+        if (currentValue > 0)
             GetComponent<IDamageable>().Damaged();
         else
         {

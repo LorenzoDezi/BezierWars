@@ -16,6 +16,8 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     [SerializeField]
     private float flankRate = 3f;
     private float lastFlank = float.NegativeInfinity;
+
+    private int scoreValue = 50;
     private Transform target;
 
     public void Move(Vector2 direction, float speedFactor)
@@ -69,7 +71,8 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
 
     public void Die()
     {
-        Destroy(gameObject, 1f);
+        GameManager.IncreaseScore(scoreValue);
+        Destroy(gameObject);
         //TODO: Particle system and shit
     }
 }
