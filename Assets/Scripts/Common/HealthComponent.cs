@@ -9,13 +9,12 @@ public class HealthChangeEvent : UnityEvent<float>
 
 }
 
-[RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(IDamageable))]
 public class HealthComponent : MonoBehaviour
 {
     [SerializeField]
-    private float maxValue = 100f;
-    private float currentValue;
+    protected float maxValue = 100f;
+    protected float currentValue;
     public UnityEvent<float> HealthChange;
     public float MaxHealth { get => maxValue; }
 
@@ -31,18 +30,20 @@ public class HealthComponent : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.collider.CompareTag(transform.tag))
+            return;
         IDamager damager = collision.collider.GetComponent<IDamager>();
         HandleCollision(damager);
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag(transform.tag))
-            return;
-        IDamager damager = collision.GetComponent<IDamager>();
-        HandleCollision(damager);
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag(transform.tag))
+    //        return;
+    //    IDamager damager = collision.GetComponent<IDamager>();
+    //    HandleCollision(damager);
+    //}
 
     public void HandleCollision(IDamager damager)
     {

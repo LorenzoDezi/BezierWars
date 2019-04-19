@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7843330390671373885}
   - component: {fileID: 5307205378793397649}
   - component: {fileID: 2550766033216180356}
+  - component: {fileID: 3401458418226087498}
   m_Layer: 11
   m_Name: Bullet
   m_TagString: Bullet
@@ -45,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111fce83e6439244c8c8c0963fd1192e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 2.5
   damage: 10
 --- !u!50 &5307205378793397649
 Rigidbody2D:
@@ -116,3 +116,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3401458418226087498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5329362784828273823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e82d70d802fdda34096d72070696a74f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxValue: 4
+  timeFactor: 1

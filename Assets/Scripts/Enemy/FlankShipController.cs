@@ -16,9 +16,11 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     [SerializeField]
     private float flankRate = 3f;
     private float lastFlank = float.NegativeInfinity;
-
-    private int scoreValue = 50;
     private Transform target;
+
+    [Header("Score parameters")]
+    [SerializeField]
+    private int scoreValue = 50;
 
     public void Move(Vector2 direction, float speedFactor)
     {

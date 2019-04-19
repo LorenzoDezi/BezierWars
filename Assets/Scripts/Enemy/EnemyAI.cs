@@ -4,7 +4,7 @@ using UnityEngine;
 using Pathfinding;
 
 [RequireComponent(typeof(Seeker))]
-[RequireComponent(typeof(FlankShipController))]
+[RequireComponent(typeof(IEnemyController))]
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField]
@@ -27,7 +27,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         seeker = GetComponent<Seeker>();
-        controller = GetComponent<FlankShipController>();
+        controller = GetComponent<IEnemyController>();
         if (target == null) target = GameObject.Find("Player").transform;
         controller.SetTarget(target);
     }

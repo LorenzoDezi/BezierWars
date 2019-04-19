@@ -17,7 +17,7 @@ public class DefenseBezierComponent : MonoBehaviour, IDamageable, IDamager
 
     private void Start()
     {
-        GetComponent<Collider2D>().isTrigger = true;
+        GetComponent<Collider2D>().isTrigger = false;
     }
 
     private void Update()
