@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SuicideShipController : MonoBehaviour, IEnemyController, IDamageable, IDamager
 {
@@ -13,8 +14,16 @@ public class SuicideShipController : MonoBehaviour, IEnemyController, IDamageabl
     [Header("Score parameters")]
     [SerializeField]
     private int scoreValue = 100;
+    private UnityEvent onDefeat;
 
     public float Damage { get => damage; set => damage = value; }
+
+    public UnityEvent OnDefeat => onDefeat;
+
+    private void Awake()
+    {
+        onDefeat = new UnityEvent();
+    }
 
     public void Damaged()
     {
@@ -24,6 +33,7 @@ public class SuicideShipController : MonoBehaviour, IEnemyController, IDamageabl
     public void Die()
     {
         //TODO: particles, ecc
+        OnDefeat.Invoke();
         Destroy(gameObject, 0.2f);
     }
 
@@ -51,6 +61,7 @@ public class SuicideShipController : MonoBehaviour, IEnemyController, IDamageabl
 
     private void LookTarget()
     {
+        if (target == null) return;
         var dir = target.position - transform.position;
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);

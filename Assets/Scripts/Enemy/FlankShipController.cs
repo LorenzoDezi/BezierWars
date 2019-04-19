@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Renderer))]
@@ -17,11 +18,18 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     private float flankRate = 3f;
     private float lastFlank = float.NegativeInfinity;
     private Transform target;
-    bool isAttacking = false;
 
     [Header("Score parameters")]
     [SerializeField]
     private int scoreValue = 50;
+    private UnityEvent onDefeat;
+
+    public UnityEvent OnDefeat => onDefeat;
+
+    private void Awake()
+    {
+        onDefeat = new UnityEvent();
+    }
 
     public void Move(Vector2 direction, float speedFactor)
     {
@@ -32,14 +40,12 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     public void SetTarget(Transform target)
     {
         this.target = target;
-        isAttacking = true;
-        target.GetComponent<PlayerController>()?.Died.AddListener(() => isAttacking = false);
     }
 
 
     private void FixedUpdate()
     {
-        if(!Camera.main.IsObjectVisible(GetComponent<Renderer>()) || !isAttacking)
+        if(!Camera.main.IsObjectVisible(GetComponent<Renderer>()))
             return;
         Attack();
         Flank();
@@ -47,6 +53,7 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
 
     private void Attack()
     {
+        if (target == null) return;
         var dir = target.position - transform.position;
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
@@ -77,6 +84,7 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     public void Die()
     {
         GameManager.IncreaseScore(scoreValue);
+        OnDefeat.Invoke();
         Destroy(gameObject);
         //TODO: Particle system and shit
     }

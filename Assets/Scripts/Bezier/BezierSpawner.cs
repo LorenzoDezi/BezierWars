@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
+public class BezierCreatedEvent : UnityEvent<HealthComponent, BezierType> { }
+
 public class BezierSpawner : MonoBehaviour
 {
 
@@ -36,7 +38,14 @@ public class BezierSpawner : MonoBehaviour
 
     private List<GameObject> defenseActiveNodes = new List<GameObject>();
     private List<GameObject> attackActiveNodes = new List<GameObject>();
+    private BezierCreatedEvent onBezierCreated;
 
+    public BezierCreatedEvent OnBezierCreated => onBezierCreated;
+
+    private void Awake()
+    {
+        onBezierCreated = new BezierCreatedEvent();
+    }
 
     private void Update()
     {
@@ -95,6 +104,7 @@ public class BezierSpawner : MonoBehaviour
     {
         GameObject bezBuilder = BezierType.Attack == type ? attackBezBuilderPrefab : defenseBezBuilderPrefab;
         bezBuilder = GameObject.Instantiate(bezBuilder);
+        onBezierCreated.Invoke(bezBuilder.GetComponent<HealthComponent>(), type);
         var builderComp = bezBuilder.GetComponent<BezierBuilderComponent>();
         builderComp.Init(list);
         builderComp.Disabled.AddListener(GenerateOnBezierDisableCallback(type));
