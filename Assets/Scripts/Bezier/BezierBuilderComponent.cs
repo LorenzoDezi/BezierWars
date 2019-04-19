@@ -33,7 +33,9 @@ public class BezierBuilderComponent : MonoBehaviour
 
     public void Init(List<GameObject> nodes)
     {
-        nodes.ForEach((obj) => obj.transform.parent = transform);
+        nodes.ForEach((obj) => {
+            obj.transform.parent = transform;
+        });
         this.nodes = nodes;
         BuildBezier();
     }

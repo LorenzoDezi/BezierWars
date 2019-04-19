@@ -28,7 +28,7 @@ public class EnemyAI : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         controller = GetComponent<IEnemyController>();
-        if (target == null) target = GameObject.Find("Player").transform;
+        if (target == null) target = GameObject.Find("Player")?.transform;
         controller.SetTarget(target);
     }
 
@@ -64,7 +64,7 @@ public class EnemyAI : MonoBehaviour
 
     private void CalculatePath()
     {
-        if (Time.time > lastRepath + rePathRate && seeker.IsDone())
+        if (Time.time > lastRepath + rePathRate && seeker.IsDone() && target != null)
         {
             lastRepath = Time.time;
             var offset = Random.insideUnitCircle * offsetFromTarget;

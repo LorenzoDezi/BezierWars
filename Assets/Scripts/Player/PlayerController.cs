@@ -97,6 +97,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         Debug.Log("Player dead! GAME OVER");
         Died.Invoke();
+        GameObject.Destroy(gameObject);
         //TODO: Do particle system and shit
         //TODO: call interface to show game over and restart
     }

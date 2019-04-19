@@ -17,6 +17,7 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     private float flankRate = 3f;
     private float lastFlank = float.NegativeInfinity;
     private Transform target;
+    bool isAttacking = false;
 
     [Header("Score parameters")]
     [SerializeField]
@@ -31,12 +32,14 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     public void SetTarget(Transform target)
     {
         this.target = target;
+        isAttacking = true;
+        target.GetComponent<PlayerController>()?.Died.AddListener(() => isAttacking = false);
     }
 
 
     private void FixedUpdate()
     {
-        if(!Camera.main.IsObjectVisible(GetComponent<Renderer>()))
+        if(!Camera.main.IsObjectVisible(GetComponent<Renderer>()) || !isAttacking)
             return;
         Attack();
         Flank();

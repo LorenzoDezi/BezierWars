@@ -82,18 +82,26 @@ public class BezierSpawner : MonoBehaviour
         CheckForNodeRemoval(nodePosition, list);
         //Proceed to instantiate the node
         var instance = GameObject.Instantiate(node);
-        instance.transform.parent = parent;
         instance.transform.position = nodePosition;
+        instance.GetComponent<FollowTargetComponent>()?.SetTargetToFollow(transform);
         list.Add(instance);
         if (list.Count == 3)
         {
-            GameObject bezBuilder = BezierType.Attack == type ? attackBezBuilderPrefab : defenseBezBuilderPrefab;
-            bezBuilder = GameObject.Instantiate(bezBuilder);
-            var builderComp = bezBuilder.GetComponent<BezierBuilderComponent>();
-            builderComp.Init(list);
-            builderComp.Disabled.AddListener(GenerateOnBezierDisableCallback(type));
-            if(BezierType.Defense == type)
-                bezBuilder.GetComponent<DefenseBezierComponent>().SetTargetToFollow(transform);
+            BuildBezier(type, list);
+        }
+    }
+
+    private void BuildBezier(BezierType type, List<GameObject> list)
+    {
+        GameObject bezBuilder = BezierType.Attack == type ? attackBezBuilderPrefab : defenseBezBuilderPrefab;
+        bezBuilder = GameObject.Instantiate(bezBuilder);
+        var builderComp = bezBuilder.GetComponent<BezierBuilderComponent>();
+        builderComp.Init(list);
+        builderComp.Disabled.AddListener(GenerateOnBezierDisableCallback(type));
+        if (BezierType.Defense == type)
+        {
+            bezBuilder.GetComponent<FollowTargetComponent>().SetTargetToFollow(transform);
+            list.ForEach((obj) => GameObject.Destroy(obj.GetComponent<FollowTargetComponent>()));
         }
     }
 

@@ -28,6 +28,6 @@ public class AttackBezierComponent : MonoBehaviour, IDamageable
     public void Die()
     {
         GameObject.Destroy(gameObject);
-        //TODO: Signal to the BezierSpawner!
+        GetComponent<BezierBuilderComponent>().Disabled.Invoke();
     }
 }

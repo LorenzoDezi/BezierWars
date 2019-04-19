@@ -36,15 +36,6 @@ public class HealthComponent : MonoBehaviour
         HandleCollision(damager);
     }
 
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.CompareTag(transform.tag))
-    //        return;
-    //    IDamager damager = collision.GetComponent<IDamager>();
-    //    HandleCollision(damager);
-    //}
-
     public void HandleCollision(IDamager damager)
     {
         if (damager == null)
