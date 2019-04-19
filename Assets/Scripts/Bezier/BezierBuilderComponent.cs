@@ -9,7 +9,7 @@ public class BezierBuilderComponent : MonoBehaviour
 {
     [SerializeField]
     private int bezierLength = 25;
-    private List<GameObject> nodes;
+    private List<UnityEngine.GameObject> nodes;
     public UnityEvent Disabled = new UnityEvent();
 
     public void BuildBezier()
@@ -31,7 +31,7 @@ public class BezierBuilderComponent : MonoBehaviour
         collider.points = colliderPositions.ToArray();
     }
 
-    public void Init(List<GameObject> nodes)
+    public void Init(List<UnityEngine.GameObject> nodes)
     {
         nodes.ForEach((obj) => {
             obj.transform.parent = transform;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BezierHealthSliderComponent : MonoBehaviour
 {
@@ -14,10 +15,17 @@ public class BezierHealthSliderComponent : MonoBehaviour
         spawner.OnBezierCreated.AddListener(OnBezierCreated);
     }
 
-    void OnBezierCreated(HealthComponent healthComp, BezierType type)
+    void OnBezierCreated(GameObject bezier, BezierType type)
     {
         if (this.type != type) return;
-        GetComponent<HealthSliderComponent>().SetHealthComponent(healthComp);
+        GetComponent<HealthSliderComponent>().SetHealthComponent(bezier.GetComponent<HealthComponent>());
+        bezier.GetComponent<BezierBuilderComponent>().Disabled.AddListener(OnBezierDisabled);
+    }
+
+    void OnBezierDisabled()
+    {
+        var slider = GetComponent<Slider>();
+        slider.value = slider.maxValue;
     }
 }
 

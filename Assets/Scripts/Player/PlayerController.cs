@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BulletSpawnerComponent))]
+[RequireComponent(typeof(CharacterSoundComponent))]
 public class PlayerController : MonoBehaviour, IDamageable
 {
     [Header("Input axis names")]
@@ -28,6 +29,12 @@ public class PlayerController : MonoBehaviour, IDamageable
     private float torqueIntensity = 5f;
     [SerializeField]
     private float maxAngularVelocity;
+    
+    [Header("Attack parameters")]
+    [SerializeField]
+    private float attackInterval = 0.5f;
+    private bool canAttack = true;
+    private float timeFromLastAttack = 0f;
 
     private bool isAccelerating = true;
     private UnityEvent died;
@@ -42,6 +49,17 @@ public class PlayerController : MonoBehaviour, IDamageable
     void Update()
     {
         HandleInput();
+        UpdateAttack();
+    }
+
+    private void UpdateAttack()
+    {
+        timeFromLastAttack += Time.deltaTime;
+        if (timeFromLastAttack >= attackInterval)
+        {
+            timeFromLastAttack = 0f;
+            canAttack = true;
+        }
     }
 
     private void HandleInput()
@@ -81,9 +99,12 @@ public class PlayerController : MonoBehaviour, IDamageable
                 orientInput * torqueIntensity);
         }
 
-        if(Input.GetButton(shootAxis))
+        if(Input.GetButton(shootAxis) && canAttack)
         {
             GetComponentInChildren<BulletSpawnerComponent>().Spawn();
+            GetComponent<CharacterSoundComponent>().PlayAttackSound();
+            timeFromLastAttack = 0f;
+            canAttack = false;
         }
 
     }
@@ -95,9 +116,9 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        Debug.Log("Player dead! GAME OVER");
         Died.Invoke();
-        GameObject.Destroy(gameObject);
+        UnityEngine.GameObject.Destroy(gameObject, 0.2f);
+        GetComponent<CharacterSoundComponent>().PlayDeathSound();
         //TODO: Do particle system and shit
         //TODO: call interface to show game over and restart
     }

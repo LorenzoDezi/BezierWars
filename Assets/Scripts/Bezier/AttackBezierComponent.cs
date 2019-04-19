@@ -27,7 +27,7 @@ public class AttackBezierComponent : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        GameObject.Destroy(gameObject);
+        UnityEngine.GameObject.Destroy(gameObject);
         GetComponent<BezierBuilderComponent>().Disabled.Invoke();
     }
 }

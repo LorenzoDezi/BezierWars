@@ -28,7 +28,7 @@ public class EnemyAI : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         controller = GetComponent<IEnemyController>();
-        if (target == null) target = GameObject.Find("Player")?.transform;
+        if (target == null) target = UnityEngine.GameObject.Find("Player")?.transform;
         controller.SetTarget(target);
     }
 

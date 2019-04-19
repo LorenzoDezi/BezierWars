@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BezierCreatedEvent : UnityEvent<HealthComponent, BezierType> { }
+public class BezierCreatedEvent : UnityEvent<GameObject, BezierType> { }
 
 public class BezierSpawner : MonoBehaviour
 {
@@ -22,13 +22,13 @@ public class BezierSpawner : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField]
-    private GameObject defenseBezNodePrefab;
+    private UnityEngine.GameObject defenseBezNodePrefab;
     [SerializeField]
-    private GameObject attackBezNodePrefab;
+    private UnityEngine.GameObject attackBezNodePrefab;
     [SerializeField]
-    private GameObject attackBezBuilderPrefab;
+    private UnityEngine.GameObject attackBezBuilderPrefab;
     [SerializeField]
-    private GameObject defenseBezBuilderPrefab;
+    private UnityEngine.GameObject defenseBezBuilderPrefab;
 
     [Header("Parameters")]
     [SerializeField]
@@ -36,8 +36,8 @@ public class BezierSpawner : MonoBehaviour
     [SerializeField]
     private float removalNodeSenseDistance = 1f;
 
-    private List<GameObject> defenseActiveNodes = new List<GameObject>();
-    private List<GameObject> attackActiveNodes = new List<GameObject>();
+    private List<UnityEngine.GameObject> defenseActiveNodes = new List<UnityEngine.GameObject>();
+    private List<UnityEngine.GameObject> attackActiveNodes = new List<UnityEngine.GameObject>();
     private BezierCreatedEvent onBezierCreated;
 
     public BezierCreatedEvent OnBezierCreated => onBezierCreated;
@@ -77,10 +77,10 @@ public class BezierSpawner : MonoBehaviour
 
 
     private void HandleClick(
-        GameObject node,
+        UnityEngine.GameObject node,
         BezierType type,
         Vector3 nodePosition, 
-        List<GameObject> list,
+        List<UnityEngine.GameObject> list,
         Transform parent = null
         )
     {
@@ -90,7 +90,7 @@ public class BezierSpawner : MonoBehaviour
         //Remove check: if the node is near another already placed, the player intent is to delete it
         CheckForNodeRemoval(nodePosition, list);
         //Proceed to instantiate the node
-        var instance = GameObject.Instantiate(node);
+        var instance = UnityEngine.GameObject.Instantiate(node);
         instance.transform.position = nodePosition;
         instance.GetComponent<FollowTargetComponent>()?.SetTargetToFollow(transform);
         list.Add(instance);
@@ -100,22 +100,22 @@ public class BezierSpawner : MonoBehaviour
         }
     }
 
-    private void BuildBezier(BezierType type, List<GameObject> list)
+    private void BuildBezier(BezierType type, List<UnityEngine.GameObject> list)
     {
-        GameObject bezBuilder = BezierType.Attack == type ? attackBezBuilderPrefab : defenseBezBuilderPrefab;
-        bezBuilder = GameObject.Instantiate(bezBuilder);
-        onBezierCreated.Invoke(bezBuilder.GetComponent<HealthComponent>(), type);
+        UnityEngine.GameObject bezBuilder = BezierType.Attack == type ? attackBezBuilderPrefab : defenseBezBuilderPrefab;
+        bezBuilder = UnityEngine.GameObject.Instantiate(bezBuilder);
+        onBezierCreated.Invoke(bezBuilder, type);
         var builderComp = bezBuilder.GetComponent<BezierBuilderComponent>();
         builderComp.Init(list);
         builderComp.Disabled.AddListener(GenerateOnBezierDisableCallback(type));
         if (BezierType.Defense == type)
         {
             bezBuilder.GetComponent<FollowTargetComponent>().SetTargetToFollow(transform);
-            list.ForEach((obj) => GameObject.Destroy(obj.GetComponent<FollowTargetComponent>()));
+            list.ForEach((obj) => UnityEngine.GameObject.Destroy(obj.GetComponent<FollowTargetComponent>()));
         }
     }
 
-    private void CheckForNodeRemoval(Vector3 nodePosition, List<GameObject> list)
+    private void CheckForNodeRemoval(Vector3 nodePosition, List<UnityEngine.GameObject> list)
     {
         int activeNodeAtPosIndex = list.FindIndex(
                     (obj) => Vector3.Distance(obj.transform.position, nodePosition) <= removalNodeSenseDistance);

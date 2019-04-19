@@ -26,7 +26,7 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
                     attackBezComp.PowerUp(this);
             } else
             {
-                GameObject.Destroy(gameObject);
+                UnityEngine.GameObject.Destroy(gameObject);
                 var healthComp = hit.collider.GetComponent<HealthComponent>();
                 if (healthComp != null && !hit.collider.CompareTag(transform.tag))
                     healthComp.HandleCollision(this);
@@ -43,6 +43,6 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
     public void Die()
     {
         //Particle System
-        GameObject.Destroy(gameObject);
+        UnityEngine.GameObject.Destroy(gameObject);
     }
 }

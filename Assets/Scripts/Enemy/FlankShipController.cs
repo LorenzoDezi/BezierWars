@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Renderer))]
+[RequireComponent(typeof(CharacterSoundComponent))]
 public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
 {
     [Header("Movement parameters")]
@@ -18,6 +19,12 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     private float flankRate = 3f;
     private float lastFlank = float.NegativeInfinity;
     private Transform target;
+
+    [Header("Attack parameters")]
+    [SerializeField]
+    private float attackInterval = 0.5f;
+    private bool canAttack = true;
+    private float timeFromLastAttack = 0f;
 
     [Header("Score parameters")]
     [SerializeField]
@@ -51,13 +58,25 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
         Flank();
     }
 
+    private void Update()
+    {
+        timeFromLastAttack += Time.deltaTime;
+        if (timeFromLastAttack >= attackInterval)
+        {
+            timeFromLastAttack = 0f;
+            canAttack = true;
+        }
+    }
+
     private void Attack()
     {
-        if (target == null) return;
+        if (target == null || !canAttack) return;
         var dir = target.position - transform.position;
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
         GetComponentInChildren<BulletSpawnerComponent>().Spawn();
+        timeFromLastAttack = 0f;
+        canAttack = false;
     }
 
     private void Flank()
@@ -85,7 +104,8 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     {
         GameManager.IncreaseScore(scoreValue);
         OnDefeat.Invoke();
-        Destroy(gameObject);
+        Destroy(gameObject, 0.2f);
+        GetComponent<CharacterSoundComponent>().PlayDeathSound();
         //TODO: Particle system and shit
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField]
-    private GameObject enemyToSpawn;
+    private UnityEngine.GameObject enemyToSpawn;
     [SerializeField]
     private float spawnInterval = 20f;
     private float lastTimeSpawned = float.NegativeInfinity;
@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if(lastTimeSpawned + spawnInterval < Time.time && currentEnemiesSpawned <= maxEnemiesCanSpawn)
         {
-            var enemy = GameObject.Instantiate(enemyToSpawn, transform.position, Quaternion.identity);
+            var enemy = UnityEngine.GameObject.Instantiate(enemyToSpawn, transform.position, Quaternion.identity);
             enemy.GetComponent<IEnemyController>().OnDefeat.AddListener(() => currentEnemiesSpawned--);
             lastTimeSpawned = Time.time;
             currentEnemiesSpawned++;

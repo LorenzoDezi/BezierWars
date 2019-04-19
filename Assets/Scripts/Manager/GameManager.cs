@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         instance.currentScoreThreshold = scoreThreshold;
-        var spawns = GameObject.FindGameObjectsWithTag("Spawn");
+        var spawns = UnityEngine.GameObject.FindGameObjectsWithTag("Spawn");
         if(spawns.Count() != 0)
         {
             spawners = spawns.ToList().ConvertAll((obj) => obj.GetComponent<EnemySpawner>());
