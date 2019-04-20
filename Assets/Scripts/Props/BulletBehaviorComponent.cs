@@ -6,6 +6,8 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
 {
     [SerializeField]
     private float damage = 10f;
+    [SerializeField]
+    private float collidingWidth = 1f;
 
     public float Damage {
         get => damage;
@@ -15,7 +17,7 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
     void FixedUpdate()
     {
         float velocity = Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, collidingWidth, transform.up, 
             velocity * Time.fixedDeltaTime);
         if(hit.collider != null)
         {

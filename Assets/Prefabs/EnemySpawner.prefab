@@ -46,3 +46,4 @@ MonoBehaviour:
   enemyToSpawn: {fileID: 3649880253033409865, guid: c2e56cfb2b606084493845e550aea99c,
     type: 3}
   spawnInterval: 20
+  maxEnemiesCanSpawn: 4

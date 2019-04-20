@@ -51,4 +51,12 @@ public class HealthComponent : MonoBehaviour
         }
     }
 
+    public void ForceDeath()
+    {
+        currentValue = 0f;
+        HealthChange.Invoke(currentValue);
+        GetComponent<IDamageable>().Die();
+        Destroy(this);
+    }
+
 }

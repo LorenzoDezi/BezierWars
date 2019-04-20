@@ -222,11 +222,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ebeaeda858848849b0c867204c1e99e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  engineIntensity: 2
-  flankIntensity: 3
+  engineIntensity: 1
+  flankIntensity: 4
   flankAwareness: 5
   flankRate: 2
-  attackInterval: 0.5
+  attackInterval: 1.5
   scoreValue: 50
 --- !u!114 &3649880253033409870
 MonoBehaviour:

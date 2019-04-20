@@ -73,9 +73,6 @@ public class BezierSpawner : MonoBehaviour
             return () => { this.defenseActiveNodes.Clear(); };
     }
 
-
-
-
     private void HandleClick(
         UnityEngine.GameObject node,
         BezierType type,
@@ -85,10 +82,9 @@ public class BezierSpawner : MonoBehaviour
         )
     {
         //Preliminar check
-        if (list.Count >= 3)
+        if (CheckForBezierRemoval(nodePosition, type) 
+            || CheckForNodeRemoval(nodePosition, list) || list.Count >= 3)
             return;
-        //Remove check: if the node is near another already placed, the player intent is to delete it
-        CheckForNodeRemoval(nodePosition, list);
         //Proceed to instantiate the node
         var instance = UnityEngine.GameObject.Instantiate(node);
         instance.transform.position = nodePosition;
@@ -100,13 +96,30 @@ public class BezierSpawner : MonoBehaviour
         }
     }
 
+    private bool CheckForBezierRemoval(Vector3 nodePosition, BezierType type)
+    {
+        var hits = Physics2D.CircleCastAll(nodePosition, 25f, Vector2.up, 0f);
+        foreach(var hit in hits) {
+            if (hit.collider != null)
+            {
+                var bezBuild = hit.collider.GetComponent<BezierBuilderComponent>();
+                if (bezBuild != null && bezBuild.Type == type)
+                {
+                    hit.collider.GetComponent<HealthComponent>()?.ForceDeath();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private void BuildBezier(BezierType type, List<UnityEngine.GameObject> list)
     {
         UnityEngine.GameObject bezBuilder = BezierType.Attack == type ? attackBezBuilderPrefab : defenseBezBuilderPrefab;
         bezBuilder = UnityEngine.GameObject.Instantiate(bezBuilder);
         onBezierCreated.Invoke(bezBuilder, type);
         var builderComp = bezBuilder.GetComponent<BezierBuilderComponent>();
-        builderComp.Init(list);
+        builderComp.Init(list, type);
         builderComp.Disabled.AddListener(GenerateOnBezierDisableCallback(type));
         if (BezierType.Defense == type)
         {
@@ -115,15 +128,17 @@ public class BezierSpawner : MonoBehaviour
         }
     }
 
-    private void CheckForNodeRemoval(Vector3 nodePosition, List<UnityEngine.GameObject> list)
+    private bool CheckForNodeRemoval(Vector3 nodePosition, List<UnityEngine.GameObject> list)
     {
         int activeNodeAtPosIndex = list.FindIndex(
                     (obj) => Vector3.Distance(obj.transform.position, nodePosition) <= removalNodeSenseDistance);
         if (activeNodeAtPosIndex != -1)
-        {
+        {                
             var activeNode = list[activeNodeAtPosIndex];
             list.RemoveAt(activeNodeAtPosIndex);
             activeNode.GetComponent<IDamageable>().Die();
+            return true;
         }
+        return false;
     }
 }
