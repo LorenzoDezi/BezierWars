@@ -785,6 +785,7 @@ MonoBehaviour:
   deathExplosionIntensity: 30
   deathExplosionEffect: {fileID: 1222550491574178, guid: ebb7f42c5c402624d94bda4abce7b0db,
     type: 3}
+  timeToDestroyPieces: Infinity
 --- !u!1 &6722461108714722220
 GameObject:
   m_ObjectHideFlags: 0

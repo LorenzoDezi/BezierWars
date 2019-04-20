@@ -108,8 +108,8 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     public void Die()
     {
         GameManager.IncreaseScore(scoreValue);
+        GetComponent<DestructibleComponent>().StartDestroy();
         OnDefeat.Invoke();
-        Destroy(gameObject, 0.2f);
         //TODO: Particle system and shit
     }
 }

@@ -9,6 +9,8 @@ public class DestructibleComponent : MonoBehaviour
     private float deathExplosionIntensity = 30f;
     [SerializeField]
     private GameObject deathExplosionEffect;
+    [SerializeField]
+    private float timeToDestroyPieces = 2.5f;
 
     public void StartDestroy()
     {
@@ -21,6 +23,7 @@ public class DestructibleComponent : MonoBehaviour
                 piece.GetComponent<Rigidbody2D>()?.AddForce(
                     Random.insideUnitCircle * deathExplosionIntensity,
                     ForceMode2D.Impulse);
+                GameObject.Destroy(piece.gameObject, timeToDestroyPieces);
             }
         }
         SpawnParticle(transform.position);
