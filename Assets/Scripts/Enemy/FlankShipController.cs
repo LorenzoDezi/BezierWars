@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Renderer))]
-[RequireComponent(typeof(CharacterSoundComponent))]
 public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
 {
     [Header("Movement parameters")]
@@ -30,6 +29,12 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     [SerializeField]
     private int scoreValue = 50;
     private UnityEvent onDefeat;
+
+    [Header("Sound Effects")]
+    private AudioClip shotSound;
+    private AudioClip deathSound;
+    private AudioClip damagedSound;
+    //TODO: Sound effects
 
     public UnityEvent OnDefeat => onDefeat;
 
@@ -105,7 +110,6 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
         GameManager.IncreaseScore(scoreValue);
         OnDefeat.Invoke();
         Destroy(gameObject, 0.2f);
-        GetComponent<CharacterSoundComponent>().PlayDeathSound();
         //TODO: Particle system and shit
     }
 }

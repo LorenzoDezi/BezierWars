@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BulletSpawnerComponent))]
-[RequireComponent(typeof(CharacterSoundComponent))]
+[RequireComponent(typeof(DestructibleComponent))]
 public class PlayerController : MonoBehaviour, IDamageable
 {
     [Header("Input axis names")]
@@ -36,11 +36,13 @@ public class PlayerController : MonoBehaviour, IDamageable
     private bool canAttack = true;
     private float timeFromLastAttack = 0f;
 
-    [Header("Death parameters")]
+    [Header("Sound Effects")]
     [SerializeField]
-    private float deathExplosionIntensity = 0.5f;
+    private AudioClip shotSound;
     [SerializeField]
-    private GameObject deathExplosionEffect;
+    private AudioClip deathSound;
+    [SerializeField]
+    private AudioClip damagedSound;
 
     private bool isAccelerating = true;
     private UnityEvent died;
@@ -108,7 +110,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         if(Input.GetButton(shootAxis) && canAttack)
         {
             GetComponentInChildren<BulletSpawnerComponent>().Spawn();
-            GetComponent<CharacterSoundComponent>().PlayAttackSound();
+            if(shotSound != null) SoundManager.PlaySound(shotSound, 0.5f);
             timeFromLastAttack = 0f;
             canAttack = false;
         }
@@ -117,42 +119,17 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Damaged()
     {
-        //TODO: Do particle system and shit
+        if (damagedSound != null) SoundManager.PlaySound(damagedSound, 0.5f);
     }
 
     public void Die()
     {
         Died.Invoke();
-        GetComponent<CharacterSoundComponent>().PlayDeathSound();
-        StartDestroy();
+        GetComponent<DestructibleComponent>().StartDestroy();
+        if (deathSound != null) SoundManager.PlaySound(deathSound, 1f);
         //TODO: Do particle system and shit
         //TODO: call interface to show game over and restart
     }
 
-    void StartDestroy()
-    {
-        for(var i = 0; i < gameObject.transform.childCount; i++)
-        {
-            var piece = transform.GetChild(i);
-            if (!piece.gameObject.activeInHierarchy)
-            {
-                piece.gameObject.SetActive(true);
-                piece.GetComponent<Rigidbody2D>()?.AddForce(
-                    Random.insideUnitCircle * deathExplosionIntensity,
-                    ForceMode2D.Impulse);
-            }          
-        }
-        SpawnParticle(transform.position);
-        transform.DetachChildren();
-        GameObject.Destroy(gameObject);
-        
-    }
-
-    public void SpawnParticle(Vector3 position)
-    {
-        //Particle System
-        var particle = GameObject.Instantiate(deathExplosionEffect,
-            position, Quaternion.identity);
-        GameObject.Destroy(particle, 1.5f);
-    }
+    
 }
