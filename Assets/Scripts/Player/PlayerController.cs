@@ -36,6 +36,12 @@ public class PlayerController : MonoBehaviour, IDamageable
     private bool canAttack = true;
     private float timeFromLastAttack = 0f;
 
+    [Header("Death parameters")]
+    [SerializeField]
+    private float deathExplosionIntensity = 0.5f;
+    [SerializeField]
+    private GameObject deathExplosionEffect;
+
     private bool isAccelerating = true;
     private UnityEvent died;
 
@@ -117,9 +123,36 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void Die()
     {
         Died.Invoke();
-        UnityEngine.GameObject.Destroy(gameObject, 0.2f);
         GetComponent<CharacterSoundComponent>().PlayDeathSound();
+        StartDestroy();
         //TODO: Do particle system and shit
         //TODO: call interface to show game over and restart
+    }
+
+    void StartDestroy()
+    {
+        for(var i = 0; i < gameObject.transform.childCount; i++)
+        {
+            var piece = transform.GetChild(i);
+            if (!piece.gameObject.activeInHierarchy)
+            {
+                piece.gameObject.SetActive(true);
+                piece.GetComponent<Rigidbody2D>()?.AddForce(
+                    Random.insideUnitCircle * deathExplosionIntensity,
+                    ForceMode2D.Impulse);
+            }          
+        }
+        SpawnParticle(transform.position);
+        transform.DetachChildren();
+        GameObject.Destroy(gameObject);
+        
+    }
+
+    public void SpawnParticle(Vector3 position)
+    {
+        //Particle System
+        var particle = GameObject.Instantiate(deathExplosionEffect,
+            position, Quaternion.identity);
+        GameObject.Destroy(particle, 1.5f);
     }
 }

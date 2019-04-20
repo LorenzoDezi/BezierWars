@@ -8,6 +8,10 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
     private float damage = 10f;
     [SerializeField]
     private float collidingWidth = 1f;
+    [SerializeField]
+    private GameObject bulletImpactEffect;
+    [SerializeField]
+    private float particleSpawnOffset = 2f;
 
     public float Damage {
         get => damage;
@@ -28,7 +32,8 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
                     attackBezComp.PowerUp(this);
             } else
             {
-                UnityEngine.GameObject.Destroy(gameObject);
+                SpawnParticle(hit.point);
+                Die();
                 var healthComp = hit.collider.GetComponent<HealthComponent>();
                 if (healthComp != null && !hit.collider.CompareTag(transform.tag))
                     healthComp.HandleCollision(this);
@@ -42,9 +47,16 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
         //The bullet can't be damaged
     }
 
-    public void Die()
+    public void SpawnParticle(Vector3 position)
     {
         //Particle System
+        var particle = GameObject.Instantiate(bulletImpactEffect,
+            position, Quaternion.identity);
+        GameObject.Destroy(particle, 1.5f);
+    }
+
+    public void Die()
+    {
         UnityEngine.GameObject.Destroy(gameObject);
     }
 }

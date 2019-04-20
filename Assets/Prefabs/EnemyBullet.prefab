@@ -117,6 +117,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   collidingWidth: 0.1
+  bulletImpactEffect: {fileID: 1222550491574178, guid: 011ef490c364f404f9e09bbf492252ee,
+    type: 3}
+  particleSpawnOffset: 2
 --- !u!114 &5663474681849694766
 MonoBehaviour:
   m_ObjectHideFlags: 0

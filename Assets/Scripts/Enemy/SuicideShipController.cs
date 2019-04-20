@@ -45,7 +45,7 @@ public class SuicideShipController : MonoBehaviour, IEnemyController, IDamageabl
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.gameObject == target.gameObject)
+        if(target != null && collision.collider.gameObject == target.gameObject)
             Die();
     }
 

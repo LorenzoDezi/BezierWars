@@ -47,6 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  collidingWidth: 1
+  bulletImpactEffect: {fileID: 1222550491574178, guid: 6ac57922aa13ec043852557fff4053cd,
+    type: 3}
 --- !u!50 &5307205378793397649
 Rigidbody2D:
   serializedVersion: 4
