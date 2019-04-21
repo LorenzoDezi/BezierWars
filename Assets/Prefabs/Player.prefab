@@ -526,7 +526,6 @@ GameObject:
   - component: {fileID: 6722461107628169198}
   - component: {fileID: 6722461107628169199}
   - component: {fileID: 6722461107628169196}
-  - component: {fileID: 6722461107628169197}
   - component: {fileID: 6722461107628169203}
   - component: {fileID: 6722461107628169202}
   - component: {fileID: 8551572314629105018}
@@ -625,7 +624,6 @@ MonoBehaviour:
   torqueIntensity: 10
   maxAngularVelocity: 150
   attackInterval: 0.2
-  boostInterval: 1
   shotSound: {fileID: 8300000, guid: d896ef8291f048448a58fabd9116dbc7, type: 3}
   deathSound: {fileID: 8300000, guid: 345a961f0ba714b4b9c1f285a6138fc8, type: 3}
   damagedSound: {fileID: 0}
@@ -691,32 +689,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxValue: 100
---- !u!114 &6722461107628169197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6722461107628169194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43be776d0dfb92f4493ac41dae0d52cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mouseXAxisName: Mouse X
-  mouseYAxisName: Mouse Y
-  defenseBezierAxisName: DefenseBezierSpawn
-  attackBezierAxisName: AttackBezierSpawn
-  defenseBezNodePrefab: {fileID: 4444996907294931835, guid: 22747292a38cb1742b9b778e281ec5f5,
-    type: 3}
-  attackBezNodePrefab: {fileID: 4444996907294931835, guid: 3db51fefd4adb5d40b9752a1799be37e,
-    type: 3}
-  attackBezBuilderPrefab: {fileID: 7461184655865221465, guid: 16a0f89f2b44aba438d7d10f1fb984eb,
-    type: 3}
-  defenseBezBuilderPrefab: {fileID: 7461184655865221465, guid: c8a903ea72b40ee4cb9b663b0726727c,
-    type: 3}
-  defenseBezierMaxDistance: 10
-  removalNodeSenseDistance: 0.3
 --- !u!61 &6722461107628169203
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -800,7 +772,6 @@ MonoBehaviour:
   straightMovementAxis: StraightMovement
   orientationAxis: Orientation
   shootAxis: Shoot
-  boostAxis: Boost
 --- !u!1 &6722461108714722220
 GameObject:
   m_ObjectHideFlags: 0

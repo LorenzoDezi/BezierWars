@@ -30,7 +30,8 @@ public class BezierBuilderComponent : MonoBehaviour
         for (int currIndex = 0; currIndex <= bezierLength; currIndex++)
         {
             Vector3 currentCurvePoint = BezierMath.Bernstein(
-                currIndex / (float)bezierLength, 2, nodes.ConvertAll((obj) => obj.transform.position)
+                currIndex / (float)bezierLength, 2, 
+                nodes.ConvertAll((obj) => obj.transform.position).ToArray()
             );
             lineRenderer.SetPosition(currIndex, currentCurvePoint);
             colliderPositions.Add(currentCurvePoint);

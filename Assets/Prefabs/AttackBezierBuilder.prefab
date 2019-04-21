@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7461184655865221442}
   - component: {fileID: 4651486188985393217}
   - component: {fileID: 786652343808493910}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AttackBezierBuilder
   m_TagString: Player
   m_Icon: {fileID: 0}

@@ -21,8 +21,9 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
     void FixedUpdate()
     {
         float velocity = Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y);
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, collidingWidth, transform.up, 
-            velocity * Time.fixedDeltaTime);
+        RaycastHit2D hit = Physics2D.CircleCast(
+            transform.position, collidingWidth, transform.up, 
+            velocity * Time.fixedDeltaTime, LayerMask.GetMask("Ships", "Obstacles", "Bezier"));
         if(hit.collider != null)
         {
             if(hit.collider.isTrigger)

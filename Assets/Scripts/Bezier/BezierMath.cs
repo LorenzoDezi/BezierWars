@@ -15,7 +15,7 @@ public static class BezierMath
         return fact;
     }
 
-    public static Vector3 Bernstein(float t, int k, List<Vector3> controlPoints)
+    public static Vector3 Bernstein(float t, int k, Vector3[] controlPoints)
     {
         Vector3 result = new Vector3();
         for (int i = 0; i <= k; i++)

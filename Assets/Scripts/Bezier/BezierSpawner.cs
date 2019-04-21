@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class BezierCreatedEvent : UnityEvent<GameObject, BezierType> { }
-
+[RequireComponent(typeof(FollowTargetComponent))]
 public class BezierSpawner : MonoBehaviour
 {
 
@@ -34,17 +34,20 @@ public class BezierSpawner : MonoBehaviour
     [SerializeField]
     private float defenseBezierMaxDistance;
     [SerializeField]
+    private float defenseBezierMinDistance = 2f;
+    [SerializeField]
     private float removalNodeSenseDistance = 1f;
 
     private List<UnityEngine.GameObject> defenseActiveNodes = new List<UnityEngine.GameObject>();
     private List<UnityEngine.GameObject> attackActiveNodes = new List<UnityEngine.GameObject>();
-    private BezierCreatedEvent onBezierCreated;
 
-    public BezierCreatedEvent OnBezierCreated => onBezierCreated;
+    public BezierCreatedEvent OnBezierCreated { get; private set; }
+    public UnityEvent OnFailNodePlacing { get; private set; }
 
     private void Awake()
     {
-        onBezierCreated = new BezierCreatedEvent();
+        OnBezierCreated = new BezierCreatedEvent();
+        OnFailNodePlacing = new UnityEvent();
     }
 
     private void Update()
@@ -53,7 +56,10 @@ public class BezierSpawner : MonoBehaviour
         {
             var nodePosition  =  Camera.main.ScreenToWorldPoint(Input.mousePosition);
             nodePosition.z = 0;
-            if (Vector3.Distance(transform.position, nodePosition) > defenseBezierMaxDistance)
+            var distanceFromNode = Vector3.Distance(
+                transform.position, nodePosition);
+            if (distanceFromNode > defenseBezierMaxDistance
+                || distanceFromNode < defenseBezierMinDistance)
                 return;
             HandleClick(defenseBezNodePrefab, BezierType.Defense, nodePosition, defenseActiveNodes, transform);
 
@@ -81,10 +87,22 @@ public class BezierSpawner : MonoBehaviour
         Transform parent = null
         )
     {
+        //TODO: Refactor
         //Preliminar check
         if (CheckForBezierRemoval(nodePosition, type) 
             || CheckForNodeRemoval(nodePosition, list) || list.Count >= 3)
+        {
+            OnFailNodePlacing.Invoke();
             return;
+        }
+        if (list.Count == 2 && type == BezierType.Defense
+            && CheckForBezierOnPlayer( new Vector3[] {
+                list[0].transform.position, list[1].transform.position, nodePosition
+            }))
+        {
+            OnFailNodePlacing.Invoke();
+            return;
+        }
         //Proceed to instantiate the node
         var instance = UnityEngine.GameObject.Instantiate(node);
         instance.transform.position = nodePosition;
@@ -94,6 +112,20 @@ public class BezierSpawner : MonoBehaviour
         {
             BuildBezier(type, list);
         }
+    }
+
+    private bool CheckForBezierOnPlayer(Vector3[] nodes)
+    {
+        //TODO: set bezierLenght on spawner, and then pass to init 
+        var bezierLength = 25f;
+        for (int currIndex = 0; currIndex <= bezierLength; currIndex++)
+        {
+            Vector3 currentCurvePoint = BezierMath.Bernstein(
+                currIndex / (float)bezierLength, 2, nodes);
+            if (Vector3.Distance(currentCurvePoint, transform.position) < defenseBezierMinDistance)
+                return true;
+        }
+        return false;
     }
 
     private bool CheckForBezierRemoval(Vector3 nodePosition, BezierType type)
@@ -117,7 +149,7 @@ public class BezierSpawner : MonoBehaviour
     {
         UnityEngine.GameObject bezBuilder = BezierType.Attack == type ? attackBezBuilderPrefab : defenseBezBuilderPrefab;
         bezBuilder = UnityEngine.GameObject.Instantiate(bezBuilder);
-        onBezierCreated.Invoke(bezBuilder, type);
+        OnBezierCreated.Invoke(bezBuilder, type);
         var builderComp = bezBuilder.GetComponent<BezierBuilderComponent>();
         builderComp.Init(list, type);
         builderComp.Disabled.AddListener(GenerateOnBezierDisableCallback(type));

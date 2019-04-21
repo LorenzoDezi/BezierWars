@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4373608716826376106}
   - component: {fileID: 406776411092744542}
   - component: {fileID: 5658219060937473151}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DefenseBezierBuilder
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -201,3 +201,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8efaf89f7de2f14891063482265c0cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transformToFollow: {fileID: 0}

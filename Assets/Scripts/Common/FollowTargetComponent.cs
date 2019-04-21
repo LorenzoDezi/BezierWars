@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class FollowTargetComponent : MonoBehaviour
 {
-    private Transform transformToFollow;
+    [SerializeField]
+    public Transform transformToFollow;
     private Vector3 offset;
-    bool isFollowing = false;
 
     private void Update()
     {
-        if (transformToFollow == null || !isFollowing)
+        if (transformToFollow == null)
             return;
         transform.position = transformToFollow.position + offset;
     }
@@ -19,11 +19,10 @@ public class FollowTargetComponent : MonoBehaviour
     {
         this.transformToFollow = transformToFollow;
         this.offset = transform.position - transformToFollow.position;
-        isFollowing = true;
     }
 
     public void StopFollowing()
     {
-        isFollowing = false;
+        this.transformToFollow = null;
     }
 }
