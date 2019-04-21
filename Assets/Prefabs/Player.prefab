@@ -530,6 +530,7 @@ GameObject:
   - component: {fileID: 6722461107628169203}
   - component: {fileID: 6722461107628169202}
   - component: {fileID: 8551572314629105018}
+  - component: {fileID: 2052113296401764455}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -617,16 +618,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f761f89e2ba7aa4ab3a84c68fbb77d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  straightMovementAxis: StraightMovement
-  orientationAxis: Orientation
-  shootAxis: Shoot
-  boostAxis: Boost
-  maxVelocity: 4
+  maxVelocity: 5
   brakeIntensity: 3
-  enginePower: 12
+  enginePower: 15
+  boostIntensity: 10
   torqueIntensity: 10
   maxAngularVelocity: 150
   attackInterval: 0.2
+  boostInterval: 1
   shotSound: {fileID: 8300000, guid: d896ef8291f048448a58fabd9116dbc7, type: 3}
   deathSound: {fileID: 8300000, guid: 345a961f0ba714b4b9c1f285a6138fc8, type: 3}
   damagedSound: {fileID: 0}
@@ -786,6 +785,22 @@ MonoBehaviour:
   deathExplosionEffect: {fileID: 1222550491574178, guid: ebb7f42c5c402624d94bda4abce7b0db,
     type: 3}
   timeToDestroyPieces: Infinity
+--- !u!114 &2052113296401764455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6722461107628169194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43a545c21017d7e4f8bf84258e68de8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  straightMovementAxis: StraightMovement
+  orientationAxis: Orientation
+  shootAxis: Shoot
+  boostAxis: Boost
 --- !u!1 &6722461108714722220
 GameObject:
   m_ObjectHideFlags: 0

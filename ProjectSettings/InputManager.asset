@@ -281,10 +281,10 @@ InputManager:
     m_Name: Boost
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: left shift
-    altNegativeButton: 
-    altPositiveButton: right shift
+    negativeButton: q
+    positiveButton: e
+    altNegativeButton: right ctrl
+    altPositiveButton: 0
     gravity: 10
     dead: 0.001
     sensitivity: 1000

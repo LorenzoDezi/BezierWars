@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8374471344879508487}
   - component: {fileID: 7788683138731838828}
   - component: {fileID: 4729603361608554048}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: flankShipPieces1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,6 +425,7 @@ MonoBehaviour:
   deathExplosionIntensity: 30
   deathExplosionEffect: {fileID: 1222550491574178, guid: 9720f67fa37c21c46b2c028bec4d24db,
     type: 3}
+  timeToDestroyPieces: 2.5
 --- !u!1 &5513631104714818896
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +438,7 @@ GameObject:
   - component: {fileID: 8868111016953653515}
   - component: {fileID: 1232468773519583422}
   - component: {fileID: 5591330818859714712}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: flankShipPieces3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -565,7 +566,7 @@ GameObject:
   - component: {fileID: 2027795587218515886}
   - component: {fileID: 8410794282909209997}
   - component: {fileID: 7589089030176674633}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: flankShipPieces2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

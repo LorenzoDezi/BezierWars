@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(DestructibleComponent))]
 public class SuicideShipController : MonoBehaviour, IEnemyController, IDamageable, IDamager
 {
     private Transform target;
@@ -34,7 +35,7 @@ public class SuicideShipController : MonoBehaviour, IEnemyController, IDamageabl
     {
         //TODO: particles, ecc
         OnDefeat.Invoke();
-        Destroy(gameObject, 0.2f);
+        GetComponent<DestructibleComponent>().StartDestroy();
     }
 
     public void Move(Vector2 direction, float speedFactor)
