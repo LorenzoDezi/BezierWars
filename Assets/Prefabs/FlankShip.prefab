@@ -358,6 +358,7 @@ MonoBehaviour:
   flankRate: 2
   attackInterval: 1.5
   scoreValue: 50
+  deathSound: {fileID: 8300000, guid: 453b5831bf4b06045b804c025563e179, type: 3}
 --- !u!114 &3649880253033409870
 MonoBehaviour:
   m_ObjectHideFlags: 0

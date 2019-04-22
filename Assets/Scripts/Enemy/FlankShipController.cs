@@ -31,9 +31,8 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     private UnityEvent onDefeat;
 
     [Header("Sound Effects")]
-    private AudioClip shotSound;
+    [SerializeField]
     private AudioClip deathSound;
-    private AudioClip damagedSound;
     //TODO: Sound effects
 
     public UnityEvent OnDefeat => onDefeat;
@@ -108,6 +107,7 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     public void Die()
     {
         GameManager.IncreaseScore(scoreValue);
+        SoundManager.PlaySound(deathSound, 0.5f);
         GetComponent<DestructibleComponent>().StartDestroy();
         OnDefeat.Invoke();
         //TODO: Particle system and shit

@@ -38,6 +38,10 @@ public class BezierSpawner : MonoBehaviour
     [SerializeField]
     private float removalNodeSenseDistance = 1f;
 
+    [Header("Sound effects")]
+    [SerializeField]
+    private AudioClip bezierCreatedSound;
+
     private List<UnityEngine.GameObject> defenseActiveNodes = new List<UnityEngine.GameObject>();
     private List<UnityEngine.GameObject> attackActiveNodes = new List<UnityEngine.GameObject>();
 
@@ -111,6 +115,7 @@ public class BezierSpawner : MonoBehaviour
         if (list.Count == 3)
         {
             BuildBezier(type, list);
+            SoundManager.PlaySound(bezierCreatedSound, 1f);
         }
     }
 
