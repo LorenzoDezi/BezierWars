@@ -8,6 +8,16 @@ public class ScoreChangeEvent : UnityEvent<int> {
 
 }
 
+public class GameStateChangeEvent : UnityEvent<GameState>
+{
+
+}
+
+public enum GameState
+{
+    Menu, Arena
+}
+
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +35,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float spawnIntervalDecrease = 5f;
     private ScoreChangeEvent scoreChangeEvent;
+    //TODO: Change when game changes from scene to scene
+    [SerializeField]
+    private GameState state;
+    public GameStateChangeEvent onGameStateChange;
 
     // Start is called before the first frame update
     void Awake()
@@ -34,6 +48,7 @@ public class GameManager : MonoBehaviour
             instance = this;
             leaderBoard = new List<int>();
             scoreChangeEvent = new ScoreChangeEvent();
+            onGameStateChange = new GameStateChangeEvent();
         }
         else if (instance != this)
             Destroy(gameObject);
@@ -50,6 +65,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public static GameState CurrentState()
+    {
+        return instance.state;
+    }
+
+    public static GameStateChangeEvent OnGameStateChange()
+    {
+        return instance.onGameStateChange;
+    }
+
     public static void IncreaseScore(int score)
     {
         instance.currentScore += score;
@@ -58,7 +83,10 @@ public class GameManager : MonoBehaviour
         {
             instance.currentScoreThreshold = instance.currentScore + instance.scoreThreshold * 2;
             instance.spawners.ForEach(
-                (obj) => obj.SpawnInterval = obj.SpawnInterval - instance.spawnIntervalDecrease);
+                (obj) => {
+                    obj.SpawnInterval = obj.SpawnInterval - instance.spawnIntervalDecrease;
+                    obj.MaxEnemiesCanSpawn = obj.MaxEnemiesCanSpawn + 2;
+                });
         }
     }
 

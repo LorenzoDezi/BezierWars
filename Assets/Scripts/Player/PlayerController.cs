@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (canAttack)
         {
             GetComponentInChildren<BulletSpawnerComponent>().Spawn();
-            if (shotSound != null) SoundManager.PlaySound(shotSound, 0.5f);
+            if (shotSound != null) SoundManager.PlaySound(shotSound);
             timeFromLastAttack = 0f;
             canAttack = false;
         }
@@ -112,14 +112,14 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Damaged()
     {
-        if (damagedSound != null) SoundManager.PlaySound(damagedSound, 0.5f);
+        if (damagedSound != null) SoundManager.PlaySound(damagedSound);
     }
 
     public void Die()
     {
         Died.Invoke();
         GetComponent<DestructibleComponent>().StartDestroy();
-        if (deathSound != null) SoundManager.PlaySound(deathSound, 1f);
+        if (deathSound != null) SoundManager.PlaySound(deathSound);
         //TODO: Do particle system and shit
         //TODO: call interface to show game over and restart
     }

@@ -107,7 +107,7 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     public void Die()
     {
         GameManager.IncreaseScore(scoreValue);
-        SoundManager.PlaySound(deathSound, 0.5f);
+        SoundManager.PlaySound(deathSound);
         GetComponent<DestructibleComponent>().StartDestroy();
         OnDefeat.Invoke();
         //TODO: Particle system and shit

@@ -17,6 +17,10 @@ public class EnemySpawner : MonoBehaviour
         get => spawnInterval; set => spawnInterval = value;
     }
 
+    public int MaxEnemiesCanSpawn
+    {
+        get => maxEnemiesCanSpawn; set => maxEnemiesCanSpawn = value;
+    }
     // Update is called once per frame
     void Update()
     {

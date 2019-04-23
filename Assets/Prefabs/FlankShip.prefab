@@ -352,10 +352,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ebeaeda858848849b0c867204c1e99e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  engineIntensity: 1
-  flankIntensity: 4
+  engineIntensity: 3
+  flankIntensity: 5
   flankAwareness: 5
-  flankRate: 2
+  flankRate: 1
   attackInterval: 1.5
   scoreValue: 50
   deathSound: {fileID: 8300000, guid: 453b5831bf4b06045b804c025563e179, type: 3}
