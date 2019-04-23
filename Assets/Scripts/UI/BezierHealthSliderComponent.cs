@@ -13,8 +13,10 @@ public class BezierHealthSliderComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spawner.OnBezierCreated.AddListener(OnBezierCreated);
+        if(spawner != null && spawner.isActiveAndEnabled)
+            spawner.OnBezierCreated.AddListener(OnBezierCreated);
     }
+
 
     void OnBezierCreated(GameObject bezier, BezierType type)
     {

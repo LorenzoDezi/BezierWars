@@ -18,6 +18,15 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
         set => damage = value;
     }
 
+    private void Start()
+    {
+        GameManager.OnGameStateChange().AddListener((state) =>
+        {
+            if (state == GameState.Menu)
+                Destroy(gameObject);
+        });
+    }
+
     void FixedUpdate()
     {
         float velocity = Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y);

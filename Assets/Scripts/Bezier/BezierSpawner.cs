@@ -47,32 +47,37 @@ public class BezierSpawner : MonoBehaviour
 
     public BezierCreatedEvent OnBezierCreated { get; private set; }
     public UnityEvent OnFailNodePlacing { get; private set; }
+    public UnityEvent Disabled { get; private set; }
 
     private void Awake()
     {
         OnBezierCreated = new BezierCreatedEvent();
         OnFailNodePlacing = new UnityEvent();
+        Disabled = new UnityEvent();
+    }
+
+    public void PlaceDefenseNode()
+    {
+        var nodePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        nodePosition.z = 0;
+        var distanceFromNode = Vector3.Distance(
+            transform.position, nodePosition);
+        if (distanceFromNode > defenseBezierMaxDistance
+            || distanceFromNode < defenseBezierMinDistance)
+            return;
+        HandleClick(defenseBezNodePrefab, BezierType.Defense, nodePosition, defenseActiveNodes, transform);
+    }
+
+    public void PlaceAttackNode()
+    {
+        var nodePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        nodePosition.z = 0;
+        HandleClick(attackBezNodePrefab, BezierType.Attack, nodePosition, attackActiveNodes);
     }
 
     private void Update()
     {
-        if(Input.GetButtonDown(defenseBezierAxisName))
-        {
-            var nodePosition  =  Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            nodePosition.z = 0;
-            var distanceFromNode = Vector3.Distance(
-                transform.position, nodePosition);
-            if (distanceFromNode > defenseBezierMaxDistance
-                || distanceFromNode < defenseBezierMinDistance)
-                return;
-            HandleClick(defenseBezNodePrefab, BezierType.Defense, nodePosition, defenseActiveNodes, transform);
-
-        } else if (Input.GetButtonDown(attackBezierAxisName))
-        {
-            var nodePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            nodePosition.z = 0;
-            HandleClick(attackBezNodePrefab, BezierType.Attack, nodePosition, attackActiveNodes);
-        }
+        
     }
 
     private UnityAction GenerateOnBezierDisableCallback(BezierType type)
@@ -112,11 +117,22 @@ public class BezierSpawner : MonoBehaviour
         instance.transform.position = nodePosition;
         instance.GetComponent<FollowTargetComponent>()?.SetTargetToFollow(transform);
         list.Add(instance);
+        //Add listener on bezSpawner disable (handling game state change)
+        Disabled.AddListener(() => {
+            list.Remove(instance);
+            GameObject.Destroy(instance);
+        });
         if (list.Count == 3)
         {
             BuildBezier(type, list);
             SoundManager.PlaySound(bezierCreatedSound, 1f);
         }
+    }
+
+    private void OnDisable()
+    {
+        Disabled.Invoke();
+        Awake();
     }
 
     private bool CheckForBezierOnPlayer(Vector3[] nodes)
@@ -156,6 +172,8 @@ public class BezierSpawner : MonoBehaviour
         bezBuilder = UnityEngine.GameObject.Instantiate(bezBuilder);
         OnBezierCreated.Invoke(bezBuilder, type);
         var builderComp = bezBuilder.GetComponent<BezierBuilderComponent>();
+        //Add listener on bezSpawner disable (handling game state change)
+        Disabled.AddListener(() => GameObject.Destroy(bezBuilder));
         builderComp.Init(list, type);
         builderComp.Disabled.AddListener(GenerateOnBezierDisableCallback(type));
         if (BezierType.Defense == type)
