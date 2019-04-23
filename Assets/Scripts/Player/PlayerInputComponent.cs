@@ -12,13 +12,6 @@ public class PlayerInputComponent : MonoBehaviour
     private string orientationAxis;
     [SerializeField]
     private string shootAxis;
-    [SerializeField]
-    private string defenseBezierAxis;
-    [SerializeField]
-    private string attackBezierAxis;
-    [Header("Linked components")]
-    [SerializeField]
-    private BezierSpawner bezSpawner;
 
 
     private void HandleInput()
@@ -30,11 +23,6 @@ public class PlayerInputComponent : MonoBehaviour
         if (orientInput != 0) playerController.Rotate(orientInput);
         if (Input.GetButton(shootAxis))
             playerController.Attack();
-        if (bezSpawner == null) return;
-        if (Input.GetButtonDown(defenseBezierAxis))
-            bezSpawner.PlaceDefenseNode();
-        if (Input.GetButtonDown(attackBezierAxis))
-            bezSpawner.PlaceAttackNode();
     }
 
     // Update is called once per frame

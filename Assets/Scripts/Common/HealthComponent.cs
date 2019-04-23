@@ -59,9 +59,4 @@ public class HealthComponent : MonoBehaviour
         Destroy(this);
     }
 
-    public void Refill()
-    {
-        currentValue = maxValue;
-    }
-
 }

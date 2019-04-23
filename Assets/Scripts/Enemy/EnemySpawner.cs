@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -9,49 +8,25 @@ public class EnemySpawner : MonoBehaviour
     private UnityEngine.GameObject enemyToSpawn;
     [SerializeField]
     private float spawnInterval = 20f;
-    private float currentSpawnInterval;
-    private float lastTimeSpawned;
+    private float lastTimeSpawned = float.NegativeInfinity;
     [SerializeField]
     private int maxEnemiesCanSpawn = 5;
-    private int currentMaxEnemiesCanSpawn;
     private int currentEnemiesSpawned;
-    public UnityEvent Disabled { get; private set; }
-
-    private void Start()
-    {
-        currentMaxEnemiesCanSpawn = maxEnemiesCanSpawn;
-        currentSpawnInterval = spawnInterval;
-        lastTimeSpawned = float.NegativeInfinity;
-        currentEnemiesSpawned = 0;
-        Disabled = new UnityEvent();
-    }
 
     public float SpawnInterval {
-        get => currentSpawnInterval; set => currentSpawnInterval = value;
+        get => spawnInterval; set => spawnInterval = value;
     }
 
     public int MaxEnemiesCanSpawn
     {
-        get => currentMaxEnemiesCanSpawn; set => currentMaxEnemiesCanSpawn = value;
-    }
-
-    void OnEnable()
-    {
-        Start();
-    }
-
-    void OnDisable()
-    {
-        Disabled.Invoke();
+        get => maxEnemiesCanSpawn; set => maxEnemiesCanSpawn = value;
     }
     // Update is called once per frame
     void Update()
     {
-        if(lastTimeSpawned + currentSpawnInterval < Time.time && currentEnemiesSpawned <= currentMaxEnemiesCanSpawn)
+        if(lastTimeSpawned + spawnInterval < Time.time && currentEnemiesSpawned <= maxEnemiesCanSpawn)
         {
             var enemy = UnityEngine.GameObject.Instantiate(enemyToSpawn, transform.position, Quaternion.identity);
-            //Add listener on bezSpawner disable (handling game state change)
-            Disabled.AddListener(() => GameObject.Destroy(enemy));
             enemy.GetComponent<IEnemyController>().OnDefeat.AddListener(() => currentEnemiesSpawned--);
             lastTimeSpawned = Time.time;
             currentEnemiesSpawned++;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class ScoreChangeEvent : UnityEvent<int> {
 
@@ -16,8 +15,7 @@ public class GameStateChangeEvent : UnityEvent<GameState>
 
 public enum GameState
 {
-    Menu, Arena,
-    Training, Pause
+    Menu, Arena
 }
 
 
@@ -30,37 +28,17 @@ public class GameManager : MonoBehaviour
     private List<int> leaderBoard;
     private List<EnemySpawner> spawners;
     //The score threshold above which the difficulty will raise
-    [Header("Gameplay parameters")]
-    [SerializeField]
-    private PlayerInputComponent player;
-    [SerializeField]
-    private BezierSpawner bezSpawner;
     [SerializeField]
     private int scoreThreshold = 500;
     private int currentScoreThreshold;
     //The spawn time interval decrease at score reaching the threshold
     [SerializeField]
     private float spawnIntervalDecrease = 5f;
-
-    //TODO: Refactor on UI
-    [Header("UIElements")]
+    private ScoreChangeEvent scoreChangeEvent;
+    //TODO: Change when game changes from scene to scene
     [SerializeField]
-    private List<GameObject> arenaUIElements;
-    [SerializeField]
-    private List<GameObject> trainingUIElements;
-    [SerializeField]
-    private List<GameObject> menuUIElements;
-    [SerializeField]
-    private List<GameObject> pauseUIElements;
-
-    [Header("Input axis")]
-    [SerializeField]
-    private string pauseAxis;
-
     private GameState state;
     public GameStateChangeEvent onGameStateChange;
-    private ScoreChangeEvent scoreChangeEvent;
-
 
     // Start is called before the first frame update
     void Awake()
@@ -77,14 +55,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    private void Update()
-    {
-        if (Input.GetButtonDown(pauseAxis))
-        {
-            Pause();
-        }
-    }
-
     private void Start()
     {
         instance.currentScoreThreshold = scoreThreshold;
@@ -93,100 +63,16 @@ public class GameManager : MonoBehaviour
         {
             spawners = spawns.ToList().ConvertAll((obj) => obj.GetComponent<EnemySpawner>());
         }
-        SetMenuState();
-    }
-
-    public void SetMenuState()
-    {
-        //Reset spawners
-        spawners.ForEach((spawner) =>
-        {
-            spawner.gameObject.SetActive(false);
-        });
-        //Reset player
-        ResetPlayer();
-        //Reset spawner
-        bezSpawner.enabled = false;
-        bezSpawner.transform.position = Vector3.zero;
-        //Reset camera
-        Camera.main.transform.position = Vector3.zero;
-        //Reset score
-        currentScore = 0;
-        currentScoreThreshold = scoreThreshold;
-        //Reset GUI
-        arenaUIElements.ToList().ForEach((obj) => obj.gameObject.SetActive(false));
-        trainingUIElements.ToList().ForEach((obj) => obj.gameObject.SetActive(false));
-        menuUIElements.ForEach((obj) => obj.gameObject.SetActive(true));
-        var prevState = state;
-        state = GameState.Menu;
-        if(prevState != state)
-            onGameStateChange.Invoke(instance.state);
-    }
-
-    public void SetArenaState()
-    {
-        spawners.ForEach((spawner) => spawner.gameObject.SetActive(true));
-        player.enabled = true;
-        player.GetComponent<Rigidbody2D>().simulated = true;
-        bezSpawner.enabled = true;
-        menuUIElements.ForEach((obj) => obj.gameObject.SetActive(false));
-        trainingUIElements.ToList().ForEach((obj) => obj.gameObject.SetActive(false));
-        arenaUIElements.ToList().ForEach((obj) => obj.gameObject.SetActive(true));
-        state = GameState.Arena;
-        onGameStateChange.Invoke(instance.state);
-    }
-
-    public void SetTrainingState()
-    {
-        player.enabled = true;
-        bezSpawner.enabled = true;
-        menuUIElements.ForEach((obj) => obj.gameObject.SetActive(false));
-        arenaUIElements.ToList().ForEach((obj) => obj.gameObject.SetActive(false));
-        trainingUIElements.ToList().ForEach((obj) => obj.gameObject.SetActive(true));
-        state = GameState.Training;
-        onGameStateChange.Invoke(instance.state);
-    }
-
-    private void ResetPlayer()
-    {
-        player.enabled = false;
-        player.transform.position = Vector3.zero;
-        player.transform.rotation = Quaternion.identity;
-        player.GetComponent<Rigidbody2D>().simulated = false;
-        player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        player.GetComponent<HealthComponent>().Refill();
-    }
-
-    public void Pause()
-    {
-        if (GameState.Menu == state)
-            return;
-        if (Time.timeScale == 0)
-            Resume();
-        else
-        {
-            if(player != null) player.enabled = false;
-            pauseUIElements.ToList().ForEach((obj) => obj.gameObject.SetActive(true));
-            Time.timeScale = 0;
-        }          
-    }
-
-    public void Resume()
-    {
-        player.enabled = true;
-        pauseUIElements.ToList().ForEach((obj) => obj.gameObject.SetActive(false));
-        Time.timeScale = 1;
-    }
-
-    public void Exit()
-    {
-        Resume();
-        SetMenuState();
     }
 
     public static GameState CurrentState()
     {
         return instance.state;
+    }
+
+    public static GameStateChangeEvent OnGameStateChange()
+    {
+        return instance.onGameStateChange;
     }
 
     public static void IncreaseScore(int score)
@@ -237,11 +123,5 @@ public class GameManager : MonoBehaviour
     {
         return instance.scoreChangeEvent;
     }
-
-    public static GameStateChangeEvent OnGameStateChange()
-    {
-        return instance.onGameStateChange;
-    }
-
 
 }
