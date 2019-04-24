@@ -11,7 +11,6 @@ public class ScoreTextComponent : MonoBehaviour
         GameManager.OnScoreChanged().AddListener(UpdateText);
     }
 
-    // Update is called once per frame
     void UpdateText(int value)
     {
         GetComponent<Text>().text = value.ToString();

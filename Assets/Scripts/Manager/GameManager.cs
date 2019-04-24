@@ -15,7 +15,7 @@ public class GameStateChangeEvent : UnityEvent<GameState>
 
 public enum GameState
 {
-    Menu, Survival, TimeLimit, Pause, GameOver, Training
+    Menu, Survival, TimeLimit, Pause, GameOver, Training, PlacingSpline
 }
 
 
@@ -110,6 +110,21 @@ public class GameManager : MonoBehaviour
         return instance.leaderBoard.FindIndex((x) => x < instance.currentScore);
     }
 
+    public static void EnterPlacingSpline()
+    {
+        instance.previousState = instance.state;
+        instance.state = GameState.PlacingSpline;
+        Time.timeScale = 0.4f;
+        OnGameStateChange().Invoke(instance.state);
+    }
+
+    public static void ExitPlacingSpline()
+    {
+        instance.state = instance.previousState;
+        Time.timeScale = 1f;
+        OnGameStateChange().Invoke(instance.state);
+    }
+
     public static ScoreChangeEvent OnScoreChanged()
     {
         return instance.scoreChangeEvent;
@@ -167,6 +182,10 @@ public class GameManager : MonoBehaviour
         UIManager.SetSliderTargets(currentPlayer.GetComponent<HealthComponent>(),
             currentBezierSpawner.GetComponent<BezierSpawner>());
         Camera.main.transform.position = new Vector3(0, 0, -10);
+        //TODO: Refactor with a property
+        currentScore = 0;
+        currentScoreThreshold = scoreThreshold;
+        scoreChangeEvent.Invoke(currentScore);
         Camera.main.GetComponent<CameraController>().SetTransformToFollow(currentPlayer.transform);
         Camera.main.GetComponent<Animation>().Play("MenuAnimation");
     }

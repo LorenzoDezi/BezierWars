@@ -12,10 +12,6 @@ public class BezierSpawner : MonoBehaviour
 
     [Header("Input axis")]
     [SerializeField]
-    private string mouseXAxisName = "Mouse X";
-    [SerializeField]
-    private string mouseYAxisName = "Mouse Y";
-    [SerializeField]
     private string defenseBezierAxisName = "DefenseBezierSpawn";
     [SerializeField]
     private string attackBezierAxisName = "AttackBezierSpawn";
@@ -115,7 +111,7 @@ public class BezierSpawner : MonoBehaviour
         if (list.Count == 3)
         {
             BuildBezier(type, list);
-            SoundManager.PlaySound(bezierCreatedSound, 1f);
+            SoundManager.PlaySound(bezierCreatedSound);
         }
     }
 
