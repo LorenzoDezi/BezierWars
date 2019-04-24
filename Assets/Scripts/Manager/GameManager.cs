@@ -15,7 +15,7 @@ public class GameStateChangeEvent : UnityEvent<GameState>
 
 public enum GameState
 {
-    Menu, Survival, TimeLimit, Pause, GameOver
+    Menu, Survival, TimeLimit, Pause, GameOver, Training
 }
 
 
@@ -164,6 +164,8 @@ public class GameManager : MonoBehaviour
             spwn.SetTarget(currentPlayer.transform);
             spwn.Reset();
         });
+        UIManager.SetSliderTargets(currentPlayer.GetComponent<HealthComponent>(),
+            currentBezierSpawner.GetComponent<BezierSpawner>());
         Camera.main.transform.position = new Vector3(0, 0, -10);
         Camera.main.GetComponent<CameraController>().SetTransformToFollow(currentPlayer.transform);
         Camera.main.GetComponent<Animation>().Play("MenuAnimation");
@@ -213,6 +215,14 @@ public class GameManager : MonoBehaviour
         this.state = this.previousState;
         onGameStateChange.Invoke(state);
     } 
+
+    public void EnterTraining()
+    {
+        this.state = GameState.Training;
+        Camera.main.GetComponent<Animation>().Play("PlayAnimation");
+        SetPlayerInput(true);
+        onGameStateChange.Invoke(state);
+    }
 
     public void BackToMenuFromPause()
     {

@@ -12,14 +12,24 @@ public class SuicideShipController : MonoBehaviour, IEnemyController, IDamageabl
     [SerializeField]
     private float damage;
 
+    public float Damage { get => damage; set => damage = value; }
+
     [Header("Score parameters")]
     [SerializeField]
     private int scoreValue = 100;
     private UnityEvent onDefeat;
-
-    public float Damage { get => damage; set => damage = value; }
-
     public UnityEvent OnDefeat => onDefeat;
+
+    [Header("Sounds effects")]
+    [SerializeField]
+    private AudioClip deathSound;
+    [SerializeField]
+    private AudioClip tickSound;
+    [SerializeField]
+    private float tickDistanceFactor;
+    [SerializeField]
+    private float tickSoundVolumeBase = 6f;
+    private float lastTicked = float.NegativeInfinity;
 
     private void Awake()
     {
@@ -28,13 +38,14 @@ public class SuicideShipController : MonoBehaviour, IEnemyController, IDamageabl
 
     public void Damaged()
     {
-        //TODO: particles, ecc
+        //The suicide ship do nothing when damaged
     }
 
     public void Die()
     {
-        //TODO: particles, ecc
         OnDefeat.Invoke();
+        GameManager.IncreaseScore(scoreValue);
+        SoundManager.PlaySound(deathSound);
         GetComponent<DestructibleComponent>().StartDestroy();
     }
 
@@ -58,6 +69,18 @@ public class SuicideShipController : MonoBehaviour, IEnemyController, IDamageabl
     private void FixedUpdate()
     {
         LookTarget();
+    }
+
+    private void Update()
+    {
+        if (target == null) return;
+        var tickInterval = tickDistanceFactor * Vector3.Distance(
+            target.position, transform.position);
+        if(Time.time > lastTicked + tickInterval)
+        {
+            lastTicked = Time.time;
+            SoundManager.PlaySound(tickSound, tickSoundVolumeBase - tickInterval);
+        }
     }
 
     private void LookTarget()

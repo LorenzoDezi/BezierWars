@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 5329362784828273823, guid: c133926bfe0cc4744825ec60fc29d137,
     type: 3}
-  shootIntensity: 0.3
+  shootIntensity: 0.4
 --- !u!1 &3649880253033409865
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,10 +352,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ebeaeda858848849b0c867204c1e99e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  engineIntensity: 3
+  engineIntensity: 2
   flankIntensity: 5
   flankAwareness: 5
-  flankRate: 1
+  flankRate: 0.4
   attackInterval: 1.5
   scoreValue: 50
   deathSound: {fileID: 8300000, guid: 453b5831bf4b06045b804c025563e179, type: 3}

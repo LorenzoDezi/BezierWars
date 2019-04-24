@@ -155,6 +155,9 @@ MonoBehaviour:
   engineIntensity: 15
   damage: 50
   scoreValue: 100
+  deathSound: {fileID: 8300000, guid: 453b5831bf4b06045b804c025563e179, type: 3}
+  tickSound: {fileID: 8300000, guid: b56d7bcea6752b04595940b8b7b86675, type: 3}
+  tickDistanceFactor: 0.05
 --- !u!114 &664311622522814439
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -29,7 +29,6 @@ public class DestructibleComponent : MonoBehaviour
         SpawnParticle(transform.position);
         transform.DetachChildren();
         GameObject.Destroy(gameObject);
-
     }
 
     private void SpawnParticle(Vector3 position)

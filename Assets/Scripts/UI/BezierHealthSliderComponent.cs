@@ -11,7 +11,7 @@ public class BezierHealthSliderComponent : MonoBehaviour
     [SerializeField]
     private BezierType type;
     // Start is called before the first frame update
-    void Start()
+    public void SetSpawner(BezierSpawner spawner)
     {
         spawner.OnBezierCreated.AddListener(OnBezierCreated);
     }

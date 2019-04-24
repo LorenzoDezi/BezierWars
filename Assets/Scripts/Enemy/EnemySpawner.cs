@@ -45,7 +45,8 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(lastTimeSpawned + currentSpawnInterval < Time.time && currentEnemiesSpawned <= currentMaxEnemiesCanSpawn)
+        if(lastTimeSpawned + currentSpawnInterval < Time.time 
+            && currentEnemiesSpawned < currentMaxEnemiesCanSpawn)
         {
             var enemy = UnityEngine.GameObject.Instantiate(enemyToSpawn, transform.position, Quaternion.identity);
             enemy.GetComponent<EnemyAI>().SetTarget(target);

@@ -617,9 +617,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f761f89e2ba7aa4ab3a84c68fbb77d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVelocity: 5
-  brakeIntensity: 3
-  enginePower: 15
+  maxVelocity: 8
+  brakeIntensity: 5
+  enginePower: 25
   boostIntensity: 10
   torqueIntensity: 10
   maxAngularVelocity: 150
@@ -640,7 +640,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 2
-  m_LinearDrag: 0.2
+  m_LinearDrag: 1.5
   m_AngularDrag: 8
   m_GravityScale: 0
   m_Material: {fileID: 0}
