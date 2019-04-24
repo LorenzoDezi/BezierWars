@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,12 +18,12 @@ public class UIManager : MonoBehaviour
     private List<GameObject> gameOverUIElements;
     [SerializeField]
     private List<GameObject> trainingUIElements;
-
-    [Header("Sliders")]
     [SerializeField]
     private List<BezierHealthSliderComponent> bezierSliders;
     [SerializeField]
     private HealthSliderComponent playerHealthSlider;
+    [SerializeField]
+    private Text gameOverScoreText;
 
     void Awake()
     {
@@ -78,6 +79,7 @@ public class UIManager : MonoBehaviour
                 pauseUIElements.ForEach((obj) => obj.SetActive(false));
                 trainingUIElements.ForEach((obj) => obj.SetActive(false));
                 gameOverUIElements.ForEach((obj) => obj.SetActive(true));
+                gameOverScoreText.text = "SCORE: " + GameManager.GetCurrentScore();
                 break;
             case GameState.Training:
                 menuUIElements.ForEach((obj) => obj.SetActive(false));
