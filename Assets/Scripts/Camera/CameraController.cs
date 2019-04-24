@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField]
     private Transform transformToFollow;
     [SerializeField]
     private float smoothSpeed = 0.0125f;
     [SerializeField]
     private Vector3 offset;
+
+    public void SetTransformToFollow(Transform transform)
+    {
+        this.transformToFollow = transform;
+    }
 
     private void FixedUpdate()
     {

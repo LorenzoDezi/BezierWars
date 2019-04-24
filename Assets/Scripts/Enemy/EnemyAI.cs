@@ -24,11 +24,15 @@ public class EnemyAI : MonoBehaviour
     private float lastRepath = float.NegativeInfinity;
     private bool reachedEndOfPath;
 
-    void Start()
+    void Awake()
     {
         seeker = GetComponent<Seeker>();
         controller = GetComponent<IEnemyController>();
-        if (target == null) target = UnityEngine.GameObject.Find("Player")?.transform;
+    }
+
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
         controller.SetTarget(target);
     }
 
@@ -76,6 +80,8 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
+        if (target == null)
+            return;
         CalculatePath();
         if (path == null)
             return;

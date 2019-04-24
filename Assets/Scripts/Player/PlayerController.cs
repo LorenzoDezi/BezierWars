@@ -117,9 +117,9 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        Died.Invoke();
         GetComponent<DestructibleComponent>().StartDestroy();
         if (deathSound != null) SoundManager.PlaySound(deathSound);
+        GameManager.GameOver();
         //TODO: Do particle system and shit
         //TODO: call interface to show game over and restart
     }

@@ -40,7 +40,7 @@ public class SoundManager : MonoBehaviour
         var audioSrc = GetComponent<AudioSource>();
         switch (state)
         {
-            case GameState.Arena:
+            case GameState.Survival:
                 audioSrc.clip = ArenaMusic;
                 audioSrc.Play();
                 break;
