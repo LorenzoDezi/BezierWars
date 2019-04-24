@@ -618,10 +618,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxVelocity: 8
-  brakeIntensity: 5
-  enginePower: 25
+  brakeIntensity: 10
+  enginePower: 50
   boostIntensity: 10
-  torqueIntensity: 10
+  torqueIntensity: 14
   maxAngularVelocity: 150
   attackInterval: 0.2
   shotSound: {fileID: 8300000, guid: d896ef8291f048448a58fabd9116dbc7, type: 3}

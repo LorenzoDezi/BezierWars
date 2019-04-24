@@ -18,7 +18,7 @@ public class TrainingTextComponent : MonoBehaviour
     [SerializeField]
     private string ScrollTextAxis = "ScrollText";
 
-    void Start()
+    void Reset()
     {
         text = GetComponent<Text>();
         currentTextIndex = -1;
@@ -46,7 +46,7 @@ public class TrainingTextComponent : MonoBehaviour
 
     private void OnEnable()
     {
-        Start();
+        Reset();
     }
 
     private void OnDisable()
