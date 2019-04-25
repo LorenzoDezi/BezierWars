@@ -33,6 +33,7 @@ public class EnemySpawner : MonoBehaviour
     public void Reset()
     {
         currentMaxEnemiesCanSpawn = maxEnemiesCanSpawn;
+        currentEnemiesSpawned = 0;
         currentSpawnInterval = spawnInterval;
         lastTimeSpawned = float.NegativeInfinity;
     }
