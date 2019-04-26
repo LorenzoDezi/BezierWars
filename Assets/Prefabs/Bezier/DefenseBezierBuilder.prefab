@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 4373608716826376106}
   - component: {fileID: 406776411092744542}
   - component: {fileID: 5658219060937473151}
-  m_Layer: 9
+  - component: {fileID: 9214409637984331855}
+  m_Layer: 13
   m_Name: DefenseBezierBuilder
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -110,8 +111,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0.03137255, b: 1, a: 1}
-      key1: {r: 0, g: 0.03137255, b: 1, a: 1}
+      key0: {r: 0.08627451, g: 0, b: 1, a: 1}
+      key1: {r: 0.08627451, g: 0, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -202,3 +203,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformToFollow: {fileID: 0}
+--- !u!114 &9214409637984331855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461184655865221465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 92eaa83b580037f48bdd102218b5e3d1, type: 2}
+  isGlobal: 1
+  blendDistance: 74.88
+  weight: 1
+  priority: 0
