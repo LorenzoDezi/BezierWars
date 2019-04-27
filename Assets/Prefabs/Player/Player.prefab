@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5067486186018691685}
   - component: {fileID: 4283391176210097162}
   - component: {fileID: 5195633064415684394}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ShipPieces (4)
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 566513141047477484}
   - component: {fileID: 3835507418557764246}
   - component: {fileID: 7131866748083330322}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ShipPieces (1)
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 4028457973919972421}
   - component: {fileID: 754012980064914102}
   - component: {fileID: 8073623779836197021}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ShipPieces (3)
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 8069353115701652293}
   - component: {fileID: 547955230375489232}
   - component: {fileID: 5967832605901628738}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ShipPieces
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -830,7 +830,7 @@ GameObject:
   - component: {fileID: 692453691085840426}
   - component: {fileID: 1285680552036055129}
   - component: {fileID: 2269317089675218219}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ShipPieces (2)
   m_TagString: Player
   m_Icon: {fileID: 0}

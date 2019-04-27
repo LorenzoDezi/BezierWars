@@ -6,7 +6,6 @@ using UnityEngine.Rendering.PostProcessing;
 
 [RequireComponent(typeof(EdgeCollider2D))]
 [RequireComponent(typeof(LineRenderer))]
-[RequireComponent(typeof(PostProcessVolume))]
 public class BezierBuilderComponent : MonoBehaviour
 {
     [SerializeField]
@@ -27,9 +26,6 @@ public class BezierBuilderComponent : MonoBehaviour
         //PLACEHOLDER - Build the curve using lineRenderer, waiting for particle
         //TODO - Add particle system
         LineRenderer lineRenderer = GetComponent<LineRenderer>();
-        Bloom bloomLayer;
-        GetComponent<PostProcessVolume>().profile.TryGetSettings(out bloomLayer);
-        bloomLayer.color.Override(lineRenderer.startColor);
         lineRenderer.positionCount = bezierLength + 1;
         List<Vector2> colliderPositions = new List<Vector2>();
         for (int currIndex = 0; currIndex <= bezierLength; currIndex++)
@@ -43,6 +39,7 @@ public class BezierBuilderComponent : MonoBehaviour
         }
         EdgeCollider2D collider = GetComponent<EdgeCollider2D>();
         collider.points = colliderPositions.ToArray();
+        
     }
 
     public void Init(List<UnityEngine.GameObject> nodes, BezierType type)
