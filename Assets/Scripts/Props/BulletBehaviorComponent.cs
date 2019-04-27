@@ -28,7 +28,7 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
         {
             if(hit.collider.isTrigger)
             {
-                var attackBezComp = hit.collider.GetComponent<AttackBezierComponent>();
+                var attackBezComp = hit.collider.GetComponent<AttackBezierCurveComponent>();
                 if (attackBezComp != null)
                     attackBezComp.PowerUp(this);
             } else

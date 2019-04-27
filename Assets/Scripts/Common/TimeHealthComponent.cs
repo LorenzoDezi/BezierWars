@@ -13,5 +13,7 @@ public class TimeHealthComponent : HealthComponent
         HealthChange.Invoke(currentValue);
         if (currentValue <= 0)
             GetComponent<IDamageable>().Die();
+        else
+            GetComponent<IDamageable>().Damaged();
     }
 }

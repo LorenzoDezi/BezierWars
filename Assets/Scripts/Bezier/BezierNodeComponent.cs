@@ -3,37 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BezierNodeComponent : MonoBehaviour, IDamageable
+public class BezierNodeComponent : MonoBehaviour
 {
     private UnityEvent died;
 
     public UnityEvent Died => died;
+    [SerializeField]
+    private GameObject deathParticleSystem;
 
     private void Awake()
     {
         died = new UnityEvent();
     }
 
-    void IDamageable.Damaged()
+    public void DestroyNode()
     {
-        //TODO: Particle System
-    }
-
-    void IDamageable.Die()
-    {
-        //TODO: Particle System
-        Destroy(gameObject);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var particleSystem = GameObject.Instantiate(deathParticleSystem, gameObject.transform);
+        Destroy(gameObject, 0.5f);
     }
 }

@@ -26,6 +26,15 @@ public class BezierBuilderComponent : MonoBehaviour
         Disabled = new UnityEvent();
     }
 
+    private void Start()
+    {
+        //I instantiate the actual material, in order to modify its properties
+        //runtime.
+        var lineRendererMat = GetComponent<LineRenderer>().material;
+        lineRendererMat = Instantiate(
+            lineRendererMat);
+    }
+
     public void BuildBezier()
     {
         

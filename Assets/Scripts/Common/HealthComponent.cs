@@ -17,6 +17,7 @@ public class HealthComponent : MonoBehaviour
     protected float currentValue;
     public UnityEvent<float> HealthChange;
     public float MaxHealth { get => maxValue; }
+    public float CurrentHealth { get => currentValue; }
 
     private void Awake()
     {

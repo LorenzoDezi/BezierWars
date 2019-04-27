@@ -6,11 +6,15 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(LineRenderer))]
-public class AttackBezierComponent : MonoBehaviour, IDamageable
+[RequireComponent(typeof(HealthComponent))]
+public class AttackBezierCurveComponent : BezierCurveComponent
 {
 
-    private void Start()
+    HealthComponent healthComp;
+
+    protected override void Start()
     {
+        base.Start();
         GetComponent<Collider2D>().isTrigger = true;
     }
 
@@ -18,16 +22,5 @@ public class AttackBezierComponent : MonoBehaviour, IDamageable
     {
         if (bullet.CompareTag("Player"))
             bullet.Damage = bullet.Damage * 4f;
-    }
-
-    public void Damaged()
-    {
-        //The attack bezier component can't be damaged!
-    }
-
-    public void Die()
-    {
-        UnityEngine.GameObject.Destroy(gameObject);
-        GetComponent<BezierBuilderComponent>().Disabled.Invoke();
     }
 }

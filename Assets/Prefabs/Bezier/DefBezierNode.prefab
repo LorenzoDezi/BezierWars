@@ -93,6 +93,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 678edeb28a09c7d4fbc443e09ac25b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathParticleSystem: {fileID: 1222550491574178, guid: a8f2d2623c22e2249973582724140827,
+    type: 3}
 --- !u!114 &9155184345278432739
 MonoBehaviour:
   m_ObjectHideFlags: 0

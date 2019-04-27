@@ -6,27 +6,17 @@ using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
-public class DefenseBezierComponent : MonoBehaviour, IDamageable, IDamager
+public class DefenseBezierComponent : BezierCurveComponent, IDamager
 {
     [SerializeField]
     private float damage;
 
     public float Damage { get => damage; set => damage = value; }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         GetComponent<Collider2D>().isTrigger = false;
-    }
-
-    public void Damaged()
-    {
-        //TODO Add particle systems and effects
-    }
-
-    public void Die()
-    {
-        GetComponent<BezierBuilderComponent>().Disabled.Invoke();
-        Destroy(gameObject, 0.2f);
     }
 
 }
