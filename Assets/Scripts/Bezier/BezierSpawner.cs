@@ -77,7 +77,7 @@ public class BezierSpawner : MonoBehaviour
         state.Enter(this);
     }
 
-    private void Update()
+    public void HandleInput()
     {
         var newState = state.HandleInput();
         if(newState != null)

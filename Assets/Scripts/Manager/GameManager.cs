@@ -175,6 +175,8 @@ public class GameManager : MonoBehaviour
         GameObject.FindGameObjectsWithTag("Enemy").ToList().ForEach((obj) => GameObject.Destroy(obj));
         currentPlayer = GameObject.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
         currentBezierSpawner = GameObject.Instantiate(bezierSpawnerPrefab, Vector3.zero, Quaternion.identity);
+        currentPlayer.GetComponent<PlayerInputComponent>().SetSpawner(
+            currentBezierSpawner.GetComponent<BezierSpawner>());
         currentBezierSpawner.GetComponent<FollowTargetComponent>().SetTargetToFollow(currentPlayer.transform);
         spawners.ForEach((spwn) => {
             spwn.SetTarget(currentPlayer.transform);

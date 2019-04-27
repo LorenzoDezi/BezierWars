@@ -13,6 +13,10 @@ public class PlayerInputComponent : MonoBehaviour
     [SerializeField]
     private string shootAxis;
 
+    [Header("Components")]
+    [SerializeField]
+    private BezierSpawner spawner;
+
 
     private void HandleInput()
     {
@@ -23,6 +27,13 @@ public class PlayerInputComponent : MonoBehaviour
         if (orientInput != 0) playerController.Rotate(orientInput);
         if (Input.GetButton(shootAxis))
             playerController.Attack();
+        if (spawner != null)
+            spawner.HandleInput();
+    }
+
+    public void SetSpawner(BezierSpawner spawner)
+    {
+        this.spawner = spawner;
     }
 
     // Update is called once per frame
