@@ -184,6 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bezierLength: 25
+  bezierBuildTimeStep: 0.01
   Disabled:
     m_PersistentCalls:
       m_Calls: []

@@ -23,7 +23,7 @@ public class BezierState : IBezierState
     public IBezierState HandleInput()
     {
         if (Input.GetButtonDown(spawner.SplineSpawnAxis) && spawner.Splines > 0)
-            return new SplineState();
+            return new HermiteState();
         if (Input.GetButtonDown(spawner.DefenseBezierAxisName))
         {
             var nodePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

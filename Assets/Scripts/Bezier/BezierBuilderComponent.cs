@@ -10,10 +10,15 @@ public class BezierBuilderComponent : MonoBehaviour
 {
     [SerializeField]
     private int bezierLength = 25;
+    [SerializeField]
+    private float bezierBuildTimeStep;
+
     private BezierType type;
     private List<UnityEngine.GameObject> nodes;
 
     public UnityEvent Disabled;
+    
+
     public BezierType Type => type;
 
     private void Awake()
@@ -23,23 +28,32 @@ public class BezierBuilderComponent : MonoBehaviour
 
     public void BuildBezier()
     {
-        //PLACEHOLDER - Build the curve using lineRenderer, waiting for particle
-        //TODO - Add particle system
-        LineRenderer lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.positionCount = bezierLength + 1;
-        List<Vector2> colliderPositions = new List<Vector2>();
+        
+    }
+
+    IEnumerator BuildBezier(Vector3[] nodes)
+    {
+        var lineRenderer = GetComponent<LineRenderer>();
+        var collider = GetComponent<EdgeCollider2D>();
+        List<Vector2> linePoints = new List<Vector2>();
         for (int currIndex = 0; currIndex <= bezierLength; currIndex++)
         {
             Vector3 currentCurvePoint = BezierMath.Bernstein(
-                currIndex / (float)bezierLength, 2, 
-                nodes.ConvertAll((obj) => obj.transform.position).ToArray()
+                currIndex / (float)bezierLength, 2,
+                nodes
             );
-            lineRenderer.SetPosition(currIndex, currentCurvePoint);
-            colliderPositions.Add(currentCurvePoint);
+            linePoints.Add(currentCurvePoint);
         }
-        EdgeCollider2D collider = GetComponent<EdgeCollider2D>();
-        collider.points = colliderPositions.ToArray();
-        
+        collider.points = linePoints.ToArray();
+        //The second for loop will render the actual line. This is done to build
+        //the collider before the actual rendering
+        for(int i = 0; i <= bezierLength; i++)
+        {
+            lineRenderer.positionCount = i + 1;
+            lineRenderer.SetPosition(i, linePoints[i]);
+            yield return null;
+        }
+
     }
 
     public void Init(List<UnityEngine.GameObject> nodes, BezierType type)
@@ -49,6 +63,7 @@ public class BezierBuilderComponent : MonoBehaviour
         });
         this.nodes = nodes;
         this.type = type;
-        BuildBezier();
+        StartCoroutine(BuildBezier(
+            nodes.ConvertAll((n) => n.GetComponent<Transform>().position).ToArray()));
     }
 }

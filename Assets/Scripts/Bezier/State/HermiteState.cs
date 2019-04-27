@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public class SplineState : IBezierState
+public class HermiteState : IBezierState
 {
     public void Enter(BezierSpawner spawner)
     {
