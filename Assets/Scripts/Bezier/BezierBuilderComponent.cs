@@ -25,6 +25,11 @@ public class BezierBuilderComponent : MonoBehaviour
         Disabled = new UnityEvent();
     }
 
+    private void OnMouseOver()
+    {
+        //TODO Change mouse icon to remove curve.
+    }
+
     private void Start()
     {
         //I instantiate the actual material, in order to modify its properties
@@ -33,6 +38,7 @@ public class BezierBuilderComponent : MonoBehaviour
         lineRendererMat = Instantiate(
             lineRendererMat);
     }
+    
 
     IEnumerator BuildBezier(Vector3[] nodes)
     {

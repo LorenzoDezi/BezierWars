@@ -47,6 +47,7 @@ public class BezierSpawner : MonoBehaviour
 
     private List<UnityEngine.GameObject> defenseActiveNodes = new List<UnityEngine.GameObject>();
     private List<UnityEngine.GameObject> attackActiveNodes = new List<UnityEngine.GameObject>();
+    private Dictionary<BezierType, GameObject> activeCurves;
     private IBezierState state;
 
     public BezierCreatedEvent OnBezierCreated { get; private set; }
@@ -67,11 +68,13 @@ public class BezierSpawner : MonoBehaviour
     public int MaxSplines { get => maxSplines; }
     public AudioClip BezierCreatedSound { get => bezierCreatedSound; }
     public int BezierLength { get => bezierLength; }
+    public Dictionary<BezierType, GameObject> ActiveCurves { get => activeCurves; }
 
     private void Awake()
     {
         OnBezierCreated = new BezierCreatedEvent();
         OnFailNodePlacing = new UnityEvent();
+        activeCurves = new Dictionary<BezierType, GameObject>();
         splines = maxSplines;
         state = new BezierState();
         state.Enter(this);

@@ -28,11 +28,7 @@ public class BezierState : IBezierState
         {
             var nodePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             nodePosition.z = 0;
-            var distanceFromNode = Vector3.Distance(
-                spawner.transform.position, nodePosition);
-            if (distanceFromNode > spawner.DefenseBezierMaxDistance
-                || distanceFromNode < spawner.DefenseBezierMinDistance)
-                return null;
+           
             HandleClick(BezierType.Defense, nodePosition, 
                 spawner.DefenseActiveNodes);
 
@@ -45,31 +41,6 @@ public class BezierState : IBezierState
                 nodePosition, spawner.AttackActiveNodes);
         }
         return null;
-    }
-
-    /// <summary>
-    /// Check if the user has clicked on a bezier curve in order to remove
-    /// it.
-    /// </summary>
-    /// <param name="inputPosition">Position clicked</param>
-    /// <param name="type">The bezier type</param>
-    /// <returns>true if the curve is removed, false otherwise</returns>
-    private bool RemoveBezierCurve(Vector3 inputPosition, BezierType type)
-    {
-        var hits = Physics2D.CircleCastAll(inputPosition, 25f, Vector2.up, 0f);
-        foreach (var hit in hits)
-        {
-            if (hit.collider != null)
-            {
-                var bezBuild = hit.collider.GetComponent<BezierBuilderComponent>();
-                if (bezBuild != null && bezBuild.Type == type)
-                {
-                    hit.collider.GetComponent<HealthComponent>()?.ForceDeath();
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /// <summary>
@@ -106,8 +77,21 @@ public class BezierState : IBezierState
     {
         //TODO: Refactor
         //Preliminar check
-        if (RemoveBezierCurve(clickPosition, type)
-            || RemoveBezierNode(clickPosition, nodeList) || nodeList.Count >= 3)
+        if(nodeList.Count == 3)
+        {
+            spawner.ActiveCurves[type].GetComponent<HealthComponent>()?.ForceDeath();
+            spawner.ActiveCurves.Remove(type);
+            return;
+        }
+        if(type == BezierType.Defense)
+        {
+            var distanceFromNode = Vector3.Distance(
+               spawner.transform.position, clickPosition);
+            if (distanceFromNode > spawner.DefenseBezierMaxDistance
+                || distanceFromNode < spawner.DefenseBezierMinDistance)
+                return;
+        }
+        if (RemoveBezierNode(clickPosition, nodeList) || nodeList.Count >= 3)
         {
             spawner.OnFailNodePlacing.Invoke();
             return;
@@ -144,6 +128,8 @@ public class BezierState : IBezierState
         UnityEngine.GameObject bezBuilder = BezierType.Attack == type ? 
             spawner.AttackBezBuilderPrefab : spawner.DefenseBezBuilderPrefab;
         bezBuilder = UnityEngine.GameObject.Instantiate(bezBuilder);
+        spawner.ActiveCurves.Add(type, bezBuilder);
+        //TODO: delete all code related to sliders
         spawner.OnBezierCreated.Invoke(bezBuilder, type);
         var builderComp = bezBuilder.GetComponent<BezierBuilderComponent>();
         builderComp.Init(nodeList, type, spawner.BezierLength);
