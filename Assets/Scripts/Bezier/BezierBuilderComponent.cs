@@ -8,8 +8,7 @@ using UnityEngine.Rendering.PostProcessing;
 [RequireComponent(typeof(LineRenderer))]
 public class BezierBuilderComponent : MonoBehaviour
 {
-    [SerializeField]
-    private int bezierLength = 25;
+    private int bezierLength;
     [SerializeField]
     private float bezierBuildTimeStep;
 
@@ -33,11 +32,6 @@ public class BezierBuilderComponent : MonoBehaviour
         var lineRendererMat = GetComponent<LineRenderer>().material;
         lineRendererMat = Instantiate(
             lineRendererMat);
-    }
-
-    public void BuildBezier()
-    {
-        
     }
 
     IEnumerator BuildBezier(Vector3[] nodes)
@@ -65,13 +59,14 @@ public class BezierBuilderComponent : MonoBehaviour
 
     }
 
-    public void Init(List<UnityEngine.GameObject> nodes, BezierType type)
+    public void Init(List<UnityEngine.GameObject> nodes, BezierType type, int bezierLength)
     {
         nodes.ForEach((obj) => {
             obj.transform.parent = transform;
         });
         this.nodes = nodes;
         this.type = type;
+        this.bezierLength = bezierLength;
         StartCoroutine(BuildBezier(
             nodes.ConvertAll((n) => n.GetComponent<Transform>().position).ToArray()));
     }

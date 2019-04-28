@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,9 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
     private GameObject bulletImpactEffect;
     [SerializeField]
     private float particleSpawnOffset = 2f;
+    private bool powered = false;
+
+    public bool Powered { get => powered; set => powered = value; }
 
     public float Damage {
         get => damage;
@@ -33,7 +37,6 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
                     attackBezComp.PowerUp(this);
             } else
             {
-                SpawnParticle(hit.point);
                 Die();
                 var healthComp = hit.collider.GetComponent<HealthComponent>();
                 if (healthComp != null && !hit.collider.CompareTag(transform.tag))
@@ -58,6 +61,7 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
 
     public void Die()
     {
+        SpawnParticle(transform.position);
         UnityEngine.GameObject.Destroy(gameObject);
     }
 }

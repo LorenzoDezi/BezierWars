@@ -217,10 +217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43be776d0dfb92f4493ac41dae0d52cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseXAxisName: Mouse X
-  mouseYAxisName: Mouse Y
   defenseBezierAxisName: DefenseBezierSpawn
   attackBezierAxisName: AttackBezierSpawn
+  splineSpawnAxis: SplineSpawn
   defenseBezNodePrefab: {fileID: 4444996907294931835, guid: 22747292a38cb1742b9b778e281ec5f5,
     type: 3}
   attackBezNodePrefab: {fileID: 4444996907294931835, guid: 3db51fefd4adb5d40b9752a1799be37e,
@@ -229,7 +228,9 @@ MonoBehaviour:
     type: 3}
   defenseBezBuilderPrefab: {fileID: 7461184655865221465, guid: c8a903ea72b40ee4cb9b663b0726727c,
     type: 3}
+  bezierLength: 25
   defenseBezierMaxDistance: 8
   defenseBezierMinDistance: 2.5
-  removalNodeSenseDistance: 0.3
+  removalNodeSenseDistance: 1
+  maxSplines: 3
   bezierCreatedSound: {fileID: 8300000, guid: b63bf541369fdcb43b15cba4c10da88a, type: 3}

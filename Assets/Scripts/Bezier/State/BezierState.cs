@@ -86,7 +86,7 @@ public class BezierState : IBezierState
         {
             var activeNode = nodeList[activeNodeAtPosIndex];
             nodeList.RemoveAt(activeNodeAtPosIndex);
-            activeNode.GetComponent<IDamageable>().Die();
+            activeNode.GetComponent<BezierNodeComponent>().DestroyNode();
             return true;
         }
         return false;
@@ -146,7 +146,7 @@ public class BezierState : IBezierState
         bezBuilder = UnityEngine.GameObject.Instantiate(bezBuilder);
         spawner.OnBezierCreated.Invoke(bezBuilder, type);
         var builderComp = bezBuilder.GetComponent<BezierBuilderComponent>();
-        builderComp.Init(nodeList, type);
+        builderComp.Init(nodeList, type, spawner.BezierLength);
         builderComp.Disabled.AddListener(GenerateOnBezierDisableCallback(type));
         if (BezierType.Defense == type)
         {

@@ -30,13 +30,13 @@ public class BezierSpawner : MonoBehaviour
 
     [Header("Parameters")]
     [SerializeField]
-    private int bezierLength;
+    private int bezierLength = 25;
     [SerializeField]
     private float defenseBezierMaxDistance;
     [SerializeField]
     private float defenseBezierMinDistance = 2f;
     [SerializeField]
-    private float removalNodeSenseDistance = 1f;
+    private float removalNodeSenseDistance = 2f;
     [SerializeField]
     private int maxSplines = 3;
     private int splines;

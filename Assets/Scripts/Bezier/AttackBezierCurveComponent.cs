@@ -9,9 +9,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof(HealthComponent))]
 public class AttackBezierCurveComponent : BezierCurveComponent
 {
-
-    HealthComponent healthComp;
-
     protected override void Start()
     {
         base.Start();
@@ -20,7 +17,12 @@ public class AttackBezierCurveComponent : BezierCurveComponent
 
     public void PowerUp(BulletBehaviorComponent bullet)
     {
-        if (bullet.CompareTag("Player"))
-            bullet.Damage = bullet.Damage * 4f;
+        if (!bullet.CompareTag("Player") || bullet.Powered) return;
+        bullet.Die();
+        GetComponent<BulletSpawnerComponent>().Spawn(
+            bullet.transform.position + bullet.transform.up * 2f, 
+            bullet.transform.rotation,
+            true
+            );
     }
 }

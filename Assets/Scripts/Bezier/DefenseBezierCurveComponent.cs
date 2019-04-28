@@ -6,7 +6,7 @@ using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
-public class DefenseBezierComponent : BezierCurveComponent, IDamager
+public class DefenseBezierCurveComponent : BezierCurveComponent, IDamager
 {
     [SerializeField]
     private float damage;
