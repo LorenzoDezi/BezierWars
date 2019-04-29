@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BezierCreatedEvent : UnityEvent<GameObject, BezierType> { }
 [RequireComponent(typeof(FollowTargetComponent))]
 public class BezierSpawner : MonoBehaviour
 {
@@ -49,8 +48,9 @@ public class BezierSpawner : MonoBehaviour
     private List<UnityEngine.GameObject> attackActiveNodes = new List<UnityEngine.GameObject>();
     private Dictionary<BezierType, GameObject> activeCurves;
     private IBezierState state;
+    private UnityEvent enteredDefRadar;
+    private UnityEvent outOfDefRadar;
 
-    public BezierCreatedEvent OnBezierCreated { get; private set; }
     public UnityEvent OnFailNodePlacing { get; private set; }
     public string AttackBezierAxisName { get => attackBezierAxisName; }
     public string DefenseBezierAxisName { get => defenseBezierAxisName; }
@@ -72,8 +72,11 @@ public class BezierSpawner : MonoBehaviour
 
     private void Awake()
     {
-        OnBezierCreated = new BezierCreatedEvent();
         OnFailNodePlacing = new UnityEvent();
+        enteredDefRadar = new UnityEvent();
+        outOfDefRadar = new UnityEvent();
+        enteredDefRadar.AddListener(CursorController.GetInstance().HandleInDefRadar);
+        outOfDefRadar.AddListener(CursorController.GetInstance().HandleOutOfDefRadar);
         activeCurves = new Dictionary<BezierType, GameObject>();
         splines = maxSplines;
         state = new BezierState();
@@ -89,5 +92,15 @@ public class BezierSpawner : MonoBehaviour
             state = newState;
             state.Enter(this);
         }
+    }
+
+    private void OnMouseEnter()
+    {
+        enteredDefRadar.Invoke();
+    }
+
+    private void OnMouseExit()
+    {
+        outOfDefRadar.Invoke();
     }
 }

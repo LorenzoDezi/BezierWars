@@ -4,6 +4,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering.PostProcessing;
 
+
+public class DisabledEvent : UnityEvent<BezierType>
+{
+
+}
+
+public class CreatedEvent : UnityEvent<BezierType>
+{
+
+}
+
 [RequireComponent(typeof(EdgeCollider2D))]
 [RequireComponent(typeof(LineRenderer))]
 public class BezierBuilderComponent : MonoBehaviour
@@ -15,19 +26,18 @@ public class BezierBuilderComponent : MonoBehaviour
     private BezierType type;
     private List<UnityEngine.GameObject> nodes;
 
-    public UnityEvent Disabled;
+    public DisabledEvent Disabled;
+    public CreatedEvent Created;
     
 
     public BezierType Type => type;
 
     private void Awake()
     {
-        Disabled = new UnityEvent();
-    }
-
-    private void OnMouseOver()
-    {
-        //TODO Change mouse icon to remove curve.
+        Disabled = new DisabledEvent();
+        Created = new CreatedEvent();
+        Disabled.AddListener(CursorController.GetInstance().HandleDisabledBezier);
+        Created.AddListener(CursorController.GetInstance().HandleCurveCreated);
     }
 
     private void Start()
@@ -62,7 +72,6 @@ public class BezierBuilderComponent : MonoBehaviour
             lineRenderer.SetPosition(i, linePoints[i]);
             yield return null;
         }
-
     }
 
     public void Init(List<UnityEngine.GameObject> nodes, BezierType type, int bezierLength)
@@ -73,6 +82,7 @@ public class BezierBuilderComponent : MonoBehaviour
         this.nodes = nodes;
         this.type = type;
         this.bezierLength = bezierLength;
+        Created.Invoke(type);
         StartCoroutine(BuildBezier(
             nodes.ConvertAll((n) => n.GetComponent<Transform>().position).ToArray()));
     }

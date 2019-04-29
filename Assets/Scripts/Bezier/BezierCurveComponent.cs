@@ -24,14 +24,13 @@ public class BezierCurveComponent : MonoBehaviour, IDamageable
         GetComponent<LineRenderer>().material.color = color;
     }
 
-    public void Die()
+    public virtual void Die()
     {
         foreach (BezierNodeComponent node in GetComponentsInChildren<BezierNodeComponent>())
         {
             node.transform.parent = null;
             node.DestroyNode();
         }
-        GetComponent<BezierBuilderComponent>().Disabled.Invoke();
         Destroy(gameObject);
     }
 }

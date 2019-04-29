@@ -25,4 +25,10 @@ public class AttackBezierCurveComponent : BezierCurveComponent
             true
             );
     }
+
+    public override void Die()
+    {
+        GetComponent<BezierBuilderComponent>().Disabled.Invoke(BezierType.Attack);
+        base.Die();
+    }
 }

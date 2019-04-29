@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 693304390337444502}
   - component: {fileID: 693304390337444504}
   - component: {fileID: 693304390337444501}
+  - component: {fileID: 4604814613378972772}
   m_Layer: 0
   m_Name: BezierSpawner
   m_TagString: Player
@@ -234,3 +235,16 @@ MonoBehaviour:
   removalNodeSenseDistance: 1
   maxSplines: 3
   bezierCreatedSound: {fileID: 8300000, guid: b63bf541369fdcb43b15cba4c10da88a, type: 3}
+--- !u!135 &4604814613378972772
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 693304390337444505}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 8
+  m_Center: {x: 0, y: 0, z: 0}

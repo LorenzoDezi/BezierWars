@@ -80,7 +80,6 @@ public class BezierState : IBezierState
         if(nodeList.Count == 3)
         {
             spawner.ActiveCurves[type].GetComponent<HealthComponent>()?.ForceDeath();
-            spawner.ActiveCurves.Remove(type);
             return;
         }
         if(type == BezierType.Defense)
@@ -129,16 +128,18 @@ public class BezierState : IBezierState
             spawner.AttackBezBuilderPrefab : spawner.DefenseBezBuilderPrefab;
         bezBuilder = UnityEngine.GameObject.Instantiate(bezBuilder);
         spawner.ActiveCurves.Add(type, bezBuilder);
-        //TODO: delete all code related to sliders
-        spawner.OnBezierCreated.Invoke(bezBuilder, type);
         var builderComp = bezBuilder.GetComponent<BezierBuilderComponent>();
         builderComp.Init(nodeList, type, spawner.BezierLength);
-        builderComp.Disabled.AddListener(GenerateOnBezierDisableCallback(type));
+        builderComp.Disabled.AddListener(OnBezierDisabled);
         if (BezierType.Defense == type)
         {
             bezBuilder.GetComponent<FollowTargetComponent>().SetTargetToFollow(spawner.transform);
             nodeList.ForEach((obj) => UnityEngine.GameObject.Destroy(obj.GetComponent<FollowTargetComponent>()));
         }
+    }
+
+    protected void onBezierDisabled(BezierType type)
+    {
     }
 
     /// <summary>
@@ -164,12 +165,13 @@ public class BezierState : IBezierState
     /// </summary>
     /// <param name="type">The curve type.</param>
     /// <returns>The callback to execute.</returns>
-    protected UnityAction GenerateOnBezierDisableCallback(BezierType type)
+    protected void OnBezierDisabled(BezierType type)
     {
+        spawner.ActiveCurves.Remove(type);
         if (type == BezierType.Attack)
-            return () => { spawner.AttackActiveNodes.Clear(); };
+            spawner.AttackActiveNodes.Clear();
         else
-            return () => { spawner.DefenseActiveNodes.Clear(); };
+            spawner.DefenseActiveNodes.Clear();
     }
 }
 

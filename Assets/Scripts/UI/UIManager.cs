@@ -19,8 +19,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> trainingUIElements;
     [SerializeField]
-    private List<BezierHealthSliderComponent> bezierSliders;
-    [SerializeField]
     private HealthSliderComponent playerHealthSlider;
     [SerializeField]
     private Text gameOverScoreText;
@@ -89,11 +87,5 @@ public class UIManager : MonoBehaviour
                 trainingUIElements.ForEach((obj) => obj.SetActive(true));
                 break;
         }
-    }
-
-    public static void SetSliderTargets(HealthComponent playerHealth, BezierSpawner bezSpawner)
-    {
-        instance.bezierSliders.ForEach((bezSlid) => bezSlid.SetSpawner(bezSpawner));
-        instance.playerHealthSlider.SetHealthComponent(playerHealth);
     }
 }

@@ -182,8 +182,6 @@ public class GameManager : MonoBehaviour
             spwn.SetTarget(currentPlayer.transform);
             spwn.Reset();
         });
-        UIManager.SetSliderTargets(currentPlayer.GetComponent<HealthComponent>(),
-            currentBezierSpawner.GetComponent<BezierSpawner>());
         Camera.main.transform.position = new Vector3(0, 0, -10);
         //TODO: Refactor with a property
         currentScore = 0;

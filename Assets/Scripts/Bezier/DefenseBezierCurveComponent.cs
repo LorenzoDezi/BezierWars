@@ -19,4 +19,10 @@ public class DefenseBezierCurveComponent : BezierCurveComponent, IDamager
         GetComponent<Collider2D>().isTrigger = false;
     }
 
+    public override void Die()
+    {
+        GetComponent<BezierBuilderComponent>().Disabled.Invoke(BezierType.Defense);
+        base.Die();
+    }
+
 }
