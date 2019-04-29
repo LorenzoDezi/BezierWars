@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class RedBlueXCursorState : CursorState
 {
+
+    bool isOutOfRadar = false;
+
     public override void Enter(CursorController cursorController)
     {
         Cursor.SetCursor(cursorController.redBlueXIcon, Vector2.zero, CursorMode.Auto);
@@ -19,17 +22,22 @@ public class RedBlueXCursorState : CursorState
 
     public override CursorState HandleDisabledBezier(BezierType type)
     {
-        return type == BezierType.Defense ? rbCState : null;
+        if (type == BezierType.Defense)
+            if (isOutOfRadar) return rCState;
+            else return rbCState;
+        else return null;
     }
 
     public override CursorState HandleInDefRadar()
     {
+        isOutOfRadar = false;
         return null;
     }
 
     public override CursorState HandleOutOfDefRadar()
     {
-        return rCState;
+        isOutOfRadar = true;
+        return null;
     }
 }
 
