@@ -9,7 +9,7 @@ public class RedXCursorState : CursorState
 {
     public override void Enter(CursorController cursorController)
     {
-        Cursor.SetCursor(cursorController.redIcon, Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(cursorController.redXIcon, Vector2.zero, CursorMode.Auto);
     }
 
     public override CursorState HandleCurveCreated(BezierType type)
