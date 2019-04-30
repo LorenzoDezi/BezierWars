@@ -17,19 +17,9 @@ public class RedCursorState : CursorState
         return type == BezierType.Attack ? rXCstate : null;
     }
 
-    public override CursorState HandleDisabledBezier(BezierType type)
-    {
-        return null;
-    }
-
     public override CursorState HandleInDefRadar()
     {
         return rbCState;
-    }
-
-    public override CursorState HandleOutOfDefRadar()
-    {
-        return null;
     }
 }
 

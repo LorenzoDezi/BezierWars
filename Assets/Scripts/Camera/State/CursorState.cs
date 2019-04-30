@@ -17,9 +17,9 @@ public abstract class CursorState
     protected Texture2D cursorTexture;
 
     public abstract void Enter(CursorController camera);
-    public abstract CursorState HandleDisabledBezier(BezierType type);
-    public abstract CursorState HandleOutOfDefRadar();
-    public abstract CursorState HandleInDefRadar();
-    public abstract CursorState HandleCurveCreated(BezierType type);
+    public virtual CursorState HandleDisabledBezier(BezierType type) { return null; }
+    public virtual CursorState HandleOutOfDefRadar() { return null; }
+    public virtual CursorState HandleInDefRadar() { return null; }
+    public virtual CursorState HandleCurveCreated(BezierType type) { return null; }
 }
 

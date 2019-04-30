@@ -12,11 +12,6 @@ public class RedXCursorState : CursorState
         Cursor.SetCursor(cursorController.redXIcon, Vector2.zero, CursorMode.Auto);
     }
 
-    public override CursorState HandleCurveCreated(BezierType type)
-    {
-        return null;
-    }
-
     public override CursorState HandleDisabledBezier(BezierType type)
     {
         if (type == BezierType.Attack) return rCState;
@@ -26,11 +21,6 @@ public class RedXCursorState : CursorState
     public override CursorState HandleInDefRadar()
     {
         return rXbCstate;
-    }
-
-    public override CursorState HandleOutOfDefRadar()
-    {
-        return null;
     }
 }
 

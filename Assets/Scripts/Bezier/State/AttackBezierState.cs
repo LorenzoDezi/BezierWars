@@ -28,7 +28,7 @@ public class AttackBezierState : BezierState
         if (nodeList.Count == 3)
         {
             BuildBezier(BezierType.Attack);
-            return BezierState.rmAtkDefBezState;
+            return BezierState.rmAtkBezState;
         }
         return null;
     }

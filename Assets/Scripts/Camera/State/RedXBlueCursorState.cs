@@ -24,11 +24,6 @@ public class RedXBlueCursorState : CursorState
         else return null;
     }
 
-    public override CursorState HandleInDefRadar()
-    {
-        return null;
-    }
-
     public override CursorState HandleOutOfDefRadar()
     {
         return rXCstate;

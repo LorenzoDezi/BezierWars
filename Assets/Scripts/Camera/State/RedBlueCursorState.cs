@@ -20,16 +20,6 @@ public class RedBlueCursorState : CursorState
             return rbXCstate;
     }
 
-    public override CursorState HandleDisabledBezier(BezierType type)
-    {
-        return null;
-    }
-
-    public override CursorState HandleInDefRadar()
-    {
-        return null;
-    }
-
     public override CursorState HandleOutOfDefRadar()
     {
         return rCState;
