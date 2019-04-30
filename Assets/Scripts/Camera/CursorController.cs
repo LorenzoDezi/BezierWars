@@ -46,7 +46,6 @@ public class CursorController : MonoBehaviour
 
     private void ChangeState(CursorState state)
     {
-        Debug.Log(state);
         if (state == null) return;
         state.Enter(this);
         this.cursorState = state;

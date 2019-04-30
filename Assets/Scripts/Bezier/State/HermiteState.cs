@@ -5,19 +5,29 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public class HermiteState : IBezierState
+public class HermiteState : BezierState
 {
-    public void Enter(BezierSpawner spawner)
+    public override void Enter(BezierSpawner spawner)
     {
         throw new NotImplementedException();
     }
 
-    public void Exit()
+    public override void Exit()
     {
         throw new NotImplementedException();
     }
 
-    public IBezierState HandleInput()
+    public override BezierState HandleInput()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override BezierState OnDefRadarExit()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override BezierState OnDefRadarIn()
     {
         throw new NotImplementedException();
     }

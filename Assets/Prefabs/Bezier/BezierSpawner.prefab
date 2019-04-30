@@ -221,16 +221,15 @@ MonoBehaviour:
   defenseBezierAxisName: DefenseBezierSpawn
   attackBezierAxisName: AttackBezierSpawn
   splineSpawnAxis: SplineSpawn
-  defenseBezNodePrefab: {fileID: 4444996907294931835, guid: 22747292a38cb1742b9b778e281ec5f5,
+  defenseNodePrefab: {fileID: 4444996907294931835, guid: 22747292a38cb1742b9b778e281ec5f5,
     type: 3}
-  attackBezNodePrefab: {fileID: 4444996907294931835, guid: 3db51fefd4adb5d40b9752a1799be37e,
+  atkNodePrefab: {fileID: 4444996907294931835, guid: 3db51fefd4adb5d40b9752a1799be37e,
     type: 3}
-  attackBezBuilderPrefab: {fileID: 7461184655865221465, guid: 16a0f89f2b44aba438d7d10f1fb984eb,
+  defBuilderPrefab: {fileID: 7461184655865221465, guid: c8a903ea72b40ee4cb9b663b0726727c,
     type: 3}
-  defenseBezBuilderPrefab: {fileID: 7461184655865221465, guid: c8a903ea72b40ee4cb9b663b0726727c,
+  atkBuilderPrefab: {fileID: 7461184655865221465, guid: 16a0f89f2b44aba438d7d10f1fb984eb,
     type: 3}
   bezierLength: 25
-  defenseBezierMaxDistance: 8
   defenseBezierMinDistance: 2.5
   removalNodeSenseDistance: 1
   maxSplines: 3

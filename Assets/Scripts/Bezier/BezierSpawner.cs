@@ -19,19 +19,17 @@ public class BezierSpawner : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField]
-    private UnityEngine.GameObject defenseBezNodePrefab;
+    private GameObject defenseNodePrefab;
     [SerializeField]
-    private UnityEngine.GameObject attackBezNodePrefab;
+    private GameObject atkNodePrefab;
     [SerializeField]
-    private UnityEngine.GameObject attackBezBuilderPrefab;
+    private GameObject defBuilderPrefab;
     [SerializeField]
-    private UnityEngine.GameObject defenseBezBuilderPrefab;
+    private GameObject atkBuilderPrefab;
 
     [Header("Parameters")]
     [SerializeField]
     private int bezierLength = 25;
-    [SerializeField]
-    private float defenseBezierMaxDistance;
     [SerializeField]
     private float defenseBezierMinDistance = 2f;
     [SerializeField]
@@ -43,11 +41,7 @@ public class BezierSpawner : MonoBehaviour
     [Header("Sound effects")]
     [SerializeField]
     private AudioClip bezierCreatedSound;
-
-    private List<UnityEngine.GameObject> defenseActiveNodes = new List<UnityEngine.GameObject>();
-    private List<UnityEngine.GameObject> attackActiveNodes = new List<UnityEngine.GameObject>();
-    private Dictionary<BezierType, GameObject> activeCurves;
-    private IBezierState state;
+    private BezierState state;
     private UnityEvent enteredDefRadar;
     private UnityEvent outOfDefRadar;
 
@@ -55,20 +49,17 @@ public class BezierSpawner : MonoBehaviour
     public string AttackBezierAxisName { get => attackBezierAxisName; }
     public string DefenseBezierAxisName { get => defenseBezierAxisName; }
     public float RemovalNodeSenseDistance { get => removalNodeSenseDistance; }
-    public float DefenseBezierMaxDistance { get => defenseBezierMaxDistance; }
-    public float DefenseBezierMinDistance { get => defenseBezierMinDistance; }
-    public GameObject DefenseBezNodePrefab { get => defenseBezNodePrefab; }
-    public GameObject AttackBezNodePrefab { get => attackBezNodePrefab; }
-    public GameObject AttackBezBuilderPrefab { get => attackBezBuilderPrefab; }
-    public GameObject DefenseBezBuilderPrefab { get => defenseBezBuilderPrefab; }
-    public List<GameObject> DefenseActiveNodes { get => defenseActiveNodes; }
-    public List<GameObject> AttackActiveNodes { get => attackActiveNodes; }
+    
+    public Dictionary<BezierType, GameObject> NodePrefabs { get; private set; }
+    public Dictionary<BezierType, GameObject> BuilderPrefabs { get; private set; }
+    public Dictionary<BezierType, List<GameObject>> NodeListDictionary { get; private set; }
     public string SplineSpawnAxis { get => splineSpawnAxis; }
     public int Splines { get => splines; }
     public int MaxSplines { get => maxSplines; }
     public AudioClip BezierCreatedSound { get => bezierCreatedSound; }
     public int BezierLength { get => bezierLength; }
-    public Dictionary<BezierType, GameObject> ActiveCurves { get => activeCurves; }
+    public Dictionary<BezierType, GameObject> ActiveCurves { get; private set; }
+    public float DefenseBezierMinDistance { get => defenseBezierMinDistance; }
 
     private void Awake()
     {
@@ -77,16 +68,36 @@ public class BezierSpawner : MonoBehaviour
         outOfDefRadar = new UnityEvent();
         enteredDefRadar.AddListener(CursorController.GetInstance().HandleInDefRadar);
         outOfDefRadar.AddListener(CursorController.GetInstance().HandleOutOfDefRadar);
-        activeCurves = new Dictionary<BezierType, GameObject>();
+        ActiveCurves = new Dictionary<BezierType, GameObject>();
+        NodeListDictionary = new Dictionary<BezierType, List<GameObject>>();
+        NodeListDictionary.Add(BezierType.Attack, new List<GameObject>());
+        NodeListDictionary.Add(BezierType.Defense, new List<GameObject>());
+        NodePrefabs = new Dictionary<BezierType, GameObject>();
+        NodePrefabs.Add(BezierType.Attack, atkNodePrefab);
+        NodePrefabs.Add(BezierType.Defense, defenseNodePrefab);
+        BuilderPrefabs = new Dictionary<BezierType, GameObject>();
+        BuilderPrefabs.Add(BezierType.Attack, atkBuilderPrefab);
+        BuilderPrefabs.Add(BezierType.Defense, defBuilderPrefab);
         splines = maxSplines;
-        state = new BezierState();
+        state = BezierState.GetInitalState();
         state.Enter(this);
     }
 
     public void HandleInput()
     {
-        var newState = state.HandleInput();
-        if(newState != null)
+        ChangeState(state.HandleInput());
+    }
+
+    public void OnBezierDisabled(BezierType type)
+    {
+        ActiveCurves.Remove(type);
+        NodeListDictionary[type].Clear();
+        ChangeState(state.OnBezierDisabled(type));
+    }
+
+    private void ChangeState(BezierState newState)
+    {
+        if (newState != null)
         {
             state.Exit();
             state = newState;
@@ -97,10 +108,12 @@ public class BezierSpawner : MonoBehaviour
     private void OnMouseEnter()
     {
         enteredDefRadar.Invoke();
+        ChangeState(state.OnDefRadarIn());
     }
 
     private void OnMouseExit()
     {
         outOfDefRadar.Invoke();
+        ChangeState(state.OnDefRadarExit());
     }
 }
