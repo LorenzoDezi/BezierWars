@@ -41,11 +41,13 @@ public class BezierSpawner : MonoBehaviour
     [Header("Sound effects")]
     [SerializeField]
     private AudioClip bezierCreatedSound;
+    [SerializeField]
+    private AudioClip failNodeSound;
+
     private BezierState state;
     private UnityEvent enteredDefRadar;
     private UnityEvent outOfDefRadar;
 
-    public UnityEvent OnFailNodePlacing { get; private set; }
     public string AttackBezierAxisName { get => attackBezierAxisName; }
     public string DefenseBezierAxisName { get => defenseBezierAxisName; }
     public float RemovalNodeSenseDistance { get => removalNodeSenseDistance; }
@@ -63,7 +65,6 @@ public class BezierSpawner : MonoBehaviour
 
     private void Awake()
     {
-        OnFailNodePlacing = new UnityEvent();
         enteredDefRadar = new UnityEvent();
         outOfDefRadar = new UnityEvent();
         enteredDefRadar.AddListener(CursorController.GetInstance().HandleInDefRadar);
@@ -93,6 +94,11 @@ public class BezierSpawner : MonoBehaviour
         ActiveCurves.Remove(type);
         NodeListDictionary[type].Clear();
         ChangeState(state.OnBezierDisabled(type));
+    }
+
+    public void OnFailPlacingNode()
+    {
+        SoundManager.PlaySound(failNodeSound);
     }
 
     private void ChangeState(BezierState newState)

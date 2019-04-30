@@ -29,7 +29,7 @@ public class RemoveAttackDefenseBezierState : BezierState
                 nodeList[0].transform.position, nodeList[1].transform.position, clickPosition
             }))
         {
-            spawner.OnFailNodePlacing.Invoke();
+            spawner.OnFailPlacingNode();
             return null;
         }
         var node = spawner.NodePrefabs[BezierType.Defense];
