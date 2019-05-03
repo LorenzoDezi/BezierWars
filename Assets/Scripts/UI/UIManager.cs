@@ -49,6 +49,8 @@ public class UIManager : MonoBehaviour
                 gameOverUIElements.ForEach((obj) => obj.SetActive(false));
                 trainingUIElements.ForEach((obj) => obj.SetActive(false));
                 menuUIElements.ForEach((obj) => obj.SetActive(true));
+                playerHealthSlider.SetHealthComponent(GameManager.GetCurrentPlayer()?
+                    .GetComponent<HealthComponent>());
                 break;
             case GameState.Survival:
                 pauseUIElements.ForEach((obj) => obj.SetActive(false));

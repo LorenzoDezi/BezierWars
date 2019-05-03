@@ -111,6 +111,11 @@ public class GameManager : MonoBehaviour
         return instance.leaderBoard.FindIndex((x) => x < instance.currentScore);
     }
 
+    public static GameObject GetCurrentPlayer()
+    {
+        return instance.currentPlayer;
+    }
+
     public static void EnterPlacingSpline()
     {
         instance.previousState = instance.state;
