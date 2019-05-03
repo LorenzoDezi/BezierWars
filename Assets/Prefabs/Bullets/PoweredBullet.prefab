@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 50
-  collidingWidth: 5
-  bulletImpactEffect: {fileID: 1222550491574178, guid: 6ac57922aa13ec043852557fff4053cd,
+  collidingWidth: 3
+  bulletImpactEffect: {fileID: 1222550491574178, guid: 198661cbf1913d8418cb2c4a9c214100,
     type: 3}
   particleSpawnOffset: 2
 --- !u!50 &5307205378793397649
