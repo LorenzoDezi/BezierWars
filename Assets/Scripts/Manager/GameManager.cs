@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     private List<int> leaderBoard;
     private GameState state;
     //Useful when game goes to pause mode
-    private GameState previousState;
+    private Stack<GameState> previousStates;
     public GameStateChangeEvent onGameStateChange;
     private List<EnemySpawner> spawners;
 
@@ -116,20 +116,7 @@ public class GameManager : MonoBehaviour
         return instance.currentPlayer;
     }
 
-    public static void EnterPlacingHermite()
-    {
-        instance.previousState = instance.state;
-        instance.state = GameState.PlacingSpline;
-        Time.timeScale = 0.4f;
-        OnGameStateChange().Invoke(instance.state);
-    }
-
-    public static void ExitPlacingHermite()
-    {
-        instance.state = instance.previousState;
-        Time.timeScale = 1f;
-        OnGameStateChange().Invoke(instance.state);
-    }
+   
 
     public static ScoreChangeEvent OnScoreChanged()
     {
@@ -144,6 +131,7 @@ public class GameManager : MonoBehaviour
             leaderBoard = new List<int>();
             scoreChangeEvent = new ScoreChangeEvent();
             onGameStateChange = new GameStateChangeEvent();
+            previousStates = new Stack<GameState>();
         }
         else if (instance != this)
             Destroy(gameObject);
@@ -196,6 +184,21 @@ public class GameManager : MonoBehaviour
         Camera.main.GetComponent<Animation>().Play("MenuAnimation");
     }
 
+    public static void EnterPlacingHermite()
+    {
+        instance.previousStates.Push(instance.state);
+        instance.state = GameState.PlacingSpline;
+        Time.timeScale = 0.4f;
+        OnGameStateChange().Invoke(instance.state);
+    }
+
+    public static void ExitPlacingHermite()
+    {
+        instance.state = instance.previousStates.Pop();
+        Time.timeScale = 1f;
+        OnGameStateChange().Invoke(instance.state);
+    }
+
     #region UIMethods
     public void EnterMenu()
     {
@@ -228,16 +231,19 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         SetPlayerInput(false);
-        this.previousState = state;
+        this.previousStates.Push(state);
         this.state = GameState.Pause;
         onGameStateChange.Invoke(state);
     }
 
     public void ExitPause()
     {
-        Time.timeScale = 1;
         SetPlayerInput(true);
-        this.state = this.previousState;
+        this.state = this.previousStates.Pop();
+        if (this.state == GameState.PlacingSpline)
+            Time.timeScale = 0.4f;
+        else
+            Time.timeScale = 1;
         onGameStateChange.Invoke(state);
     } 
 

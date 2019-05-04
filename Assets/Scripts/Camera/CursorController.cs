@@ -44,19 +44,12 @@ public class CursorController : MonoBehaviour
     void Start()
     {
         ChangeState(CursorState.rbCState);
-        GameManager.OnGameStateChange().AddListener(HandleGameStateChange);
     }
 
-    private void HandleGameStateChange(GameState state)
-    {
-        ChangeState(cursorState.HandleGameStateChange(state));
-    }
 
     private void ChangeState(CursorState state)
     {
         if (state == null) return;
-        if (state is CursorStateWithPrevious)
-            ((CursorStateWithPrevious)state).setPrevState(cursorState);
         state.Enter(this);
         this.cursorState = state;
     }
