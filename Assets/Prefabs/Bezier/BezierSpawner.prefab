@@ -236,7 +236,7 @@ MonoBehaviour:
   hermitePlacingTimeLimit: 5
   defenseBezierMinDistance: 2.5
   removalNodeSenseDistance: 1
-  maxHermiteAttempts: 3
+  maxHermiteAttempts: 20
   bezierCreatedSound: {fileID: 8300000, guid: b63bf541369fdcb43b15cba4c10da88a, type: 3}
   failNodeSound: {fileID: 8300000, guid: a93ba2f8e3549d64b91dd9542cf46d26, type: 3}
 --- !u!135 &4604814613378972772

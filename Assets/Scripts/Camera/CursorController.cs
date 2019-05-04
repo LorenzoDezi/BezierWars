@@ -21,7 +21,10 @@ public class CursorController : MonoBehaviour
     public Texture2D redBlueXIcon;
     [SerializeField]
     public Texture2D redXBlueXIcon;
-
+    [SerializeField]
+    public Texture2D menuIcon;
+    [SerializeField]
+    public Texture2D hermiteIcon;
 
     private void Awake()
     {
@@ -40,13 +43,20 @@ public class CursorController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cursorState = CursorState.rbCState;
-        cursorState.Enter(this);
+        ChangeState(CursorState.rbCState);
+        GameManager.OnGameStateChange().AddListener(HandleGameStateChange);
+    }
+
+    private void HandleGameStateChange(GameState state)
+    {
+        ChangeState(cursorState.HandleGameStateChange(state));
     }
 
     private void ChangeState(CursorState state)
     {
         if (state == null) return;
+        if (state is CursorStateWithPrevious)
+            ((CursorStateWithPrevious)state).setPrevState(cursorState);
         state.Enter(this);
         this.cursorState = state;
     }

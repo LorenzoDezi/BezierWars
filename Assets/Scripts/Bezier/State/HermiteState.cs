@@ -70,15 +70,31 @@ public class HermiteState : BezierState
         SoundManager.PlaySound(spawner.BezierCreatedSound);
     }
 
+    public override BezierState OnBezierDisabled(BezierType type)
+    {
+        ChangeNormalCurrentState(normalCurrentState.OnBezierDisabled(type));
+        return null;
+    }
+
+    private void ChangeNormalCurrentState(BezierState newState)
+    {
+        if (newState != null)
+        {
+            normalCurrentState.Exit();
+            normalCurrentState = newState;
+            normalCurrentState.Enter(spawner);
+        }
+    }
+
     public override BezierState OnDefRadarExit()
     {
-        normalCurrentState = normalCurrentState?.OnDefRadarExit();
+        ChangeNormalCurrentState(normalCurrentState.OnDefRadarExit());
         return null;
     }
 
     public override BezierState OnDefRadarIn()
     {
-        normalCurrentState = normalCurrentState?.OnDefRadarIn();
+        ChangeNormalCurrentState(normalCurrentState.OnDefRadarIn());
         return null;
     }
 }

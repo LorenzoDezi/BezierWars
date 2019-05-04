@@ -13,6 +13,8 @@ public abstract class CursorState
     public static RedXBlueCursorState rXbCstate = new RedXBlueCursorState();
     public static RedXBlueXCursorState rXbXCstate = new RedXBlueXCursorState();
     public static RedXCursorState rXCstate = new RedXCursorState();
+    public static MenuCursorState menuState = new MenuCursorState();
+    public static HermiteCursorState hermiteState = new HermiteCursorState();
 
     protected Texture2D cursorTexture;
 
@@ -21,5 +23,12 @@ public abstract class CursorState
     public virtual CursorState HandleOutOfDefRadar() { return null; }
     public virtual CursorState HandleInDefRadar() { return null; }
     public virtual CursorState HandleCurveCreated(BezierType type) { return null; }
+    public virtual CursorState HandleGameStateChange(GameState state) {
+        if (GameState.Menu == state || GameState.Pause == state || GameState.GameOver == state)
+            return CursorState.menuState;
+        else if (GameState.PlacingSpline == state)
+            return CursorState.hermiteState;
+        else return null;
+    }
 }
 

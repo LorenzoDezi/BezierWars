@@ -2435,12 +2435,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dca2cf7fa9109c47b605b85fa187501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redIcon: {fileID: 2800000, guid: 19c789aa1c6b898489a2505ec499ff23, type: 3}
-  redXIcon: {fileID: 2800000, guid: 9ae76cea759fc8a48abf3bb8364406c5, type: 3}
-  redBlueIcon: {fileID: 2800000, guid: 2b24838701389394ca0a1486df339594, type: 3}
-  redXBlueIcon: {fileID: 2800000, guid: 3459d49b7b871b944af8da4fe26fbf55, type: 3}
-  redBlueXIcon: {fileID: 2800000, guid: e4351f6ec45503d48ae6e75362ddc014, type: 3}
-  redXBlueXIcon: {fileID: 2800000, guid: db027d8bc0dc835408485a8cc953a7fa, type: 3}
+  redIcon: {fileID: 2800000, guid: 6d1f9936133adb14bbf120caf8d73cba, type: 3}
+  redXIcon: {fileID: 2800000, guid: 96465310b82bb55408c691fbb8f01701, type: 3}
+  redBlueIcon: {fileID: 2800000, guid: f213d5ae89a18124eabd3d36321c6b7c, type: 3}
+  redXBlueIcon: {fileID: 2800000, guid: b117a5b8a6b7aea4094dc45f11cbd6c4, type: 3}
+  redBlueXIcon: {fileID: 2800000, guid: 97b2e0a644d46184797fd0b10b8f455d, type: 3}
+  redXBlueXIcon: {fileID: 2800000, guid: 9a132a6d4971aa34d80898b6fccaeea7, type: 3}
+  menuIcon: {fileID: 0}
+  hermiteIcon: {fileID: 2800000, guid: 101b4af784198014cac3330f1ea1f0f5, type: 3}
 --- !u!1 &520324981
 GameObject:
   m_ObjectHideFlags: 0
