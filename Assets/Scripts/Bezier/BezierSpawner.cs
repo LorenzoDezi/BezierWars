@@ -14,8 +14,6 @@ public class BezierSpawner : MonoBehaviour
     private string defenseBezierAxisName = "DefenseBezierSpawn";
     [SerializeField]
     private string attackBezierAxisName = "AttackBezierSpawn";
-    [SerializeField]
-    private string splineSpawnAxis = "SplineSpawn";
 
     [Header("Prefabs")]
     [SerializeField]
@@ -23,24 +21,31 @@ public class BezierSpawner : MonoBehaviour
     [SerializeField]
     private GameObject atkNodePrefab;
     [SerializeField]
+    private GameObject hermiteNodePrefab;
+    [SerializeField]
     private GameObject defBuilderPrefab;
     [SerializeField]
     private GameObject atkBuilderPrefab;
+    [SerializeField]
+    private GameObject hermiteBuilderPrefab;
 
     [Header("Parameters")]
     [SerializeField]
     private int bezierLength = 25;
     [SerializeField]
+    private float hermitePlacingTimeLimit = 5f;
+    [SerializeField]
     private float defenseBezierMinDistance = 2f;
     [SerializeField]
     private float removalNodeSenseDistance = 2f;
     [SerializeField]
-    private int maxSplines = 3;
-    private int splines;
+    private int maxHermiteAttempts = 3;
+    private int currHermiteAttempts;
 
     [Header("Sound effects")]
     [SerializeField]
     private AudioClip bezierCreatedSound;
+
     [SerializeField]
     private AudioClip failNodeSound;
 
@@ -55,12 +60,14 @@ public class BezierSpawner : MonoBehaviour
     public Dictionary<BezierType, GameObject> NodePrefabs { get; private set; }
     public Dictionary<BezierType, GameObject> BuilderPrefabs { get; private set; }
     public Dictionary<BezierType, List<GameObject>> NodeListDictionary { get; private set; }
-    public string SplineSpawnAxis { get => splineSpawnAxis; }
-    public int Splines { get => splines; }
-    public int MaxSplines { get => maxSplines; }
+    public int CurrHermiteAttempts { get => currHermiteAttempts; set => currHermiteAttempts = value; }
+    public int MaxHermiteAttempts { get => maxHermiteAttempts; }
+    public float HermitePlacingTimeLimit { get => hermitePlacingTimeLimit; }
+    public GameObject HermiteBuilderPrefab { get => hermiteBuilderPrefab; }
     public AudioClip BezierCreatedSound { get => bezierCreatedSound; }
     public int BezierLength { get => bezierLength; }
     public Dictionary<BezierType, GameObject> ActiveCurves { get; private set; }
+    public GameObject HermiteNodePrefab => hermiteNodePrefab;
     public float DefenseBezierMinDistance { get => defenseBezierMinDistance; }
 
     private void Awake()
@@ -79,7 +86,7 @@ public class BezierSpawner : MonoBehaviour
         BuilderPrefabs = new Dictionary<BezierType, GameObject>();
         BuilderPrefabs.Add(BezierType.Attack, atkBuilderPrefab);
         BuilderPrefabs.Add(BezierType.Defense, defBuilderPrefab);
-        splines = maxSplines;
+        currHermiteAttempts = maxHermiteAttempts;
         state = BezierState.GetInitalState();
         state.Enter(this);
     }
@@ -87,6 +94,11 @@ public class BezierSpawner : MonoBehaviour
     public void HandleInput()
     {
         ChangeState(state.HandleInput());
+    }
+
+    public void SwitchHermite()
+    {
+        ChangeState(state.SwitchHermite(state));
     }
 
     public void OnBezierDisabled(BezierType type)

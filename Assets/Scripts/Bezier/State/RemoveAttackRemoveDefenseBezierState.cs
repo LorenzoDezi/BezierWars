@@ -6,8 +6,6 @@ public class RemoveAttackRemoveDefenseBezierState : BezierState
 
     public override BezierState HandleInput()
     {
-        if (Input.GetButtonDown(spawner.SplineSpawnAxis) && spawner.Splines > 0)
-            return hermiteState;
         if (Input.GetButtonDown(spawner.AttackBezierAxisName))
         {
             RemoveBezier(BezierType.Attack);

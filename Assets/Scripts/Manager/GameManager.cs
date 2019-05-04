@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
         return instance.currentPlayer;
     }
 
-    public static void EnterPlacingSpline()
+    public static void EnterPlacingHermite()
     {
         instance.previousState = instance.state;
         instance.state = GameState.PlacingSpline;
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
         OnGameStateChange().Invoke(instance.state);
     }
 
-    public static void ExitPlacingSpline()
+    public static void ExitPlacingHermite()
     {
         instance.state = instance.previousState;
         Time.timeScale = 1f;

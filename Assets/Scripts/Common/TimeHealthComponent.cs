@@ -9,7 +9,7 @@ public class TimeHealthComponent : HealthComponent
     // Update is called once per frame
     void Update()
     {
-        currentValue -= timeFactor * Time.deltaTime * timeFactor;
+        currentValue -= timeFactor * Time.deltaTime;
         HealthChange.Invoke(currentValue);
         if (currentValue <= 0)
             GetComponent<IDamageable>().Die();

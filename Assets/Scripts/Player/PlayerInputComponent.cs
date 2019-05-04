@@ -11,6 +11,8 @@ public class PlayerInputComponent : MonoBehaviour
     [SerializeField]
     private string orientationAxis;
     [SerializeField]
+    private string hermiteAxis;
+    [SerializeField]
     private string shootAxis;
 
     [Header("Components")]
@@ -28,7 +30,11 @@ public class PlayerInputComponent : MonoBehaviour
         if (Input.GetButton(shootAxis))
             playerController.Attack();
         if (spawner != null)
+        {
             spawner.HandleInput();
+            if (Input.GetButtonDown(hermiteAxis))
+                spawner.SwitchHermite();
+        }
     }
 
     public void SetSpawner(BezierSpawner spawner)

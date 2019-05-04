@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 7461184655865221469}
   - component: {fileID: 7461184655865221471}
   - component: {fileID: 7461184655865221470}
-  - component: {fileID: 6875677672414072399}
-  - component: {fileID: 4373608716826376106}
-  - component: {fileID: 406776411092744542}
-  - component: {fileID: 5658219060937473151}
+  - component: {fileID: 786652343808493910}
+  - component: {fileID: 9033957423764414705}
+  - component: {fileID: 4817298683328928532}
+  - component: {fileID: 4090647073808626977}
   m_Layer: 13
-  m_Name: DefenseBezierBuilder
+  m_Name: HermiteBuilder
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,11 +46,11 @@ EdgeCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0.4
+  m_EdgeRadius: 0.2
   m_Points: []
 --- !u!120 &7461184655865221470
 LineRenderer:
@@ -69,7 +69,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1ddede996424a2d47a783d400ec16447, type: 2}
+  - {fileID: 2100000, guid: 2c888d781ad3f9e4f8b29835b1890f3f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,8 +110,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.08627451, g: 0, b: 1, a: 1}
-      key1: {r: 0.08627451, g: 0, b: 1, a: 1}
+      key0: {r: 1, g: 0, b: 0, a: 1}
+      key1: {r: 1, g: 0, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -143,9 +143,9 @@ LineRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &6875677672414072399
+--- !u!114 &786652343808493910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,11 +154,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7461184655865221465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 751f5bb4704fd4c46b4504d23aa62f3e, type: 3}
+  m_Script: {fileID: 11500000, guid: e82d70d802fdda34096d72070696a74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
---- !u!114 &4373608716826376106
+  maxValue: 20
+  timeFactor: 1
+--- !u!114 &9033957423764414705
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,11 +168,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7461184655865221465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 056be13dd0b8e61458fc530ea2d27909, type: 3}
+  m_Script: {fileID: 11500000, guid: a566b629029673945a7fb80e9cdda743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxValue: 150
---- !u!114 &406776411092744542
+  BulletPrefab: {fileID: 5329362784828273823, guid: 1260745647392d44b9ce6e9640f29298,
+    type: 3}
+  shootIntensity: 3
+--- !u!114 &4817298683328928532
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,11 +183,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7461184655865221465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 522f27ee417273a43b62f322ed792230, type: 3}
+  m_Script: {fileID: 11500000, guid: 934fd674d670dbf4db20979c34c217b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bezierBuildTimeStep: 0.01
---- !u!114 &5658219060937473151
+  tangentSize: 15
+--- !u!114 &4090647073808626977
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,7 +196,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7461184655865221465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8efaf89f7de2f14891063482265c0cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a7bf926ea18041408d08405c929b2c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transformToFollow: {fileID: 0}

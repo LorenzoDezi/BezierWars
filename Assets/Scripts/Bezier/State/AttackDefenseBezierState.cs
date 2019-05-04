@@ -4,8 +4,6 @@ public class AttackDefenseBezierState : BezierState
 {
     public override BezierState HandleInput()
     {
-        if (Input.GetButtonDown(spawner.SplineSpawnAxis) && spawner.Splines > 0)
-            return hermiteState;
         BezierType type;
         if (Input.GetButtonDown(spawner.DefenseBezierAxisName))
             type = BezierType.Defense;

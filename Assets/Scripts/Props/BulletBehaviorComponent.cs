@@ -35,6 +35,9 @@ public class BulletBehaviorComponent : MonoBehaviour, IDamager, IDamageable
                 var attackBezComp = hit.collider.GetComponent<AttackBezierCurveComponent>();
                 if (attackBezComp != null)
                     attackBezComp.PowerUp(this);
+                if (hit.collider.GetComponent<HermiteCurveComponent>() != null 
+                    && !hit.collider.CompareTag(transform.tag))
+                    Die();
             } else
             {
                 Die();

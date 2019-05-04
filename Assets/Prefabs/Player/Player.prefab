@@ -771,7 +771,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   straightMovementAxis: StraightMovement
   orientationAxis: Orientation
+  hermiteAxis: HermiteSpawn
   shootAxis: Shoot
+  spawner: {fileID: 0}
 --- !u!1 &6722461108714722220
 GameObject:
   m_ObjectHideFlags: 0

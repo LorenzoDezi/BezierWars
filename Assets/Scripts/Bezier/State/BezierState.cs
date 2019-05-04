@@ -32,6 +32,18 @@ public abstract class BezierState
 
     public virtual void Exit() { }
 
+    public virtual BezierState SwitchHermite(BezierState previousState)
+    {
+        Debug.Log(previousState + " ---> " + this);
+        if (spawner.CurrHermiteAttempts > 0)
+        {
+            hermiteState.NormalCurrentState = previousState;
+            spawner.CurrHermiteAttempts--;
+            return hermiteState;
+        }
+        else return null;
+    }
+
     public virtual BezierState OnDefRadarExit()
     {
         return null;
@@ -72,7 +84,7 @@ public abstract class BezierState
     {
         for (int currIndex = 0; currIndex <= spawner.BezierLength; currIndex++)
         {
-            Vector3 currentCurvePoint = BezierMath.Bernstein(
+            Vector3 currentCurvePoint = BezierMath.BernsteinBezier(
                 currIndex / (float)spawner.BezierLength, 2, nodes);
             if (Vector3.Distance(currentCurvePoint, spawner.transform.position)
                 < spawner.DefenseBezierMinDistance)

@@ -20,8 +20,6 @@ public class CreatedEvent : UnityEvent<BezierType>
 public class BezierBuilderComponent : MonoBehaviour
 {
     private int bezierLength;
-    [SerializeField]
-    private float bezierBuildTimeStep;
 
     private BezierType type;
     private List<UnityEngine.GameObject> nodes;
@@ -57,7 +55,7 @@ public class BezierBuilderComponent : MonoBehaviour
         List<Vector2> linePoints = new List<Vector2>();
         for (int currIndex = 0; currIndex <= bezierLength; currIndex++)
         {
-            Vector3 currentCurvePoint = BezierMath.Bernstein(
+            Vector3 currentCurvePoint = BezierMath.BernsteinBezier(
                 currIndex / (float)bezierLength, 2,
                 nodes
             );

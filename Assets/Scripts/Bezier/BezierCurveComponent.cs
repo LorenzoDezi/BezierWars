@@ -20,7 +20,7 @@ public class BezierCurveComponent : MonoBehaviour, IDamageable
     public void Damaged()
     {
         Color color = GetComponent<LineRenderer>().material.color;
-        color.a = healthComp.CurrentHealth / healthComp.MaxHealth;
+        color.a = healthComp.CurrentHealth / healthComp.MaxHealth + 0.25f;
         GetComponent<LineRenderer>().material.color = color;
     }
 

@@ -15,16 +15,21 @@ public static class BezierMath
         return fact;
     }
 
-    public static Vector3 Bernstein(float t, int k, Vector3[] controlPoints)
+    public static Vector3 BernsteinBezier(float t, int k, Vector3[] controlPoints)
     {
         Vector3 result = new Vector3();
         for (int i = 0; i <= k; i++)
         {
             result += 
-                controlPoints[i] * Mathf.Pow(t, i) * Mathf.Pow(1 - t, k - i) 
-                * Factorial(k) / (Factorial(k - i) * Factorial(i));
+                controlPoints[i] * BernsteinPolynomial(i, k, t);
         }
         return result;
+    }
+
+    public static float BernsteinPolynomial(int i, int k, float t)
+    {
+        return Mathf.Pow(t, i) * Mathf.Pow(1 - t, k - i)
+                * Factorial(k) / (Factorial(k - i) * Factorial(i));
     }
 
 }
