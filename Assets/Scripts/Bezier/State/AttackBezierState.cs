@@ -15,6 +15,13 @@ public class AttackBezierState : BezierState
         return null;       
     }
 
+    public override void Enter(BezierSpawner spawner, CursorComponent cursorComp)
+    {
+        base.Enter(spawner, cursorComp);
+        this.cursorIcon = cursorComp.redIcon;
+        SetStateCursor();
+    }
+
     protected BezierState HandleClick(Vector3 clickPosition)
     {
         if (RemoveBezierNode(clickPosition, BezierType.Attack)) return null;

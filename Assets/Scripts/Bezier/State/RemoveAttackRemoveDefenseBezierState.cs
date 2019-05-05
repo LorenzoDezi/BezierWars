@@ -4,6 +4,13 @@ public class RemoveAttackRemoveDefenseBezierState : BezierState
 {
     bool inDefRadar = false;
 
+    public override void Enter(BezierSpawner spawner, CursorComponent cursorComp)
+    {
+        base.Enter(spawner, cursorComp);
+        this.cursorIcon = cursorComp.redXBlueXIcon;
+        SetStateCursor();
+    }
+
     public override BezierState HandleInput()
     {
         if (Input.GetButtonDown(spawner.AttackBezierAxisName))

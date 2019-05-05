@@ -2,6 +2,13 @@
 
 public class AttackDefenseBezierState : BezierState
 {
+    public override void Enter(BezierSpawner spawner, CursorComponent cursorComp)
+    {
+        base.Enter(spawner, cursorComp);
+        this.cursorIcon = cursorComp.redBlueIcon;
+        SetStateCursor();
+    }
+
     public override BezierState HandleInput()
     {
         BezierType type;

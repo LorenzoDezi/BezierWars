@@ -18,9 +18,11 @@ public class HermiteState : BezierState
         currentHermiteNodes = new List<GameObject>();
     }
 
-    public override void Enter(BezierSpawner spawner)
+    public override void Enter(BezierSpawner spawner, CursorComponent cursorComp)
     {
-        base.Enter(spawner);
+        base.Enter(spawner, cursorComp);
+        this.cursorIcon = cursorComp.hermiteIcon;
+        SetStateCursor();
         GameManager.EnterPlacingHermite();
         currentTimeFromStart = 0f;
     }
@@ -55,7 +57,6 @@ public class HermiteState : BezierState
 
     public override BezierState SwitchHermite(BezierState previousState)
     {
-        Debug.Log(previousState + " ---> " + this);
         BuildHermite();
         currentHermiteNodes.ForEach((obj) => obj.GetComponent<HermiteNodeComponent>().Consume());
         currentHermiteNodes = new List<GameObject>();
@@ -79,11 +80,7 @@ public class HermiteState : BezierState
     private void ChangeNormalCurrentState(BezierState newState)
     {
         if (newState != null)
-        {
-            normalCurrentState.Exit();
             normalCurrentState = newState;
-            normalCurrentState.Enter(spawner);
-        }
     }
 
     public override BezierState OnDefRadarExit()

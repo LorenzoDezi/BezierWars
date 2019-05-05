@@ -9,6 +9,8 @@ using UnityEngine.Events;
 public abstract class BezierState
 {
     protected BezierSpawner spawner;
+    protected CursorComponent cursorComp;
+    protected Texture2D cursorIcon;
 
     protected static AttackDefenseBezierState atkDefBezState = new AttackDefenseBezierState();
     protected static RemoveAttackRemoveDefenseBezierState rmAtkRmDefBezState = new RemoveAttackRemoveDefenseBezierState();
@@ -25,9 +27,20 @@ public abstract class BezierState
 
     public abstract BezierState HandleInput();
 
-    public virtual void Enter(BezierSpawner spawner)
+    public virtual void Enter(BezierSpawner spawner, CursorComponent cursorComp)
     {
         this.spawner = spawner;
+        this.cursorComp = cursorComp;
+    }
+
+    public void SetStateCursor()
+    {
+        Cursor.SetCursor(this.cursorIcon, Vector2.zero, CursorMode.Auto);
+    }
+
+    public void ResetCursor()
+    {
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
     public virtual void Exit() { }

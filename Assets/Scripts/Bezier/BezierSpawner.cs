@@ -72,10 +72,9 @@ public class BezierSpawner : MonoBehaviour
 
     private void Awake()
     {
+        //Init fields
         enteredDefRadar = new UnityEvent();
         outOfDefRadar = new UnityEvent();
-        enteredDefRadar.AddListener(CursorController.GetInstance().HandleInDefRadar);
-        outOfDefRadar.AddListener(CursorController.GetInstance().HandleOutOfDefRadar);
         ActiveCurves = new Dictionary<BezierType, GameObject>();
         NodeListDictionary = new Dictionary<BezierType, List<GameObject>>();
         NodeListDictionary.Add(BezierType.Attack, new List<GameObject>());
@@ -87,8 +86,11 @@ public class BezierSpawner : MonoBehaviour
         BuilderPrefabs.Add(BezierType.Attack, atkBuilderPrefab);
         BuilderPrefabs.Add(BezierType.Defense, defBuilderPrefab);
         currHermiteAttempts = maxHermiteAttempts;
+
+        //Init state
         state = BezierState.GetInitalState();
-        state.Enter(this);
+        state.Enter(this, GetComponent<CursorComponent>());
+        state.ResetCursor();
     }
 
     public void HandleInput()
@@ -119,18 +121,30 @@ public class BezierSpawner : MonoBehaviour
         {
             state.Exit();
             state = newState;
-            state.Enter(this);
+            state.Enter(this, GetComponent<CursorComponent>());
         }
+    }
+
+    private void OnEnable()
+    {
+        state.SetStateCursor();
+    }
+
+    private void OnDisable()
+    {
+        state.ResetCursor();
     }
 
     private void OnMouseEnter()
     {
+        if (!enabled) return;
         enteredDefRadar.Invoke();
         ChangeState(state.OnDefRadarIn());
     }
 
     private void OnMouseExit()
     {
+        if (!enabled) return;
         outOfDefRadar.Invoke();
         ChangeState(state.OnDefRadarExit());
     }

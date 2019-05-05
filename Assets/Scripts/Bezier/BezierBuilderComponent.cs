@@ -34,8 +34,6 @@ public class BezierBuilderComponent : MonoBehaviour
     {
         Disabled = new DisabledEvent();
         Created = new CreatedEvent();
-        Disabled.AddListener(CursorController.GetInstance().HandleDisabledBezier);
-        Created.AddListener(CursorController.GetInstance().HandleCurveCreated);
     }
 
     private void Start()
