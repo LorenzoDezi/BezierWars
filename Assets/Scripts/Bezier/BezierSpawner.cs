@@ -52,6 +52,7 @@ public class BezierSpawner : MonoBehaviour
     private BezierState state;
     private UnityEvent enteredDefRadar;
     private UnityEvent outOfDefRadar;
+    private UnityEvent hermiteConsumed;
 
     public string AttackBezierAxisName { get => attackBezierAxisName; }
     public string DefenseBezierAxisName { get => defenseBezierAxisName; }
@@ -61,6 +62,7 @@ public class BezierSpawner : MonoBehaviour
     public Dictionary<BezierType, GameObject> BuilderPrefabs { get; private set; }
     public Dictionary<BezierType, List<GameObject>> NodeListDictionary { get; private set; }
     public int CurrHermiteAttempts { get => currHermiteAttempts; set => currHermiteAttempts = value; }
+    public UnityEvent HermiteConsumed { get => hermiteConsumed; }
     public int MaxHermiteAttempts { get => maxHermiteAttempts; }
     public float HermitePlacingTimeLimit { get => hermitePlacingTimeLimit; }
     public GameObject HermiteBuilderPrefab { get => hermiteBuilderPrefab; }
@@ -75,6 +77,7 @@ public class BezierSpawner : MonoBehaviour
         //Init fields
         enteredDefRadar = new UnityEvent();
         outOfDefRadar = new UnityEvent();
+        hermiteConsumed = new UnityEvent();
         ActiveCurves = new Dictionary<BezierType, GameObject>();
         NodeListDictionary = new Dictionary<BezierType, List<GameObject>>();
         NodeListDictionary.Add(BezierType.Attack, new List<GameObject>());
@@ -85,7 +88,8 @@ public class BezierSpawner : MonoBehaviour
         BuilderPrefabs = new Dictionary<BezierType, GameObject>();
         BuilderPrefabs.Add(BezierType.Attack, atkBuilderPrefab);
         BuilderPrefabs.Add(BezierType.Defense, defBuilderPrefab);
-        currHermiteAttempts = maxHermiteAttempts;
+        currHermiteAttempts = 0;
+        GameManager.OnGameStateChange().AddListener(ChangeMaxHermiteAttempts);
 
         //Init state
         state = BezierState.GetInitalState();
@@ -96,6 +100,14 @@ public class BezierSpawner : MonoBehaviour
     public void HandleInput()
     {
         ChangeState(state.HandleInput());
+    }
+
+    private void ChangeMaxHermiteAttempts(GameState state)
+    {
+        if (state == GameState.Training)
+            maxHermiteAttempts = int.MaxValue;
+        else
+            maxHermiteAttempts = 3;
     }
 
     public void SwitchHermite()

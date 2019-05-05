@@ -37,14 +37,32 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField]
     private AudioClip damagedSound;
 
+    [Header("Pincer sprites")]
+    [SerializeField]
+    private SpriteRenderer redBluePincerSprite;
+    [SerializeField]
+    private SpriteRenderer greenPincerSprite;
+
     private bool isAccelerating = true;
-    private UnityEvent died;
 
-    public UnityEvent Died => died;
-
-    private void Awake()
+    private void Start()
     {
-        died = new UnityEvent();
+        GameManager.OnGameStateChange().AddListener(ChangeAppearance);
+        greenPincerSprite.enabled = false;
+        redBluePincerSprite.enabled = true;
+    }
+
+    private void ChangeAppearance(GameState state)
+    {
+        if (state == GameState.PlacingSpline)
+        {
+            greenPincerSprite.enabled = true;
+            redBluePincerSprite.enabled = false;
+        } else if (state != GameState.Pause)
+        {
+            redBluePincerSprite.enabled = true;
+            greenPincerSprite.enabled = false;
+        }
     }
 
     void Update()
@@ -120,8 +138,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         GetComponent<DestructibleComponent>().StartDestroy();
         if (deathSound != null) SoundManager.PlaySound(deathSound);
         GameManager.GameOver();
-        //TODO: Do particle system and shit
-        //TODO: call interface to show game over and restart
     }
 
     

@@ -58,21 +58,18 @@ public class UIManager : MonoBehaviour
                 pauseUIElements.ForEach((obj) => obj.SetActive(false));
                 menuUIElements.ForEach((obj) => obj.SetActive(false));
                 gameOverUIElements.ForEach((obj) => obj.SetActive(false));
-                trainingUIElements.ForEach((obj) => obj.SetActive(false));
                 HUDUIElements.ForEach((obj) => obj.SetActive(true));
                 break;
             case GameState.Pause:
                 menuUIElements.ForEach((obj) => obj.SetActive(false));
                 HUDUIElements.ForEach((obj) => obj.SetActive(false));
                 gameOverUIElements.ForEach((obj) => obj.SetActive(false));
-                trainingUIElements.ForEach((obj) => obj.SetActive(false));
                 pauseUIElements.ForEach((obj) => obj.SetActive(true));
                 break;
             case GameState.GameOver:
                 menuUIElements.ForEach((obj) => obj.SetActive(false));
                 HUDUIElements.ForEach((obj) => obj.SetActive(false));
                 pauseUIElements.ForEach((obj) => obj.SetActive(false));
-                trainingUIElements.ForEach((obj) => obj.SetActive(false));
                 gameOverUIElements.ForEach((obj) => obj.SetActive(true));
                 gameOverScoreText.text = "SCORE: " + GameManager.GetCurrentScore();
                 break;

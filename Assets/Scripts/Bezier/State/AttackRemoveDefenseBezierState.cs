@@ -5,7 +5,7 @@ public class AttackRemoveDefenseBezierState : BezierState
     public override void Enter(BezierSpawner spawner, CursorComponent cursorComp)
     {
         base.Enter(spawner, cursorComp);
-        this.cursorIcon = cursorComp.redXBlueIcon;
+        this.cursorIcon = cursorComp.redBlueXIcon;
         SetStateCursor();
     }
 

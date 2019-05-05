@@ -27,7 +27,8 @@ public abstract class BezierState
 
     public abstract BezierState HandleInput();
 
-    public virtual void Enter(BezierSpawner spawner, CursorComponent cursorComp)
+    public virtual void Enter(BezierSpawner spawner, 
+        CursorComponent cursorComp)
     {
         this.spawner = spawner;
         this.cursorComp = cursorComp;
@@ -47,11 +48,10 @@ public abstract class BezierState
 
     public virtual BezierState SwitchHermite(BezierState previousState)
     {
-        Debug.Log(previousState + " ---> " + this);
-        if (spawner.CurrHermiteAttempts > 0)
+        if (spawner.CurrHermiteAttempts < spawner.MaxHermiteAttempts)
         {
             hermiteState.NormalCurrentState = previousState;
-            spawner.CurrHermiteAttempts--;
+            spawner.CurrHermiteAttempts++;
             return hermiteState;
         }
         else return null;

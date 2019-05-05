@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,6 +24,8 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+
+    
 
     [Header("Input axis")]
     private string exitAxis = "Exit";
@@ -116,7 +119,12 @@ public class GameManager : MonoBehaviour
         return instance.currentPlayer;
     }
 
-   
+    public static GameObject GetCurrentBezierSpawner()
+    {
+        return instance.currentBezierSpawner;
+    }
+
+
 
     public static ScoreChangeEvent OnScoreChanged()
     {

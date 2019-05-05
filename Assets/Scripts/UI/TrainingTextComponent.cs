@@ -25,8 +25,10 @@ public class TrainingTextComponent : MonoBehaviour
         ScrollText();
     }
 
-    private void ScrollText()
+    public void ScrollText()
     {
+        if (currentTextIndex >= textSequence.Count - 1) return;
+        StopCoroutine("TextAnim");
         currentTextIndex++;
         text.text = "";
         StartCoroutine("TextAnim");
@@ -54,13 +56,9 @@ public class TrainingTextComponent : MonoBehaviour
         StopCoroutine("TextAnim");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown(ScrollTextAxis) && currentTextIndex < textSequence.Count-1)
-        {
-            StopCoroutine("TextAnim");
+        if(Input.GetButtonDown(ScrollTextAxis))
             ScrollText();
-        }
     }
 }

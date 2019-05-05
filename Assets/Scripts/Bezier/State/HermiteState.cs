@@ -24,6 +24,7 @@ public class HermiteState : BezierState
         this.cursorIcon = cursorComp.hermiteIcon;
         SetStateCursor();
         GameManager.EnterPlacingHermite();
+        spawner.HermiteConsumed.Invoke();
         currentTimeFromStart = 0f;
     }
 
