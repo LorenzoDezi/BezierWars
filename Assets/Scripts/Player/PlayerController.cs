@@ -44,25 +44,30 @@ public class PlayerController : MonoBehaviour, IDamageable
     private SpriteRenderer greenPincerSprite;
 
     private bool isAccelerating = true;
+    private BezierSpawner bezierSpawner;
 
     private void Start()
     {
-        GameManager.OnGameStateChange().AddListener(ChangeAppearance);
-        greenPincerSprite.enabled = false;
-        redBluePincerSprite.enabled = true;
+        SetCommonAppeareance();
     }
 
-    private void ChangeAppearance(GameState state)
+    public void SetBezierSpawner(BezierSpawner spawner)
     {
-        if (state == GameState.PlacingSpline)
-        {
-            greenPincerSprite.enabled = true;
-            redBluePincerSprite.enabled = false;
-        } else if (state != GameState.Pause)
-        {
-            redBluePincerSprite.enabled = true;
-            greenPincerSprite.enabled = false;
-        }
+        bezierSpawner = spawner;
+        bezierSpawner.EnteredHermiteMode.AddListener(SetHermiteAppareance);
+        bezierSpawner.ExitedHermiteMode.AddListener(SetCommonAppeareance);
+    }
+
+    private void SetHermiteAppareance()
+    {
+        greenPincerSprite.enabled = true;
+        redBluePincerSprite.enabled = false;
+    }
+
+    private void SetCommonAppeareance()
+    {
+        redBluePincerSprite.enabled = true;
+        greenPincerSprite.enabled = false;
     }
 
     void Update()

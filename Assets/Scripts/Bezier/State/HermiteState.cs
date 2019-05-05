@@ -24,13 +24,14 @@ public class HermiteState : BezierState
         this.cursorIcon = cursorComp.hermiteIcon;
         SetStateCursor();
         GameManager.EnterPlacingHermite();
-        spawner.HermiteConsumed.Invoke();
+        spawner.EnteredHermiteMode.Invoke();
         currentTimeFromStart = 0f;
     }
 
     public override void Exit()
     {
         GameManager.ExitPlacingHermite();
+        spawner.ExitedHermiteMode.Invoke();
     }
 
     public override BezierState HandleInput()

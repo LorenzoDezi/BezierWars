@@ -17,7 +17,7 @@ public class GameStateChangeEvent : UnityEvent<GameState>
 
 public enum GameState
 {
-    Menu, Survival, TimeLimit, Pause, GameOver, Training, PlacingSpline
+    Menu, Survival, TimeLimit, Pause, GameOver, Training
 }
 
 
@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
     private Stack<GameState> previousStates;
     public GameStateChangeEvent onGameStateChange;
     private List<EnemySpawner> spawners;
+    private float previousTimeScale;
 
     public static GameState CurrentState()
     {
@@ -140,6 +141,7 @@ public class GameManager : MonoBehaviour
             scoreChangeEvent = new ScoreChangeEvent();
             onGameStateChange = new GameStateChangeEvent();
             previousStates = new Stack<GameState>();
+            previousTimeScale = 1f;
         }
         else if (instance != this)
             Destroy(gameObject);
@@ -176,8 +178,10 @@ public class GameManager : MonoBehaviour
         GameObject.FindGameObjectsWithTag("Enemy").ToList().ForEach((obj) => GameObject.Destroy(obj));
         currentPlayer = GameObject.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
         currentBezierSpawner = GameObject.Instantiate(bezierSpawnerPrefab, Vector3.zero, Quaternion.identity);
-        currentPlayer.GetComponent<PlayerInputComponent>().SetSpawner(
-            currentBezierSpawner.GetComponent<BezierSpawner>());
+        var bezSpawnComp = currentBezierSpawner.GetComponent<BezierSpawner>();
+        //TODO: Maybe refactor player -> you see the problem with the bezierSpawner? 
+        currentPlayer.GetComponent<PlayerInputComponent>().SetBezierSpawner(bezSpawnComp);
+        currentPlayer.GetComponent<PlayerController>().SetBezierSpawner(bezSpawnComp);
         currentBezierSpawner.GetComponent<FollowTargetComponent>().SetTargetToFollow(currentPlayer.transform);
         spawners.ForEach((spwn) => {
             spwn.SetTarget(currentPlayer.transform);
@@ -195,8 +199,8 @@ public class GameManager : MonoBehaviour
     public static void EnterPlacingHermite()
     {
         instance.previousStates.Push(instance.state);
-        instance.state = GameState.PlacingSpline;
         Time.timeScale = 0.4f;
+        instance.previousTimeScale = Time.timeScale;
         OnGameStateChange().Invoke(instance.state);
     }
 
@@ -204,6 +208,7 @@ public class GameManager : MonoBehaviour
     {
         instance.state = instance.previousStates.Pop();
         Time.timeScale = 1f;
+        instance.previousTimeScale = Time.timeScale;
         OnGameStateChange().Invoke(instance.state);
     }
 
@@ -248,10 +253,7 @@ public class GameManager : MonoBehaviour
     {
         SetPlayerInput(true);
         this.state = this.previousStates.Pop();
-        if (this.state == GameState.PlacingSpline)
-            Time.timeScale = 0.4f;
-        else
-            Time.timeScale = 1;
+        Time.timeScale = instance.previousTimeScale;
         onGameStateChange.Invoke(state);
     } 
 

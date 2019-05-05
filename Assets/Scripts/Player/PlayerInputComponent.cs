@@ -37,7 +37,7 @@ public class PlayerInputComponent : MonoBehaviour
         }
     }
 
-    public void SetSpawner(BezierSpawner spawner)
+    public void SetBezierSpawner(BezierSpawner spawner)
     {
         this.spawner = spawner;
     }

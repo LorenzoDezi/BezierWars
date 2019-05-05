@@ -53,7 +53,6 @@ public class UIManager : MonoBehaviour
                     .GetComponent<HealthComponent>());
                 break;
             case GameState.Survival:
-            case GameState.PlacingSpline:
             case GameState.TimeLimit:
                 pauseUIElements.ForEach((obj) => obj.SetActive(false));
                 menuUIElements.ForEach((obj) => obj.SetActive(false));
@@ -62,7 +61,6 @@ public class UIManager : MonoBehaviour
                 break;
             case GameState.Pause:
                 menuUIElements.ForEach((obj) => obj.SetActive(false));
-                HUDUIElements.ForEach((obj) => obj.SetActive(false));
                 gameOverUIElements.ForEach((obj) => obj.SetActive(false));
                 pauseUIElements.ForEach((obj) => obj.SetActive(true));
                 break;
