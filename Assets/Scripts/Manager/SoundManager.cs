@@ -10,6 +10,7 @@ public class SoundManager : MonoBehaviour
     private AudioClip MenuMusic;
     [SerializeField]
     private AudioClip ArenaMusic;
+    private bool wasPaused;
 
     // Start is called before the first frame update
     void Awake()
@@ -41,8 +42,17 @@ public class SoundManager : MonoBehaviour
         switch (state)
         {
             case GameState.Survival:
-                audioSrc.clip = ArenaMusic;
-                audioSrc.Play();
+            case GameState.TimeLimit:
+                if (!wasPaused)
+                {
+                    audioSrc.clip = ArenaMusic;
+                    audioSrc.Play();
+                }
+                else
+                    wasPaused = false;                
+                break;
+            case GameState.Pause:
+                wasPaused = true;
                 break;
             case GameState.Menu:
                 audioSrc.clip = MenuMusic;

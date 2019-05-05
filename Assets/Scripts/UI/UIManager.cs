@@ -36,10 +36,10 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.OnGameStateChange().AddListener(onGameStateChange);
+        GameManager.OnGameStateChange().AddListener(OnGameStateChange);
     }
 
-    void onGameStateChange(GameState state)
+    void OnGameStateChange(GameState state)
     {
         switch (state)
         {

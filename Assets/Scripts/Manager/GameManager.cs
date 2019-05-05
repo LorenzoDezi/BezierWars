@@ -201,7 +201,6 @@ public class GameManager : MonoBehaviour
         instance.previousStates.Push(instance.state);
         Time.timeScale = 0.4f;
         instance.previousTimeScale = Time.timeScale;
-        OnGameStateChange().Invoke(instance.state);
     }
 
     public static void ExitPlacingHermite()
@@ -209,7 +208,6 @@ public class GameManager : MonoBehaviour
         instance.state = instance.previousStates.Pop();
         Time.timeScale = 1f;
         instance.previousTimeScale = Time.timeScale;
-        OnGameStateChange().Invoke(instance.state);
     }
 
     #region UIMethods
