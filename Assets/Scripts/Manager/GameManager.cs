@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     private ScoreChangeEvent scoreChangeEvent;
     // First 10 best scores of the current game
     //TODO - some sort of memorization on the browser (using cache maybe)
-    private List<int> leaderBoard;
+    private int[] leaderBoard;
     private GameState state;
     //Useful when game goes to pause mode
     private Stack<GameState> previousStates;
@@ -86,20 +86,13 @@ public class GameManager : MonoBehaviour
 
     public static void GameOver()
     {
-        if (instance.leaderBoard.Count < 10)
+        var index = instance.leaderBoard.ToList().FindIndex((x) => x < instance.currentScore);
+        if (index != -1)
         {
-            instance.leaderBoard.Add(instance.currentScore);
-            instance.leaderBoard.Sort((x, y) => x >= y ? x : y);
-        }
-        else
-        {
-            var index = instance.leaderBoard.FindIndex((x) => x < instance.currentScore);
-            if (index != -1)
-            {
-                instance.leaderBoard.RemoveAt(index);
-                instance.leaderBoard.Add(instance.currentScore);
-                instance.leaderBoard.Sort((x, y) => x >= y ? x : y);
-            }
+            var temp = instance.leaderBoard[index];
+            instance.leaderBoard[index] = instance.currentScore;
+            if (index < instance.leaderBoard.Length - 1)
+                instance.leaderBoard[index + 1] = temp;
         }
         instance.state = GameState.GameOver;
         OnGameStateChange().Invoke(instance.state);
@@ -108,11 +101,6 @@ public class GameManager : MonoBehaviour
     public static int GetCurrentScore()
     {
         return instance.currentScore;
-    }
-
-    public static int GetPositionOnLeaderBoard()
-    {
-        return instance.leaderBoard.FindIndex((x) => x < instance.currentScore);
     }
 
     public static GameObject GetCurrentPlayer()
@@ -125,7 +113,10 @@ public class GameManager : MonoBehaviour
         return instance.currentBezierSpawner;
     }
 
-
+    public static int[] GetLeaderboard()
+    {
+        return instance.leaderBoard;
+    }
 
     public static ScoreChangeEvent OnScoreChanged()
     {
@@ -137,7 +128,8 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            leaderBoard = new List<int>();
+            //Hardcoded lenght of the leaderboard
+            leaderBoard = new int[6];
             scoreChangeEvent = new ScoreChangeEvent();
             onGameStateChange = new GameStateChangeEvent();
             previousStates = new Stack<GameState>();
