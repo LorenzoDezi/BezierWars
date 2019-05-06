@@ -200,6 +200,7 @@ public class GameManager : MonoBehaviour
     {
         instance.previousStates.Push(instance.state);
         Time.timeScale = 0.4f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
         instance.previousTimeScale = Time.timeScale;
     }
 
@@ -207,6 +208,7 @@ public class GameManager : MonoBehaviour
     {
         instance.state = instance.previousStates.Pop();
         Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
         instance.previousTimeScale = Time.timeScale;
     }
 

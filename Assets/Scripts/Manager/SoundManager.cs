@@ -57,6 +57,7 @@ public class SoundManager : MonoBehaviour
             case GameState.Menu:
                 audioSrc.clip = MenuMusic;
                 audioSrc.Play();
+                wasPaused = false;
                 break;
         }
     }

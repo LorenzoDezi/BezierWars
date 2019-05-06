@@ -123,5 +123,7 @@ public abstract class BezierState
         SoundManager.PlaySound(spawner.BezierCreatedSound);
     }
 
+    public virtual BezierState OnGameOver() { return null; }
+
 }
 

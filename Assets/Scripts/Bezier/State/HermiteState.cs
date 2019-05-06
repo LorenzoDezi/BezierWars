@@ -34,6 +34,11 @@ public class HermiteState : BezierState
         spawner.ExitedHermiteMode.Invoke();
     }
 
+    public override BezierState OnGameOver()
+    {
+        return SwitchHermite(null);
+    }
+
     public override BezierState HandleInput()
     {
         currentTimeFromStart += Time.deltaTime;

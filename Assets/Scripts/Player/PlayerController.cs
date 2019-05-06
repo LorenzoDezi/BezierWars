@@ -58,17 +58,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         bezierSpawner.ExitedHermiteMode.AddListener(SetCommonAppeareance);
     }
 
-    private void SetHermiteAppareance()
-    {
-        greenPincerSprite.enabled = true;
-        redBluePincerSprite.enabled = false;
-    }
-
-    private void SetCommonAppeareance()
-    {
-        redBluePincerSprite.enabled = true;
-        greenPincerSprite.enabled = false;
-    }
+   
 
     void Update()
     {
@@ -133,6 +123,34 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
+    /// <summary>
+    /// Changes player appeareance during hermite placing.
+    /// </summary>
+    private void SetHermiteAppareance()
+    {
+        greenPincerSprite.enabled = true;
+        redBluePincerSprite.enabled = false;
+    }
+
+    /// <summary>
+    /// Make the player appears like in normal gameplay
+    /// </summary>
+    private void SetCommonAppeareance()
+    {
+        redBluePincerSprite.enabled = true;
+        greenPincerSprite.enabled = false;
+    }
+
+    /// <summary>
+    /// Called when the player is dead. Pincer sprites must be disabled in order
+    /// to have a proper death animation.
+    /// </summary>
+    private void SetDeadAppareance()
+    {
+        redBluePincerSprite.enabled = false;
+        greenPincerSprite.enabled = false;
+    }
+
     public void Damaged()
     {
         if (damagedSound != null) SoundManager.PlaySound(damagedSound);
@@ -140,6 +158,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Die()
     {
+        SetDeadAppareance();
         GetComponent<DestructibleComponent>().StartDestroy();
         if (deathSound != null) SoundManager.PlaySound(deathSound);
         GameManager.GameOver();

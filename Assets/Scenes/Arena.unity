@@ -2276,7 +2276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &466838462
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2295,7 +2295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.2000122, y: -239.4}
+  m_AnchoredPosition: {x: -27, y: -239.4}
   m_SizeDelta: {x: -310.4, y: 353.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &466838463
@@ -2791,23 +2791,27 @@ MonoBehaviour:
   - Welcome to the training mode!
   - Use WASD or directional arrows to move the bezier ship.
   - Use the spacebar or right ctrl to shoot.
-  - Right click to place a defense bezier node. You need 3 points to build the curve.
-  - The defense curve will protect you from enemies, and it can also be used as a
-    weapon! Be creative!
-  - if the defense curve crosses the player, it won't be built. You will be notified
+  - Right click to place a DEFENSE BEZIER NODE. You need 3 nodes to build the curve.
+    The defense curve can only be built inside your bezier radar!
+  - The defense curve will PROTECT YOU from enemies, and it can also be used as a
+    WEAPON! Be creative!
+  - if the defense curve crosses the player, it WON'T BE BUILT. You will be notified
     by a sound.
-  - You can click on a point or a curve to remove them, in order to place it again.
-  - Left click to place an attack bezier node. You need 3 points to build the curve.
-  - The attack curve will amplify your shots if it touches them.
-  - 'Press F to enter the hermite interpolation mode. In this mode you can place hermite
+  - You can click on a node to remove it, in order to place it again in a different
+    position.
+  - Left click to place an ATTACK BEZIER NODE. You need 3 nodes to build the curve.
+  - The attack curve will AMPLIFY your shots if it touches them.
+  - You can place only ONE CURVE FOR TYPE AT A TIME! If you want to recreate the curve,
+    press the proper mouse button to delete the existing one.
+  - 'Press F to enter the HERMITE INTERPOLATION MODE. In this mode you can place hermite
     nodes: they will be interpolated by the hermite curve.'
-  - When you place the node, click and drag to modify their direction. This will change
+  - When you place the node, CLICK AND DRAG to modify their direction. This will change
     the curve accordingly.
   - The hermite interpolation curve has both benefits of defense and attack curve!
-  - Use the hermite interpolation mode sparingly! You can use it only 3 times in time
-    limit and training mode.
-  - Have fun with survival and time limit mode! Press ESC to pause the game and EXIT
-    to go back to the menu.
+  - Use the hermite interpolation mode sparingly! You can use it only 3 times in TIME
+    LIMIT and SURVIVAL mode.
+  - Have fun with survival and time limit mode! Press ESC/P to pause the game and
+    EXIT to go back to the menu.
   letterPaused: 0.01
   ScrollTextAxis: ScrollText
 --- !u!1 &604453750
@@ -4050,7 +4054,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 89.04001, y: 26.12}
+  m_AnchoredPosition: {x: 89.04001, y: 26.120117}
   m_SizeDelta: {x: 178.19, y: 48.03}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &973287294
@@ -6660,7 +6664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.12220478, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6896,7 +6900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.08092451, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

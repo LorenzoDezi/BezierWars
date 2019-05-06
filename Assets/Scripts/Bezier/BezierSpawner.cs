@@ -93,6 +93,7 @@ public class BezierSpawner : MonoBehaviour
         BuilderPrefabs.Add(BezierType.Defense, defBuilderPrefab);
         currHermiteAttempts = 0;
         GameManager.OnGameStateChange().AddListener(ChangeMaxHermiteAttempts);
+        GameManager.OnGameStateChange().AddListener(OnGameOver);
 
         //Init state
         state = BezierState.GetInitalState();
@@ -111,6 +112,12 @@ public class BezierSpawner : MonoBehaviour
             maxHermiteAttempts = int.MaxValue;
         else
             maxHermiteAttempts = 3;
+    }
+
+    private void OnGameOver(GameState state)
+    {
+        if (state == GameState.GameOver)
+            ChangeState(this.state.OnGameOver());
     }
 
     public void SwitchHermite()
