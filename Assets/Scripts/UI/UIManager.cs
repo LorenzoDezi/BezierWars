@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> HUDUIElements;
     [SerializeField]
+    private List<GameObject> timeLimitUIElements;
+    [SerializeField]
     private List<GameObject> pauseUIElements;
     [SerializeField]
     private List<GameObject> menuUIElements;
@@ -48,16 +50,24 @@ public class UIManager : MonoBehaviour
                 pauseUIElements.ForEach((obj) => obj.SetActive(false));
                 gameOverUIElements.ForEach((obj) => obj.SetActive(false));
                 trainingUIElements.ForEach((obj) => obj.SetActive(false));
+                timeLimitUIElements.ForEach((obj) => obj.SetActive(false));
                 menuUIElements.ForEach((obj) => obj.SetActive(true));
                 playerHealthSlider.SetHealthComponent(GameManager.GetCurrentPlayer()?
                     .GetComponent<HealthComponent>());
                 break;
             case GameState.Survival:
+                pauseUIElements.ForEach((obj) => obj.SetActive(false));
+                menuUIElements.ForEach((obj) => obj.SetActive(false));
+                gameOverUIElements.ForEach((obj) => obj.SetActive(false));
+                HUDUIElements.ForEach((obj) => obj.SetActive(true));
+                break;
             case GameState.TimeLimit:
                 pauseUIElements.ForEach((obj) => obj.SetActive(false));
                 menuUIElements.ForEach((obj) => obj.SetActive(false));
                 gameOverUIElements.ForEach((obj) => obj.SetActive(false));
                 HUDUIElements.ForEach((obj) => obj.SetActive(true));
+                timeLimitUIElements.ForEach((obj) => obj.SetActive(true));
+                GameManager.GetTimeLimitManager().EndGameEvent.AddListener(OnGameOver);
                 break;
             case GameState.Pause:
                 menuUIElements.ForEach((obj) => obj.SetActive(false));
@@ -65,11 +75,7 @@ public class UIManager : MonoBehaviour
                 pauseUIElements.ForEach((obj) => obj.SetActive(true));
                 break;
             case GameState.GameOver:
-                menuUIElements.ForEach((obj) => obj.SetActive(false));
-                HUDUIElements.ForEach((obj) => obj.SetActive(false));
-                pauseUIElements.ForEach((obj) => obj.SetActive(false));
-                gameOverUIElements.ForEach((obj) => obj.SetActive(true));
-                gameOverScoreText.text = "SCORE: " + GameManager.GetCurrentScore();
+                OnGameOver();
                 break;
             case GameState.Training:
                 menuUIElements.ForEach((obj) => obj.SetActive(false));
@@ -79,5 +85,14 @@ public class UIManager : MonoBehaviour
                 trainingUIElements.ForEach((obj) => obj.SetActive(true));
                 break;
         }
+    }
+
+    private void OnGameOver()
+    {
+        menuUIElements.ForEach((obj) => obj.SetActive(false));
+        HUDUIElements.ForEach((obj) => obj.SetActive(false));
+        pauseUIElements.ForEach((obj) => obj.SetActive(false));
+        gameOverUIElements.ForEach((obj) => obj.SetActive(true));
+        timeLimitUIElements.ForEach((obj) => obj.SetActive(false));
     }
 }

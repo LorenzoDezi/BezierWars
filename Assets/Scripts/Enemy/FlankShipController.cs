@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Renderer))]
+[RequireComponent(typeof(HealthComponent))]
 public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
 {
     [Header("Movement parameters")]
@@ -42,6 +43,17 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
         onDefeat = new UnityEvent();
     }
 
+    private void Start()
+    {
+        if (GameManager.CurrentState() == GameState.TimeLimit)
+            GameManager.GetTimeLimitManager().EndGameEvent.AddListener(OnEndGame);
+    }
+
+    private void OnEndGame()
+    {
+        GetComponent<HealthComponent>().ForceDeath();
+    }
+
     public void Move(Vector2 direction, float speedFactor)
     {
         GetComponent<Rigidbody2D>().AddForce(direction * speedFactor * engineIntensity,
@@ -52,7 +64,6 @@ public class FlankShipController : MonoBehaviour, IEnemyController, IDamageable
     {
         this.target = target;
     }
-
 
     private void FixedUpdate()
     {

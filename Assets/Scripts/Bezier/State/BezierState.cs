@@ -120,7 +120,7 @@ public abstract class BezierState
             bezBuilder.GetComponent<FollowTargetComponent>().SetTargetToFollow(spawner.transform);
             nodeList.ForEach((obj) => UnityEngine.GameObject.Destroy(obj.GetComponent<FollowTargetComponent>()));
         }
-        SoundManager.PlaySound(spawner.BezierCreatedSound);
+        spawner.OnBezierCreated.Invoke();
     }
 
     public virtual BezierState OnGameOver() { return null; }

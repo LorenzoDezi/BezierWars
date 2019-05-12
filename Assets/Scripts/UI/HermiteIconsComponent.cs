@@ -14,9 +14,12 @@ public class HermiteIconsComponent : MonoBehaviour
     {
         hermiteIcons.ForEach((obj) => obj.enabled = true);
         currentRemovalIndex = hermiteIcons.Count - 1;
-        bezierSpawner = GameManager.GetCurrentBezierSpawner()?.GetComponent<BezierSpawner>();
-        if (bezierSpawner != null)
+        var bezierSpawnerObject = GameManager.GetCurrentBezierSpawner();
+        if (bezierSpawnerObject != null)
+        {
+            bezierSpawner = bezierSpawnerObject.GetComponent<BezierSpawner>();
             bezierSpawner.EnteredHermiteMode.AddListener(RemoveIcon);
+        }
     }
 
     private void OnEnable()

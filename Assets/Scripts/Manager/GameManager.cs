@@ -25,8 +25,6 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
 
-    
-
     [Header("Input axis")]
     private string exitAxis = "Exit";
 
@@ -49,12 +47,16 @@ public class GameManager : MonoBehaviour
     private int currentScore;
     private int currentScoreThreshold;
     private ScoreChangeEvent scoreChangeEvent;
+    //TODO: Refactor of this shit
+    private bool hasWon;
+
     // First 10 best scores of the current game
     //TODO - some sort of memorization on the browser (using cache maybe)
     [SerializeField]
     private List<int> survivalLeaderBoard;
     [SerializeField]
     private List<int> timeLimitLeaderBoard;
+
     private GameState state;
     //Useful when game goes to pause mode
     private Stack<GameState> previousStates;
@@ -62,12 +64,18 @@ public class GameManager : MonoBehaviour
     private float previousTimeScale;
 
     public GameStateChangeEvent onGameStateChange;
+    private TimeLimitManager timeLimitManager;
 
     public static Dictionary<GameState, List<int>> LeaderBoards { get; private set; }
 
     public static GameState CurrentState()
     {
         return instance.state;
+    }
+
+    public static TimeLimitManager GetTimeLimitManager()
+    {
+        return instance.timeLimitManager;
     }
 
     public static GameStateChangeEvent OnGameStateChange()
@@ -92,16 +100,22 @@ public class GameManager : MonoBehaviour
 
     public static void GameOver()
     {
+        if (instance.state == GameState.Survival)
+            UpdateLeaderboard();
+        instance.state = GameState.GameOver;
+        OnGameStateChange().Invoke(instance.state);
+    }
+
+    private static void UpdateLeaderboard()
+    {
         var leaderBoard = LeaderBoards[instance.state];
         var index = leaderBoard.FindIndex((x) => x < instance.currentScore);
-        if (index != -1)
+        if (index != -1 && !leaderBoard.Contains(instance.currentScore))
         {
             leaderBoard.Add(instance.currentScore);
             LeaderBoards[instance.state] = leaderBoard.OrderByDescending(val => val).ToList();
             LeaderBoards[instance.state].RemoveAt(leaderBoard.Count - 1);
         }
-        instance.state = GameState.GameOver;
-        OnGameStateChange().Invoke(instance.state);
     }
 
     public static int GetCurrentScore()
@@ -116,7 +130,7 @@ public class GameManager : MonoBehaviour
 
     public static GameObject GetCurrentBezierSpawner()
     {
-        return instance.currentBezierSpawner;
+        return instance?.currentBezierSpawner;
     }
 
     public static ScoreChangeEvent OnScoreChanged()
@@ -155,8 +169,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown(exitAxis) 
-            && GameState.Menu != state && GameState.GameOver != state)
+        if (Input.GetButtonDown(exitAxis) && !hasWon 
+            && GameState.Menu != state && GameState.GameOver != state && GameState.Pause != state)
             EnterPause();
     }
 
@@ -166,6 +180,7 @@ public class GameManager : MonoBehaviour
         currentBezierSpawner.GetComponent<BezierSpawner>().enabled = active;
     }
 
+    #region StateMethods
     private void GameReset()
     {
         GameObject.FindGameObjectsWithTag("Player").ToList().ForEach((obj) => GameObject.Destroy(obj));
@@ -185,6 +200,7 @@ public class GameManager : MonoBehaviour
         //TODO: Refactor with a property
         currentScore = 0;
         currentScoreThreshold = scoreThreshold;
+        hasWon = false;
         scoreChangeEvent.Invoke(currentScore);
         Camera.main.GetComponent<CameraController>().SetTransformToFollow(currentPlayer.transform);
         Camera.main.GetComponent<Animation>().Play("MenuAnimation");
@@ -206,12 +222,13 @@ public class GameManager : MonoBehaviour
         instance.previousTimeScale = Time.timeScale;
     }
 
-    #region UIMethods
     public void EnterMenu()
     {
         GameReset();
         this.state = GameState.Menu;
         spawners.ForEach((spwn) => spwn.enabled = false);
+        Destroy(instance.timeLimitManager);
+        instance.timeLimitManager = null;
         SetPlayerInput(false);
         onGameStateChange.Invoke(state);
     }
@@ -231,7 +248,20 @@ public class GameManager : MonoBehaviour
         spawners.ForEach((spwn) => spwn.enabled = true);
         Camera.main.GetComponent<Animation>().Play("PlayAnimation");
         SetPlayerInput(true);
+        instance.timeLimitManager = gameObject.AddComponent<TimeLimitManager>();
+        instance.timeLimitManager.EndGameEvent.AddListener(OnEndGame);
+        currentBezierSpawner.GetComponent<BezierSpawner>().OnBezierCreated.AddListener(
+            () => instance.timeLimitManager?.BezierConsumed());
         onGameStateChange.Invoke(state);
+    }
+
+    public void OnEndGame()
+    {
+        SetPlayerInput(false);
+        hasWon = true;
+        spawners.ForEach((spwn) => spwn.enabled = false);
+        UpdateLeaderboard();
+        Camera.main.GetComponent<Animation>().Play("MenuAnimation");
     }
 
     public void EnterPause()
@@ -249,7 +279,7 @@ public class GameManager : MonoBehaviour
         this.state = this.previousStates.Pop();
         Time.timeScale = instance.previousTimeScale;
         onGameStateChange.Invoke(state);
-    } 
+    }
 
     public void EnterTraining()
     {
@@ -266,6 +296,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    
+
+
 
 }

@@ -19,15 +19,9 @@ public class HermiteBuilderComponent : MonoBehaviour
         var lineRenderer = GetComponent<LineRenderer>();
         var collider = GetComponent<EdgeCollider2D>();
         List<Vector2> linePoints = new List<Vector2>();
-        for (int i = 0; i < nodes.Length; i++)
+        for (int i = 0; i < nodes.Length - 1; i++)
         {
-            //Needed to loop the curve
-            GameObject secondNode;
-            if (i + 1 == nodes.Length)
-                secondNode = nodes[0];
-            else
-                secondNode = nodes[i + 1];
-            linePoints.AddRange(TwoPointInterpolation(nodes[i], secondNode));
+            linePoints.AddRange(TwoPointInterpolation(nodes[i], nodes[i+1]));
         }
         collider.points = linePoints.ToArray();
         //The second for loop will render the actual line. This is done to build
@@ -36,7 +30,8 @@ public class HermiteBuilderComponent : MonoBehaviour
         {
             lineRenderer.positionCount = i + 1;
             lineRenderer.SetPosition(i, linePoints[i]);
-            yield return null;
+            if(i % 2 == 0)
+                yield return null;
         }
     }
 

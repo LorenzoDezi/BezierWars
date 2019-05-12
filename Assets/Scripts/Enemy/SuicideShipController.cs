@@ -41,6 +41,17 @@ public class SuicideShipController : MonoBehaviour, IEnemyController, IDamageabl
         //The suicide ship do nothing when damaged
     }
 
+    private void Start()
+    {
+        if (GameManager.CurrentState() == GameState.TimeLimit)
+            GameManager.GetTimeLimitManager().EndGameEvent.AddListener(OnEndGame);
+    }
+
+    private void OnEndGame()
+    {
+        GetComponent<HealthComponent>().ForceDeath();
+    }
+
     public void Die()
     {
         OnDefeat.Invoke();

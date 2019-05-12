@@ -6,6 +6,7 @@ public class TimeHealthComponent : HealthComponent
 {
     [SerializeField]
     private float timeFactor = 1f;
+
     // Update is called once per frame
     void Update()
     {
@@ -16,4 +17,5 @@ public class TimeHealthComponent : HealthComponent
         else
             GetComponent<IDamageable>().Damaged();
     }
+
 }

@@ -73,6 +73,8 @@ public class BezierSpawner : MonoBehaviour
     public Dictionary<BezierType, GameObject> ActiveCurves { get; private set; }
     public GameObject HermiteNodePrefab => hermiteNodePrefab;
     public float DefenseBezierMinDistance { get => defenseBezierMinDistance; }
+    private UnityEvent onBezierCreated;
+    public UnityEvent OnBezierCreated { get => onBezierCreated; }
 
     private void Awake()
     {
@@ -81,6 +83,8 @@ public class BezierSpawner : MonoBehaviour
         outOfDefRadar = new UnityEvent();
         enteredHermiteMode = new UnityEvent();
         exitHermiteMode = new UnityEvent();
+        onBezierCreated = new UnityEvent();
+        onBezierCreated.AddListener(() => SoundManager.PlaySound(BezierCreatedSound));
         ActiveCurves = new Dictionary<BezierType, GameObject>();
         NodeListDictionary = new Dictionary<BezierType, List<GameObject>>();
         NodeListDictionary.Add(BezierType.Attack, new List<GameObject>());
