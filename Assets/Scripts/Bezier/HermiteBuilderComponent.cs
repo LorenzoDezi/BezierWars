@@ -9,18 +9,18 @@ using UnityEngine.Rendering.PostProcessing;
 public class HermiteBuilderComponent : MonoBehaviour
 {
     private int bezierLength;
-    private List<UnityEngine.GameObject> nodes;
+    private List<HermiteNodeComponent> nodes;
     [SerializeField]
     private float tangentSize = 1f;
 
 
-    IEnumerator BuildHermite(GameObject[] nodes)
+    IEnumerator BuildHermite(HermiteNodeComponent[] nodes)
     {
         var lineRenderer = GetComponent<LineRenderer>();
         var collider = GetComponent<EdgeCollider2D>();
         List<Vector2> linePoints = new List<Vector2>();
         for (int i = 0; i < nodes.Length - 1; i++)
-        {
+        {       
             linePoints.AddRange(TwoPointInterpolation(nodes[i], nodes[i+1]));
         }
         collider.points = linePoints.ToArray();
@@ -35,13 +35,13 @@ public class HermiteBuilderComponent : MonoBehaviour
         }
     }
 
-    private List<Vector2> TwoPointInterpolation(GameObject first, GameObject second)
+    private List<Vector2> TwoPointInterpolation(HermiteNodeComponent first, HermiteNodeComponent second)
     {
-        Vector3 m1 = first.transform.up * tangentSize;
+        Vector3 m1 = first.GetTangent() * tangentSize;
         Vector3 p0, p3;
         p0 = first.transform.position;
         p3 = second.transform.position;
-        Vector3 m2 = second.transform.up * tangentSize;
+        Vector3 m2 = second.GetTangent() * tangentSize;
         LineRenderer lineRenderer = GetComponent<LineRenderer>();
         List<Vector2> linePoints = new List<Vector2>();
         for (int currIndex = 0; currIndex <= bezierLength; currIndex++)
@@ -57,7 +57,7 @@ public class HermiteBuilderComponent : MonoBehaviour
         return linePoints;
     }
 
-    public void Init(List<UnityEngine.GameObject> nodes, int bezierLength)
+    public void Init(List<HermiteNodeComponent> nodes, int bezierLength)
     {
         nodes.ForEach((obj) => {
             obj.transform.parent = transform;

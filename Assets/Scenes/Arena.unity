@@ -141,7 +141,7 @@ Transform:
   m_Children:
   - {fileID: 20620568}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1268353
 GameObject:
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.04049486, g: 0.6603774, b: 0.1559385, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -1247,7 +1247,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.5849056, g: 0, b: 0, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -1473,7 +1473,7 @@ Transform:
   m_LocalScale: {x: 7.5, y: 6, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &256736138
 MonoBehaviour:
@@ -3128,8 +3128,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -20.849976, y: -227.68}
-  m_SizeDelta: {x: -298.09, y: 330.06}
+  m_AnchoredPosition: {x: -20.849976, y: -91.3}
+  m_SizeDelta: {x: -298.1, y: 57.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &466838463
 MonoBehaviour:
@@ -3775,7 +3775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textSequence:
-  - Welcome to the training mode!
+  - Welcome to the training mode! Press ENTER to step through the training.
   - Use WASD or directional arrows to move the bezier ship.
   - Use the spacebar or right ctrl to shoot.
   - Right click to place a DEFENSE BEZIER NODE. You need 3 nodes to build the curve.
@@ -3792,13 +3792,15 @@ MonoBehaviour:
     press the proper mouse button to delete the existing one.
   - 'Press F to enter the HERMITE INTERPOLATION MODE. In this mode you can place hermite
     nodes: they will be interpolated by the hermite curve.'
-  - When you place the node, CLICK AND DRAG to modify their direction. This will change
-    the curve accordingly.
   - The hermite interpolation curve has both benefits of defense and attack curve!
   - Use the hermite interpolation mode sparingly! You can use it only 3 times in TIME
     LIMIT and SURVIVAL mode.
-  - Have fun with survival and time limit mode! Press ESC/P to pause the game and
-    EXIT to go back to the menu.
+  - In SURVIVAL mode, you need all of your skills to survive as long as possible,
+    making the highest score.
+  - In TIMELIMIT mode, you must do the highest score possible in the time given. When
+    you use bezier/hermite curves, the time will drop faster! Use them with caution!
+  - Have fun! Press ESC or P to go into pause mode and click on EXIT to go back into
+    the main menu
   letterPaused: 0.01
   ScrollTextAxis: ScrollText
 --- !u!1 &604453750
@@ -3927,7 +3929,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &604453753
 MonoBehaviour:
@@ -4920,7 +4922,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.6226415, g: 0.038180865, b: 0.038180865, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -5763,7 +5765,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.083551705, g: 0.034798868, b: 0.4339623, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -5816,7 +5818,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -5863,7 +5865,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAAAIIexW4y2GYgIAAA8FAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVMty4jAQ/BVK5yVlE0jive0SQvaQR4Vs5eKLIo2xClly6REgKf59R7KNHS8X5O559LTG/iJC2RqY02ZtBH/QHMjPCQln8mPSk/dwoFutNuITupg3wV0ZgmiMeaFOaMTTkGZ1Bc4I9kttZQhOEPRKFNpUK76FpbbOIlxQaQEpo13IVgh9TcgB/6ZZSDniaXYdTp94ypLJCY8MlAMzCJ1dXGf4S+azNgWRmzRNF23eNLlIQsD1zVUs4BWTtKqBh2n6OldJ13KRNJ0UTtrGhNJMSylsK5O4Yx1t2NQlGAg+cEFx6igtmFCC2JZunPtUFBZca4mhx1th0LymKPmtG0craneNsA8qfey/aLQ3RR/+46dppAujq/uubxoHcqVguxd6ZNS6geVD+Pa7cK/2VO7ou4S3EtSjXhvtFUfSGR9SvYXZbf94Hm1ZAtv1eCN1BPq6N7yzu7vfMMMpTn9YSlG9B+pi3gAbqaPdcS3A4MX8QcFxaWxbAtGg4q+FV7odbldL3AljHVLtlCrIe9fehFCyip6FabxbaqMgwq3oGhSV7viMZdz4CkfcoO2IuaPhPWqbt1z3eoxSItzHJ8mIetb782XZUu8fwJZP3kmhoBcdiEf0aamVajZs6EmXtvGmoGyoYesF/75b5HIOfEYvsxSyOS1YOk3TLKWMQ5YtMmBXCxKXTygclMrnRmnrD16b6kUpXLTu+zJZG1rHdeeG7tfis9IDz4Uq9IYZAPXUVDgrB4NN8K3kKy7QoQ04J1S8cPKVE6nZDnh+LpTHUVcHZ2jeV8lJLT60C0hOlvGDkpMTOf0DUEsDBBQAAAgIAAAIIeyyAjtWbAAAAHcAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jPXUVBKL0osyCgGChiCOKWZKSB2tJKxSWqKUaKxpWGqpUliWrKhrqGhpWFickqqpaWpZWqymalSLFB9SWVBql9ibipET0BiSUZaZl5KZl66nntRZoo7yGil2FoAUEsBAi0AFAAACAgAAAgh7FbjLYZiAgAADwUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAAgh7LICO1ZsAAAAdwAAAAkAJAAAAAAAAAAAAAAArwIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABmAwAAAAA=
+    dataString: UEsDBBQAAAgIAAAIIewk8A3iaAIAABMFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVMty4jAQ/BVK5yVl8Ujive0SQvaQR4Vs5eKLkMZYhSy5JDlAUvz7jmQbOywX5O559LTG/iJSuwq4N3ZlpXg0AsjPEQln8mPUkw9wYFuj1/ITuph3KXwRgliMeWVeGsRpSHOmBG8l/6W3KgQnCNZa5saWS7GFhXHeIZwz5QApa3zI1gh9jcgB/8ZpSDniaXITTp94SpPRCY8ctAc7CJ1c3SZJMp3Ob9qUgFBK53TeZo6TqyTF383tdSxRa65YWYEI8/SV6CTpulKsGEM1TttGzUJzo5R0rVTij1W0Yl0VYCF4ISTDyaO8YEQBclv4MMUw9znPHfjWFsuOd9KigU1R8ts0rpbM7RppH0zVoc1k3qhvij7+x49ppHNryoeuL40T+ULy3Ss7cub8wPYhfPddeK33TO3YRsF7AfrJrKyptUDS2zqk1g4md/3jebRFAXzX443UC7Cuess7v7s7DjOc4vSHhZLlJlBXswZYKxPtjqsBFi/mDwqOi+PaEogGFX8dvLHtcMNa4l5a55Fqp9RB3sbUNoSSZfQsTFP7hbEaItyKrkAz5Y8vWMZfXuEFN2h7wdyz8C61zVuue0UuUiLcxyfJBfVi9ufLcoXZP4IrnmuvpIZedCCe0KeF0brZsKEnXdq6tjnjQw3bWorvu0WmMxATNk0ppDOWczqmNKWMC0jTeQr8ek7i8kmNgzL10iht/cFr070ojYvWfWNGK8uquO7Csv1KfpZm4LnUuVlzC6Cfmwpn5WCxCb6VYikkOrQG76WOF06+MqIM34HIzoWyOOry4C3L+ioZqeSH8QHJyCJ+VDJyIqd/UEsDBBQAAAgIAAAIIeyyAjtWbAAAAHcAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jPXUVBKL0osyCgGChiCOKWZKSB2tJKxSWqKUaKxpWGqpUliWrKhrqGhpWFickqqpaWpZWqymalSLFB9SWVBql9ibipET0BiSUZaZl5KZl66nntRZoo7yGil2FoAUEsBAi0AFAAACAgAAAgh7CTwDeJoAgAAEwUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAAgh7LICO1ZsAAAAdwAAAAkAJAAAAAAAAAAAAAAAtQIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABsAwAAAAA=
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -6470,7 +6472,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.5, y: -9}
+  m_AnchoredPosition: {x: 4.5, y: 68.6}
   m_SizeDelta: {x: 300, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1378448608
@@ -6625,6 +6627,7 @@ RectTransform:
   - {fileID: 879378969}
   - {fileID: 1948874155}
   - {fileID: 559192067}
+  - {fileID: 1655368468}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6698,7 +6701,7 @@ Transform:
   - {fileID: 1090996503}
   - {fileID: 23030149}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1450678440
 GameObject:
@@ -7164,12 +7167,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1655368465}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -400, y: -271.35876, z: 0}
+  m_LocalScale: {x: 0.7820137, y: 0.7820137, z: 0.7820137}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 1393591617}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1655768169
 GameObject:
@@ -7398,7 +7401,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.11672304, g: 0.15495205, b: 0.5754717, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -8403,6 +8406,9 @@ MonoBehaviour:
     type: 3}
   bezierSpawnerPrefab: {fileID: 693304390337444505, guid: 4d1188cbaceed9242bb2c0d6ce9f6337,
     type: 3}
+  maxTime: 300
+  bezierConsumePrice: 20
+  hermiteConsumePrice: 50
   survivalLeaderBoard: f40100002c010000640000003200000019000000
   timeLimitLeaderBoard: f40100002c010000640000003200000019000000
 --- !u!4 &2067290384

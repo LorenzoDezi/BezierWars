@@ -8,20 +8,21 @@ using UnityEngine;
 public class HermiteState : BezierState
 {
     private BezierState normalCurrentState;
-    private List<GameObject> currentHermiteNodes;
+    private List<HermiteNodeComponent> currentHermiteNodes;
     public BezierState NormalCurrentState {
         get => normalCurrentState; set => normalCurrentState = value; }
     private float currentTimeFromStart;
 
     public HermiteState()
     {
-        currentHermiteNodes = new List<GameObject>();
+        currentHermiteNodes = new List<HermiteNodeComponent>();
     }
 
     public override void Enter(BezierSpawner spawner, CursorComponent cursorComp)
     {
         base.Enter(spawner, cursorComp);
         this.cursorIcon = cursorComp.hermiteIcon;
+        currentHermiteNodes = new List<HermiteNodeComponent>();
         SetStateCursor();
         GameManager.EnterPlacingHermite();
         spawner.EnteredHermiteMode.Invoke();
@@ -57,16 +58,18 @@ public class HermiteState : BezierState
     private void HandleClick(Vector3 clickPosition)
     {
         var node = spawner.HermiteNodePrefab;
-        var instance = UnityEngine.GameObject.Instantiate(node);
+        var instance = UnityEngine.GameObject.Instantiate(node).GetComponent<HermiteNodeComponent>();
         instance.transform.position = clickPosition;
+        if(currentHermiteNodes.Count > 0)
+            currentHermiteNodes[currentHermiteNodes.Count-1]
+                .GetComponent<HermiteNodeComponent>().SetTangent(instance);
         currentHermiteNodes.Add(instance);
     }
 
     public override BezierState SwitchHermite(BezierState previousState)
     {
         BuildHermite();
-        currentHermiteNodes.ForEach((obj) => obj.GetComponent<HermiteNodeComponent>().Consume());
-        currentHermiteNodes = new List<GameObject>();
+        currentHermiteNodes = new List<HermiteNodeComponent>();
         return normalCurrentState;
     }
 
@@ -74,6 +77,10 @@ public class HermiteState : BezierState
     {
         var builder = UnityEngine.GameObject.Instantiate(spawner.HermiteBuilderPrefab);
         var builderComp = builder.GetComponent<HermiteBuilderComponent>();
+        //The last hermite node will have the previous node tangent
+        if (currentHermiteNodes.Count > 1)
+            this.currentHermiteNodes[currentHermiteNodes.Count - 1]
+                .SetTangent(currentHermiteNodes[currentHermiteNodes.Count - 2]);
         builderComp.Init(this.currentHermiteNodes, spawner.BezierLength);
         SoundManager.PlaySound(spawner.BezierCreatedSound);
     }

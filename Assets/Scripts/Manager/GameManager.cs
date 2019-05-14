@@ -47,11 +47,21 @@ public class GameManager : MonoBehaviour
     private int currentScore;
     private int currentScoreThreshold;
     private ScoreChangeEvent scoreChangeEvent;
+
+
+    [Header("Time Limit Mode parameters")]
+    [SerializeField]
+    private float maxTime = 100f;
+    [SerializeField]
+    private float bezierConsumePrice = 20f;
+    [SerializeField]
+    private float hermiteConsumePrice = 50f;
     //TODO: Refactor of this shit
     private bool hasWon;
 
     // First 10 best scores of the current game
     //TODO - some sort of memorization on the browser (using cache maybe)
+    [Header("Score initial setup")]
     [SerializeField]
     private List<int> survivalLeaderBoard;
     [SerializeField]
@@ -145,6 +155,9 @@ public class GameManager : MonoBehaviour
             instance = this;
             scoreChangeEvent = new ScoreChangeEvent();
             onGameStateChange = new GameStateChangeEvent();
+#if UNITY_WEBGL
+            Application.targetFrameRate = -1;
+#endif
             LeaderBoards = new Dictionary<GameState, List<int>>();
             LeaderBoards.Add(GameState.TimeLimit, timeLimitLeaderBoard);
             LeaderBoards.Add(GameState.Survival, survivalLeaderBoard);
@@ -183,6 +196,7 @@ public class GameManager : MonoBehaviour
     #region StateMethods
     private void GameReset()
     {
+        SetTimeScale(1f);
         GameObject.FindGameObjectsWithTag("Player").ToList().ForEach((obj) => GameObject.Destroy(obj));
         GameObject.FindGameObjectsWithTag("Enemy").ToList().ForEach((obj) => GameObject.Destroy(obj));
         currentPlayer = GameObject.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
@@ -206,20 +220,23 @@ public class GameManager : MonoBehaviour
         Camera.main.GetComponent<Animation>().Play("MenuAnimation");
     }
 
+    private static void SetTimeScale(float timeScale)
+    {
+        Time.timeScale = timeScale;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        instance.previousTimeScale = Time.timeScale;
+    }
+
     public static void EnterPlacingHermite()
     {
         instance.previousStates.Push(instance.state);
-        Time.timeScale = 0.4f;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
-        instance.previousTimeScale = Time.timeScale;
+        SetTimeScale(0.4f);
     }
 
     public static void ExitPlacingHermite()
     {
         instance.state = instance.previousStates.Pop();
-        Time.timeScale = 1f;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
-        instance.previousTimeScale = Time.timeScale;
+        SetTimeScale(1f);
     }
 
     public void EnterMenu()
@@ -249,9 +266,13 @@ public class GameManager : MonoBehaviour
         Camera.main.GetComponent<Animation>().Play("PlayAnimation");
         SetPlayerInput(true);
         instance.timeLimitManager = gameObject.AddComponent<TimeLimitManager>();
+        instance.timeLimitManager.Init(maxTime);
         instance.timeLimitManager.EndGameEvent.AddListener(OnEndGame);
-        currentBezierSpawner.GetComponent<BezierSpawner>().OnBezierCreated.AddListener(
-            () => instance.timeLimitManager?.BezierConsumed());
+        var spawner = instance.currentBezierSpawner.GetComponent<BezierSpawner>();
+        spawner.OnBezierCreated.AddListener(
+            () => instance.timeLimitManager?.ExtraConsumed(bezierConsumePrice));
+        spawner.EnteredHermiteMode.AddListener(
+            () => instance.timeLimitManager?.ExtraConsumed(hermiteConsumePrice));
         onGameStateChange.Invoke(state);
     }
 
@@ -266,7 +287,7 @@ public class GameManager : MonoBehaviour
 
     public void EnterPause()
     {
-        Time.timeScale = 0;
+        Time.timeScale = 0f;
         SetPlayerInput(false);
         this.previousStates.Push(state);
         this.state = GameState.Pause;
@@ -277,7 +298,7 @@ public class GameManager : MonoBehaviour
     {
         SetPlayerInput(true);
         this.state = this.previousStates.Pop();
-        Time.timeScale = instance.previousTimeScale;
+        SetTimeScale(instance.previousTimeScale);
         onGameStateChange.Invoke(state);
     }
 
@@ -291,7 +312,7 @@ public class GameManager : MonoBehaviour
 
     public void BackToMenuFromPause()
     {
-        Time.timeScale = 1;
+        Time.timeScale = instance.previousTimeScale;
         EnterMenu();
     }
     #endregion

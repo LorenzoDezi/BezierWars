@@ -36,11 +36,17 @@ public abstract class BezierState
 
     public void SetStateCursor()
     {
+#if UNITY_WEBGL
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
+#endif
         Cursor.SetCursor(this.cursorIcon, Vector2.zero, CursorMode.Auto);
     }
 
     public void ResetCursor()
     {
+#if UNITY_WEBGL
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
+#endif
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,13 +11,8 @@ public class TimeChangeEvent : UnityEvent<float>
 
 public class TimeLimitManager : MonoBehaviour
 {
-    [SerializeField]
-    private float timeFactor = 1f;
-    [SerializeField]
-    private float maxTime = 100f;
+    private float maxTime;
     public float MaxTime { get => maxTime; }
-    [SerializeField]
-    private float bezierConsumePrice = 20f;
     private float currentTime;
     public float CurrTime { get => currentTime; }
     public TimeChangeEvent TimeChangeEvent;
@@ -26,7 +22,7 @@ public class TimeLimitManager : MonoBehaviour
     void Update()
     {
         if (currentTime <= 0) return;
-        currentTime -= timeFactor * Time.deltaTime;
+        currentTime -= Time.deltaTime;
         TimeChangeEvent.Invoke(currentTime);
         if (currentTime <= 0)
             EndGameEvent.Invoke();
@@ -45,13 +41,18 @@ public class TimeLimitManager : MonoBehaviour
         TimeChangeEvent.Invoke(currentTime);
     }
 
-    public void BezierConsumed()
+    public void Init(float maxTime)
+    {
+        this.maxTime = maxTime;
+        currentTime = maxTime;
+    }
+
+    public void ExtraConsumed(float timeConsumed)
     {
         if (currentTime <= 0) return;
-        currentTime -= bezierConsumePrice;
+        currentTime -= timeConsumed;
         TimeChangeEvent.Invoke(currentTime);
         if (currentTime <= 0)
             EndGameEvent.Invoke();
     }
-
 }
