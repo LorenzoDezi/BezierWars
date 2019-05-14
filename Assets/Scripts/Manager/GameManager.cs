@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (Input.GetButtonDown(exitAxis) && !hasWon 
-            && GameState.Menu != state && GameState.GameOver != state && GameState.Pause != state)
+            && (GameState.Survival == state || GameState.TimeLimit == state))
             EnterPause();
     }
 
@@ -305,8 +305,12 @@ public class GameManager : MonoBehaviour
     public void EnterTraining()
     {
         this.state = GameState.Training;
-        Camera.main.GetComponent<Animation>().Play("PlayAnimation");
-        SetPlayerInput(true);
+        onGameStateChange.Invoke(state);
+    }
+
+    public void ExitTraining()
+    {
+        this.state = GameState.Menu;
         onGameStateChange.Invoke(state);
     }
 

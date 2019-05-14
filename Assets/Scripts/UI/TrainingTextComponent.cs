@@ -14,9 +14,7 @@ public class TrainingTextComponent : MonoBehaviour
     [SerializeField]
     public float letterPaused = 0.01f;
 
-    [Header("Input axis")]
-    [SerializeField]
-    private string ScrollTextAxis = "ScrollText";
+    
 
     void Reset()
     {
@@ -54,11 +52,5 @@ public class TrainingTextComponent : MonoBehaviour
     private void OnDisable()
     {
         StopCoroutine("TextAnim");
-    }
-
-    void Update()
-    {
-        if(Input.GetButtonDown(ScrollTextAxis))
-            ScrollText();
     }
 }
