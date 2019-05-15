@@ -11,12 +11,10 @@ public class TrainingTextComponent : MonoBehaviour
     [SerializeField]
     List<string> textSequence;
     int currentTextIndex;
-    [SerializeField]
-    public float letterPaused = 0.01f;
+
 
     
-
-    void Reset()
+    void ResetText()
     {
         text = GetComponent<Text>();
         currentTextIndex = -1;
@@ -25,32 +23,16 @@ public class TrainingTextComponent : MonoBehaviour
 
     public void ScrollText()
     {
-        if (currentTextIndex >= textSequence.Count - 1) return;
-        StopCoroutine("TextAnim");
+        if (textSequence.Count < 1) return;
+        if (currentTextIndex >= textSequence.Count - 1)
+            currentTextIndex = 0 ;
         currentTextIndex++;
-        text.text = "";
-        StartCoroutine("TextAnim");
-    }
-
-    IEnumerator TextAnim()
-    {
-        //Split each char into a char array
-        foreach (char letter in textSequence[currentTextIndex].ToCharArray())
-        {
-            //Add 1 letter each
-            text.text += letter;
-            yield return 0;
-            yield return new WaitForSeconds(letterPaused);
-        }
+        text.text = textSequence[currentTextIndex];
     }
 
     private void OnEnable()
     {
-        Reset();
+        ResetText();
     }
 
-    private void OnDisable()
-    {
-        StopCoroutine("TextAnim");
-    }
 }
