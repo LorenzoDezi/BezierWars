@@ -16,10 +16,12 @@ public class TrainingManager : MonoBehaviour
     void Update()
     {
         if(Input.GetButtonDown(ScrollAxis))
-        {
-            videoComp.ScrollVideo();
-            textComp.ScrollText();
-        }
-        
+            Next();
+    }
+
+    public void Next()
+    {
+        videoComp.ScrollVideo();
+        textComp.ScrollText();
     }
 }

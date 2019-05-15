@@ -43,6 +43,10 @@ public class TrainingVideoComponent : MonoBehaviour
         loadingImage.enabled = true;
         player.prepareCompleted += (player) => {
             player.Play();
+            player.loopPointReached += (videoPlayer) => {
+                videoPlayer.Stop();
+                videoPlayer.Play();
+            };
             loadingImage.enabled = false;
         };
         index++;

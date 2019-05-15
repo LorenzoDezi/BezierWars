@@ -17,17 +17,17 @@ public class TrainingTextComponent : MonoBehaviour
     void ResetText()
     {
         text = GetComponent<Text>();
-        currentTextIndex = -1;
+        currentTextIndex = 0;
         ScrollText();
     }
 
     public void ScrollText()
     {
         if (textSequence.Count < 1) return;
-        if (currentTextIndex >= textSequence.Count - 1)
+        if (currentTextIndex >= textSequence.Count)
             currentTextIndex = 0 ;
-        currentTextIndex++;
         text.text = textSequence[currentTextIndex];
+        currentTextIndex++;
     }
 
     private void OnEnable()
