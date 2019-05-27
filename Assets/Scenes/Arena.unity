@@ -1522,7 +1522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 51, y: -18}
+  m_AnchoredPosition: {x: 63, y: -20}
   m_SizeDelta: {x: 98, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &260631228
@@ -3203,7 +3203,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -71, y: -18}
+  m_AnchoredPosition: {x: -86, y: -21}
   m_SizeDelta: {x: 141.3, y: 33.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &507805833
@@ -3741,8 +3741,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f5929d4ed20fd2c438eed87eeee47210, type: 3}
-    m_FontSize: 12
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 11
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -3775,32 +3775,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textSequence:
-  - Welcome to the training mode! Press ENTER to step through the training.
-  - Use WASD or directional arrows to move the bezier ship.
-  - Use the spacebar or right ctrl to shoot.
-  - Right click to place a DEFENSE BEZIER NODE. You need 3 nodes to build the curve.
-    The defense curve can only be built inside your bezier radar!
-  - The defense curve will PROTECT YOU from enemies, and it can also be used as a
-    WEAPON! Be creative!
-  - if the defense curve crosses the player, it WON'T BE BUILT. You will be notified
-    by a sound.
+  - Welcome to the training mode! Press <b>ENTER</b> to step through the training.
+  - Use <b>WASD</b> or <b>DIRECTIONAL ARROWS</b> to move the bezier ship.
+  - Use the <b>SPACEBAR</b> or <b>RIGHT CTRL</b> to shoot.
+  - <b>RIGHT CTRL</b> to place a <b>DEFENSE BEZIER NODE</b>. You need 3 nodes to build
+    the curve. The defense curve can only be built inside your bezier radar!
+  - The defense curve will <b>PROTECT YOU</b> from enemies, and it can also be used
+    as a <b>WEAPON!</b> Be creative!
+  - if the defense curve crosses the player, it <b>WON'T BE BUILT</b>. You will be
+    notified by a sound.
   - You can click on a node to remove it, in order to place it again in a different
     position.
-  - Left click to place an ATTACK BEZIER NODE. You need 3 nodes to build the curve.
-  - The attack curve will AMPLIFY your shots if it touches them.
-  - You can place only ONE CURVE FOR TYPE AT A TIME! If you want to recreate the curve,
-    press the proper mouse button to delete the existing one.
-  - 'Press F to enter the HERMITE INTERPOLATION MODE. In this mode you can place hermite
-    nodes: they will be interpolated by the hermite curve.'
+  - Left click to place an <b>ATTACK BEZIER NODE</b>. You need 3 nodes to build the
+    curve.
+  - The attack curve will <b>AMPLIFY</b> your shots if it touches them.
+  - You can place only <b>ONE CURVE FOR TYPE AT A TIME!</b> If you want to recreate
+    the curve, press the proper mouse button to delete the existing one.
+  - 'Press <b>F</b> or <b>RIGHT SHIFT</b> to enter the <b>HERMITE INTERPOLATION MODE</b>.
+    In this mode you can place hermite nodes: they will be interpolated by the hermite
+    curve. You have a limted time to place how much nodes you want. When you have
+    finished, press F or RIGHT SHIFT again.'
   - The hermite interpolation curve has both benefits of defense and attack curve!
-  - Use the hermite interpolation mode sparingly! You can use it only 3 times in TIME
-    LIMIT and SURVIVAL mode.
-  - In SURVIVAL mode, you need all of your skills to survive as long as possible,
+  - Use the hermite interpolation mode sparingly! You can use it only 3 times in <b>TIME
+    LIMIT</b> and <b>SURVIVAL</b> mode.
+  - In <b>SURVIVAL</b> mode, you need all of your skills to survive as long as possible,
     making the highest score.
-  - In TIMELIMIT mode, you must do the highest score possible in the time given. When
-    you use bezier/hermite curves, the time will drop faster! Use them with caution!
-  - Have fun! Press ESC or P to go into pause mode and click on EXIT to go back into
-    the main menu
+  - In <b>TIMELIMIT</b> mode, you must do the highest score possible in the time given.
+    When you use bezier/hermite curves, the time will drop faster! Use them with caution!
+  - Have fun! Press <b>ESC</b> or <b>P</b> to go into pause mode and click on <b>EXIT</b>
+    to go back into the main menu
   letterPaused: 0.01
   ScrollTextAxis: ScrollText
 --- !u!1 &604453750

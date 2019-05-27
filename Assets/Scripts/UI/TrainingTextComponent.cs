@@ -36,11 +36,25 @@ public class TrainingTextComponent : MonoBehaviour
 
     IEnumerator TextAnim()
     {
-        //Split each char into a char array
-        foreach (char letter in textSequence[currentTextIndex].ToCharArray())
+        char[] charArray = textSequence[currentTextIndex].ToCharArray();
+        for(int i = 0; i < charArray.Length; i++)
         {
-            //Add 1 letter each
-            text.text += letter;
+            var letter = charArray[i];
+            //Find bold text to be rendered in one frame
+            if (letter == '<')
+            {
+                //<b> is three characters long
+                string boldTextToAdd = "" + letter + charArray[i+1] + charArray[i+2];
+                int j = i + 3;
+                while(letter != '>')
+                {
+                    letter = charArray[j++];
+                    boldTextToAdd += letter;
+                }
+                text.text += boldTextToAdd;
+                i = j-1;
+            } else
+                text.text += letter;
             yield return 0;
             yield return new WaitForSeconds(letterPaused);
         }
