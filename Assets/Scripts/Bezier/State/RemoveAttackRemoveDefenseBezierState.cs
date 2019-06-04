@@ -2,8 +2,6 @@
 
 public class RemoveAttackRemoveDefenseBezierState : BezierState
 {
-    bool inDefRadar = false;
-
     public override void Enter(BezierSpawner spawner, CursorComponent cursorComp)
     {
         base.Enter(spawner, cursorComp);
@@ -21,7 +19,7 @@ public class RemoveAttackRemoveDefenseBezierState : BezierState
         if (Input.GetButtonDown(spawner.DefenseBezierAxisName))
         {
             RemoveBezier(BezierType.Defense);
-            if (inDefRadar) return rmAtkDefBezState;
+            if (spawner.OnDefRadar) return rmAtkDefBezState;
             else return rmAtkBezState;
         }
         return null;
@@ -31,19 +29,9 @@ public class RemoveAttackRemoveDefenseBezierState : BezierState
     {
         if (type == BezierType.Attack)
             return atkRmDefBezState;
-        else
+        else if (spawner.OnDefRadar)
             return rmAtkDefBezState;
-    }
-
-    public override BezierState OnDefRadarExit()
-    {
-        inDefRadar = false;
-        return null;
-    }
-
-    public override BezierState OnDefRadarIn()
-    {
-        inDefRadar = true;
-        return null;
+        else
+            return rmAtkBezState;
     }
 }

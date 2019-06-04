@@ -8412,8 +8412,8 @@ MonoBehaviour:
   maxTime: 300
   bezierConsumePrice: 20
   hermiteConsumePrice: 50
-  survivalLeaderBoard: f40100002c010000640000003200000019000000
-  timeLimitLeaderBoard: f40100002c010000640000003200000019000000
+  survivalLeaderBoard: 023a0000362900004c1d00000a0f0000d6060000
+  timeLimitLeaderBoard: 0c170000fe100000220b00006608000072060000
 --- !u!4 &2067290384
 Transform:
   m_ObjectHideFlags: 0

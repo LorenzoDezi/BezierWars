@@ -14,7 +14,7 @@ public class AttackRemoveDefenseBezierState : BezierState
         if (Input.GetButtonDown(spawner.DefenseBezierAxisName))
         {
             RemoveBezier(BezierType.Defense);
-            return atkDefBezState;
+            return null;
         }
         else if (Input.GetButtonDown(spawner.AttackBezierAxisName))
         {
@@ -45,7 +45,10 @@ public class AttackRemoveDefenseBezierState : BezierState
     public override BezierState OnBezierDisabled(BezierType type)
     {
         if (type == BezierType.Defense)
-            return atkDefBezState;
+            if (spawner.OnDefRadar)
+                return atkDefBezState;
+            else
+                return atkBezState;
         return null;
     }
 }

@@ -50,14 +50,14 @@ public class BezierSpawner : MonoBehaviour
     private AudioClip failNodeSound;
 
     private BezierState state;
-    private UnityEvent enteredDefRadar;
+    private bool onDefRadar = false;
     private UnityEvent enteredHermiteMode;
     private UnityEvent exitHermiteMode;
-    private UnityEvent outOfDefRadar;
 
     public string AttackBezierAxisName { get => attackBezierAxisName; }
     public string DefenseBezierAxisName { get => defenseBezierAxisName; }
     public float RemovalNodeSenseDistance { get => removalNodeSenseDistance; }
+    public bool OnDefRadar { get => onDefRadar; }
     
     public Dictionary<BezierType, GameObject> NodePrefabs { get; private set; }
     public Dictionary<BezierType, GameObject> BuilderPrefabs { get; private set; }
@@ -79,8 +79,6 @@ public class BezierSpawner : MonoBehaviour
     private void Awake()
     {
         //Init fields
-        enteredDefRadar = new UnityEvent();
-        outOfDefRadar = new UnityEvent();
         enteredHermiteMode = new UnityEvent();
         exitHermiteMode = new UnityEvent();
         onBezierCreated = new UnityEvent();
@@ -98,7 +96,6 @@ public class BezierSpawner : MonoBehaviour
         currHermiteAttempts = 0;
         GameManager.OnGameStateChange().AddListener(ChangeMaxHermiteAttempts);
         GameManager.OnGameStateChange().AddListener(OnGameOver);
-
         //Init state
         state = BezierState.GetInitalState();
         state.Enter(this, GetComponent<CursorComponent>());
@@ -164,14 +161,14 @@ public class BezierSpawner : MonoBehaviour
     private void OnMouseEnter()
     {
         if (!enabled) return;
-        enteredDefRadar.Invoke();
+        onDefRadar = true;
         ChangeState(state.OnDefRadarIn());
     }
 
     private void OnMouseExit()
     {
         if (!enabled) return;
-        outOfDefRadar.Invoke();
+        onDefRadar = false;
         ChangeState(state.OnDefRadarExit());
     }
 }

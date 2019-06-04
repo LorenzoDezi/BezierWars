@@ -20,8 +20,7 @@ public static class BezierMath
         Vector3 result = new Vector3();
         for (int i = 0; i <= k; i++)
         {
-            result += 
-                controlPoints[i] * BernsteinPolynomial(i, k, t);
+            result += controlPoints[i] * BernsteinPolynomial(i, k, t);
         }
         return result;
     }
