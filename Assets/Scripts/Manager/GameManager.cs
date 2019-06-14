@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering.PostProcessing;
@@ -81,6 +77,7 @@ public class GameManager : MonoBehaviour
     private TimeLimitManager timeLimitManager;
 
     public static Dictionary<GameState, List<int>> LeaderBoards { get; private set; }
+
     public static GameState CurrentState()
     {
         return instance.state;
@@ -125,15 +122,11 @@ public class GameManager : MonoBehaviour
         var index = leaderBoard.FindIndex((x) => x < instance.currentScore);
         if (index != -1 && !leaderBoard.Contains(instance.currentScore))
         {
-            index = instance.state == GameState.TimeLimit ? index : index + 5;
-            UpdateScoreOnFile(index, instance.currentScore, instance.state);
             leaderBoard.Add(instance.currentScore);
             LeaderBoards[instance.state] = leaderBoard.OrderByDescending(val => val).ToList();
             LeaderBoards[instance.state].RemoveAt(leaderBoard.Count - 1);
         }
     }
-
-    
 
     public static int GetCurrentScore()
     {
@@ -166,7 +159,6 @@ public class GameManager : MonoBehaviour
             Application.targetFrameRate = -1;
 #endif
             LeaderBoards = new Dictionary<GameState, List<int>>();
-            ReloadScores();
             LeaderBoards.Add(GameState.TimeLimit, timeLimitLeaderBoard);
             LeaderBoards.Add(GameState.Survival, survivalLeaderBoard);
             previousStates = new Stack<GameState>();
@@ -175,42 +167,6 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
         DontDestroyOnLoad(this);
-    }
-
-    private void ReloadScores()
-    {
-        //Loading the scores from the files
-        try {
-            timeLimitLeaderBoard = File.ReadAllLines("timeLimitScores.txt").ToList()
-            .ConvertAll((s) => Convert.ToInt32(s));
-            survivalLeaderBoard = File.ReadAllLines("survivalScores.txt").ToList()
-                .ConvertAll((s) => Convert.ToInt32(s));
-        } catch (FileNotFoundException ex)
-        {
-            Debug.Log("Score file not found!");
-        }
-        
-    }
-
-    private static void UpdateScoreOnFile(int index, int score, GameState state)
-    {
-        string filename = state == GameState.TimeLimit ? "timeLimitScores.txt" : "survivalScores.txt";
-        Thread thread = new Thread(() =>
-        {
-            try {
-                List<string> lines = File.ReadAllLines(filename).ToList();
-                lines.Add(score.ToString());
-                lines.Sort((s1, s2) => Convert.ToInt32(s1).CompareTo(Convert.ToInt32(s2)));
-                lines.Reverse();
-                lines.RemoveAt(lines.Count - 1);
-                File.WriteAllLines(filename, lines);
-            } catch (FileNotFoundException ex)
-            {
-                Debug.Log("Score file not found!");
-            }
-            
-        });
-        thread.Start();
     }
 
     private void Start()
@@ -255,6 +211,7 @@ public class GameManager : MonoBehaviour
             spwn.Reset();
         });
         Camera.main.transform.position = new Vector3(0, 0, -10);
+        //TODO: Refactor with a property
         currentScore = 0;
         currentScoreThreshold = scoreThreshold;
         hasWon = false;
