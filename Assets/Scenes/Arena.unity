@@ -3778,16 +3778,16 @@ MonoBehaviour:
   - Welcome to the training mode! Press <b>ENTER</b> to step through the training.
   - Use <b>WASD</b> or <b>DIRECTIONAL ARROWS</b> to move the bezier ship.
   - Use the <b>SPACEBAR</b> or <b>RIGHT CTRL</b> to shoot.
-  - <b>RIGHT CTRL</b> to place a <b>DEFENSE BEZIER NODE</b>. You need 3 nodes to build
-    the curve. The defense curve can only be built inside your bezier radar!
+  - <b>RIGHT CLICK</b> to place a <b>DEFENSE BEZIER NODE</b>. You need 3 nodes to
+    build the curve. The defense curve can only be built inside your bezier radar!
   - The defense curve will <b>PROTECT YOU</b> from enemies, and it can also be used
     as a <b>WEAPON!</b> Be creative!
   - if the defense curve crosses the player, it <b>WON'T BE BUILT</b>. You will be
     notified by a sound.
   - You can click on a node to remove it, in order to place it again in a different
     position.
-  - Left click to place an <b>ATTACK BEZIER NODE</b>. You need 3 nodes to build the
-    curve.
+  - <b>LEFT CLICK</b> to place an <b>ATTACK BEZIER NODE</b>. You need 3 nodes to build
+    the curve.
   - The attack curve will <b>AMPLIFY</b> your shots if it touches them.
   - You can place only <b>ONE CURVE FOR TYPE AT A TIME!</b> If you want to recreate
     the curve, press the proper mouse button to delete the existing one.
@@ -8412,8 +8412,8 @@ MonoBehaviour:
   maxTime: 300
   bezierConsumePrice: 20
   hermiteConsumePrice: 50
-  survivalLeaderBoard: 023a0000362900004c1d00000a0f0000d6060000
-  timeLimitLeaderBoard: 0c170000fe100000220b00006608000072060000
+  survivalLeaderBoard: 
+  timeLimitLeaderBoard: 
 --- !u!4 &2067290384
 Transform:
   m_ObjectHideFlags: 0
