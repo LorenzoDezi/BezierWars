@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,15 +13,14 @@ public class UIScoreComponent : MonoBehaviour
 
     void Start()
     {
-        GameManager.OnGameStateChange().AddListener(UpdateLeaderboard);
+        GameManager.OnUpdateLeaderboard().AddListener(UpdateLeaderboard);
     }
 
-    void UpdateLeaderboard(GameState state)
+    void UpdateLeaderboard()
     {
-        if (GameState.Menu != state) return;
-        List<int> leaderboard = GameManager.LeaderBoards[this.state];
-        if (texts.Count < leaderboard.Count) return;
-        for(int i = 0; i < leaderboard.Count; i++)
+        int[] leaderboard = GameManager.LeaderBoards[this.state];
+        if (texts.Count < leaderboard.Length) return;
+        for(int i = 0; i < leaderboard.Length; i++)
             texts[i].text = (i+1) + " - " + leaderboard[i];
     }
 }

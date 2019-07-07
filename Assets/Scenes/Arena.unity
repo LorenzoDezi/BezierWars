@@ -8414,6 +8414,7 @@ MonoBehaviour:
   hermiteConsumePrice: 50
   survivalLeaderBoard: 023a0000362900004c1d00000a0f0000d6060000
   timeLimitLeaderBoard: 0c170000fe100000220b00006608000072060000
+  uploadUrl: http://localhost/score.php
 --- !u!4 &2067290384
 Transform:
   m_ObjectHideFlags: 0

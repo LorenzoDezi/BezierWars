@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Networking;
 using UnityEngine.Rendering.PostProcessing;
 
 public class ScoreChangeEvent : UnityEvent<int> {
@@ -13,6 +15,13 @@ public class ScoreChangeEvent : UnityEvent<int> {
 public class GameStateChangeEvent : UnityEvent<GameState>
 {
 
+}
+
+[Serializable]
+public class ScoreObject
+{
+    public int[] TimeLimit;
+    public int[] Survival;
 }
 
 public enum GameState
@@ -66,6 +75,8 @@ public class GameManager : MonoBehaviour
     private List<int> survivalLeaderBoard;
     [SerializeField]
     private List<int> timeLimitLeaderBoard;
+    [SerializeField]
+    private string uploadUrl = "http://localhost/scores.php";
 
     private GameState state;
     //Useful when game goes to pause mode
@@ -75,8 +86,9 @@ public class GameManager : MonoBehaviour
 
     public GameStateChangeEvent onGameStateChange;
     private TimeLimitManager timeLimitManager;
+    private UnityEvent updateLeaderboardEvent;
 
-    public static Dictionary<GameState, List<int>> LeaderBoards { get; private set; }
+    public static Dictionary<GameState, int[]> LeaderBoards { get; private set; }
 
     public static GameState CurrentState()
     {
@@ -111,20 +123,45 @@ public class GameManager : MonoBehaviour
     public static void GameOver()
     {
         if (instance.state == GameState.Survival)
-            UpdateLeaderboard();
+            instance.StartCoroutine(UpdateLeaderboard());
         instance.state = GameState.GameOver;
         OnGameStateChange().Invoke(instance.state);
     }
 
-    private static void UpdateLeaderboard()
+    private static IEnumerator UpdateLeaderboard()
     {
-        var leaderBoard = LeaderBoards[instance.state];
-        var index = leaderBoard.FindIndex((x) => x < instance.currentScore);
-        if (index != -1 && !leaderBoard.Contains(instance.currentScore))
+        WWWForm form = new WWWForm();
+        form.AddField("mode", instance.state.ToString());
+        form.AddField("score", instance.currentScore);
+        using (UnityWebRequest www = UnityWebRequest.Post(instance.uploadUrl, form))
         {
-            leaderBoard.Add(instance.currentScore);
-            LeaderBoards[instance.state] = leaderBoard.OrderByDescending(val => val).ToList();
-            LeaderBoards[instance.state].RemoveAt(leaderBoard.Count - 1);
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Score upload complete!");
+            }
+        }
+    }
+
+    private static IEnumerator GetLeaderboard()
+    {
+        DownloadHandler handler = new DownloadHandlerBuffer();
+        using(UnityWebRequest www = new UnityWebRequest(instance.uploadUrl, UnityWebRequest.kHttpVerbGET, handler, null))
+        {
+            yield return www.SendWebRequest();
+            if(!(www.isNetworkError || www.isHttpError))
+            {
+                String scores_data = Encoding.UTF8.GetString(handler.data);
+                ScoreObject scores = JsonUtility.FromJson<ScoreObject>(scores_data);
+                LeaderBoards[GameState.Survival] = scores.Survival;
+                LeaderBoards[GameState.TimeLimit] = scores.TimeLimit;
+                instance.updateLeaderboardEvent.Invoke();
+            }
         }
     }
 
@@ -148,6 +185,11 @@ public class GameManager : MonoBehaviour
         return instance.scoreChangeEvent;
     }
 
+    public static UnityEvent OnUpdateLeaderboard()
+    {
+        return instance.updateLeaderboardEvent;
+    }
+
     void Awake()
     {
         if (instance == null)
@@ -155,12 +197,12 @@ public class GameManager : MonoBehaviour
             instance = this;
             scoreChangeEvent = new ScoreChangeEvent();
             onGameStateChange = new GameStateChangeEvent();
+            updateLeaderboardEvent = new UnityEvent();
 #if UNITY_WEBGL
             Application.targetFrameRate = -1;
 #endif
-            LeaderBoards = new Dictionary<GameState, List<int>>();
-            LeaderBoards.Add(GameState.TimeLimit, timeLimitLeaderBoard);
-            LeaderBoards.Add(GameState.Survival, survivalLeaderBoard);
+            LeaderBoards = new Dictionary<GameState, int[]>();
+            StartCoroutine(GetLeaderboard());
             previousStates = new Stack<GameState>();
             previousTimeScale = 1f;
         }
@@ -202,7 +244,6 @@ public class GameManager : MonoBehaviour
         currentPlayer = GameObject.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
         currentBezierSpawner = GameObject.Instantiate(bezierSpawnerPrefab, Vector3.zero, Quaternion.identity);
         var bezSpawnComp = currentBezierSpawner.GetComponent<BezierSpawner>();
-        //TODO: Maybe refactor player -> you see the problem with the bezierSpawner? 
         currentPlayer.GetComponent<PlayerInputComponent>().SetBezierSpawner(bezSpawnComp);
         currentPlayer.GetComponent<PlayerController>().SetBezierSpawner(bezSpawnComp);
         currentBezierSpawner.GetComponent<FollowTargetComponent>().SetTargetToFollow(currentPlayer.transform);
@@ -218,6 +259,7 @@ public class GameManager : MonoBehaviour
         scoreChangeEvent.Invoke(currentScore);
         Camera.main.GetComponent<CameraController>().SetTransformToFollow(currentPlayer.transform);
         Camera.main.GetComponent<Animation>().Play("MenuAnimation");
+        StartCoroutine(GetLeaderboard());
     }
 
     private static void SetTimeScale(float timeScale)
